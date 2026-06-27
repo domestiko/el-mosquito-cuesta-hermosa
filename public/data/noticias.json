@@ -1,0 +1,35 @@
+[
+  {
+    "id": "editorial-comunidad",
+    "category": "Editorial",
+    "title": "Cuesta Hermosa II: una comunidad que se informa y participa",
+    "summary": "Nace un espacio digital para compartir noticias, avisos, actividades, propuestas y temas de interés vecinal.",
+    "author": "Redacción CH II",
+    "date": "2026-06-27",
+    "featured": true,
+    "image": "",
+    "body": "Este periódico comunitario busca mantener a los residentes informados sobre temas importantes de Cuesta Hermosa II: seguridad, mantenimiento, drenajes, tránsito, actividades vecinales, servicios y proyectos de mejora. La participación de cada residente ayuda a construir una comunidad más organizada, segura y activa."
+  },
+  {
+    "id": "seguridad-residencial",
+    "category": "Seguridad",
+    "title": "Recomendaciones para fortalecer la seguridad residencial",
+    "summary": "Pequeñas acciones coordinadas pueden mejorar la vigilancia, la comunicación y la prevención dentro del residencial.",
+    "author": "Comunidad",
+    "date": "2026-06-26",
+    "featured": false,
+    "image": "",
+    "body": "Se recomienda mantener actualizados los canales de comunicación, reportar movimientos inusuales, verificar accesos y reforzar la colaboración entre vecinos y administración."
+  },
+  {
+    "id": "limpieza-drenajes",
+    "category": "Mantenimiento",
+    "title": "Limpieza preventiva de imbornales y drenajes",
+    "summary": "El mantenimiento constante de los drenajes ayuda a reducir acumulaciones de agua durante temporadas de lluvia.",
+    "author": "Redacción CH II",
+    "date": "2026-06-25",
+    "featured": false,
+    "image": "",
+    "body": "La limpieza de imbornales, cunetas y zonas de escorrentía debe realizarse de forma preventiva. Cualquier punto donde el agua permanezca estancada debe ser documentado y reportado para seguimiento."
+  }
+]
