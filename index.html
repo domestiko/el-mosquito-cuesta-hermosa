@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Mosquito - Cuesta Hermosa II</title>
+    <meta name="description" content="Periódico digital y herramienta comunitaria">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root { --green: #2E7D32; --dark: #1B1B1B; }
+        body { margin:0; font-family: Georgia, serif; background:#f5f5f5; color:#333; }
+        header { background: var(--dark); color:white; padding:20px; text-align:center; position:sticky; top:0; z-index:100; }
+        .logo { font-size:2.8em; font-weight:bold; color:var(--green); }
+        .main { padding:15px; max-width:1000px; margin:auto; }
+        .card { background:white; margin:15px 0; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); overflow:hidden; }
+        .card-header { background:var(--green); color:white; padding:15px; font-weight:bold; }
+        button { background:var(--green); color:white; border:none; padding:14px 24px; border-radius:8px; font-size:1.1em; margin:8px 5px; cursor:pointer; }
+        .fab { position:fixed; bottom:25px; right:25px; background:var(--green); color:white; width:70px; height:70px; border-radius:50%; font-size:32px; display:flex; align-items:center; justify-content:center; box-shadow:0 5px 20px rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">EL MOSQUITO</div>
+        <p><strong>Cuesta Hermosa II • Santo Domingo</strong></p>
+    </header>
+
+    <div class="main">
+        <div class="card">
+            <div class="card-header">📄 Compromiso Vecinal contra Inundaciones</div>
+            <div style="padding:20px;">
+                <p>7 pozos de infiltración ya comprometidos (Junio 2026)</p>
+                <button onclick="downloadPDF()">⬇️ Descargar PDF</button>
+                <button onclick="showOptions()">Ver Opciones de Mejoramiento</button>
+            </div>
+        </div>
+
+        <div class="card" id="opciones" style="display:none;">
+            <div class="card-header">🔧 Opciones de Mejoramiento</div>
+            <div style="padding:20px;">
+                <ul>
+                    <li>Nuevos pozos de infiltración</li>
+                    <li>Imbornales adicionales</li>
+                    <li>Limpieza y ampliación de drenajes</li>
+                    <li>Áreas verdes de absorción</li>
+                </ul>
+                <button onclick="colaborar()">Quiero Colaborar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fab" onclick="editar()">✍️</div>
+
+    <script>
+        function downloadPDF() { alert("📥 Descargando PDF oficial..."); }
+        function showOptions() { document.getElementById('opciones').style.display = 'block'; }
+        function colaborar() { alert("Gracias! Contacta al Gral. José Antonio Rodríguez\n809-223-3668"); }
+        function editar() { alert("Panel de edición abierto"); }
+    </script>
+</body>
+</html>
