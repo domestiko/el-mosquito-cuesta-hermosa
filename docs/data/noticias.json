@@ -31,5 +31,16 @@
     "featured": false,
     "image": "",
     "body": "La limpieza de imbornales, cunetas y zonas de escorrentía debe realizarse de forma preventiva. Cualquier punto donde el agua permanezca estancada debe ser documentado y reportado para seguimiento."
-  }
+  },
+{
+  "id": "jornada-limpieza",
+  "category": "Mantenimiento",
+  "title": "Jornada de limpieza comunitaria",
+  "summary": "La comunidad realizará una jornada de limpieza este sábado.",
+  "author": "Administración",
+  "date": "2026-07-01",
+  "featured": false,
+  "image": "jornada-limpieza.jpg",
+  "body": "jornada de limpieza de imbornales debido a las fuertes lluvias ."
+}
 ]
