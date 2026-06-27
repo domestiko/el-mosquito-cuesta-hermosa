@@ -1,0 +1,17 @@
+{
+  "name": "Periódico Cuesta Hermosa II",
+  "short_name": "Periódico CH II",
+  "description": "Periódico digital comunitario de Cuesta Hermosa II.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f1eb",
+  "theme_color": "#161616",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

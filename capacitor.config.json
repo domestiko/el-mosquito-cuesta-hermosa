@@ -1,0 +1,12 @@
+{
+  "appId": "do.cuestahermosa.periodico",
+  "appName": "Periódico CH II",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "backgroundColor": "#111111",
+      "showSpinner": false
+    }
+  }
+}
