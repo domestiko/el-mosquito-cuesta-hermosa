@@ -148,3 +148,305 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.62); backdrop-filter: blur(6px); 
   .category-ribbon, .sidebar, .submit-section form { grid-template-columns: 1fr; }
   .footer { flex-direction: column; align-items: flex-start; }
 }
+/* ===== CORRECCIÓN VISUAL V2: CENTRADO, ESCALA Y RESPONSIVE ===== */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.page {
+  width: min(1280px, calc(100% - 32px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Header / logo / nombre principal */
+.masthead {
+  grid-template-columns: 210px minmax(0, 1fr) 210px;
+  gap: 18px;
+  align-items: center;
+}
+
+.institutional-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.institutional-logo img {
+  width: min(210px, 100%);
+  height: auto;
+  max-height: 115px;
+  object-fit: contain;
+}
+
+.masthead-title {
+  min-width: 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.masthead-title h1 {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(3.4rem, 8.2vw, 7.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  text-align: center;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.masthead-title p,
+.masthead-title span {
+  max-width: 100%;
+  text-align: center;
+  line-height: 1.35;
+}
+
+/* Menú */
+.edition-nav {
+  overflow: visible;
+}
+
+.nav-links {
+  max-width: 100%;
+  justify-content: center;
+}
+
+.nav-links a,
+.nav-links button {
+  font-size: 0.72rem;
+  padding: 13px 14px;
+}
+
+/* Portada principal */
+.front-grid {
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+}
+
+.lead-story {
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  min-width: 0;
+}
+
+.lead-content {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.lead-content h2 {
+  font-size: clamp(2.6rem, 4.8vw, 5rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+  overflow-wrap: break-word;
+}
+
+.lead-content p {
+  font-size: 1.04rem;
+  line-height: 1.65;
+}
+
+.lead-image,
+.fallback-image.lead-image {
+  min-height: 430px;
+  max-height: 560px;
+}
+
+/* Noticias laterales */
+.side-story {
+  grid-template-columns: 128px minmax(0, 1fr);
+}
+
+.side-story h3 {
+  font-size: 1.22rem;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.side-story p {
+  font-size: 0.92rem;
+}
+
+/* Categorías */
+.category-ribbon {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.category-card {
+  min-width: 0;
+}
+
+.category-card span {
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  line-height: 1.05;
+}
+
+/* Listado de noticias */
+.content-layout {
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+
+.main-column,
+.sidebar,
+.news-row,
+.news-row div {
+  min-width: 0;
+}
+
+.news-row h3 {
+  font-size: clamp(1.65rem, 2.8vw, 2.55rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  overflow-wrap: break-word;
+}
+
+.row-image,
+.fallback-image.row-image {
+  height: 195px;
+}
+
+/* Bloques generales */
+.briefing-card h3,
+.sidebar-block h2,
+.submit-section h2,
+.dialog-body h2 {
+  overflow-wrap: break-word;
+}
+
+/* Tablet */
+@media (max-width: 1080px) {
+  .page {
+    width: min(100% - 26px, 1280px);
+  }
+
+  .masthead {
+    grid-template-columns: 180px minmax(0, 1fr) 180px;
+  }
+
+  .masthead-title h1 {
+    font-size: clamp(3rem, 9vw, 6.2rem);
+  }
+
+  .front-grid,
+  .lead-story,
+  .content-layout,
+  .submit-section {
+    grid-template-columns: 1fr;
+  }
+
+  .lead-image,
+  .fallback-image.lead-image {
+    min-height: 320px;
+    max-height: none;
+  }
+
+  .sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .category-ribbon {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Móvil */
+@media (max-width: 700px) {
+  .page {
+    width: min(100% - 18px, 1280px);
+  }
+
+  .top-strip {
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .top-strip div {
+    gap: 8px;
+  }
+
+  .masthead {
+    grid-template-columns: 1fr;
+    padding: 20px 0 18px;
+    text-align: center;
+  }
+
+  .institutional-logo img {
+    width: 165px;
+    max-height: 95px;
+  }
+
+  .masthead-title h1 {
+    font-size: clamp(3rem, 18vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+  }
+
+  .masthead-title p,
+  .masthead-title span {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  .front-label {
+    text-align: center;
+    align-items: center;
+  }
+
+  .lead-content {
+    padding: 22px;
+  }
+
+  .lead-content h2 {
+    font-size: clamp(2.35rem, 13vw, 3.9rem);
+    line-height: 0.98;
+  }
+
+  .lead-content p {
+    font-size: 1rem;
+  }
+
+  .side-story,
+  .news-row {
+    grid-template-columns: 1fr;
+  }
+
+  .side-story-image,
+  .fallback-image.side-story-image,
+  .row-image,
+  .fallback-image.row-image {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .category-ribbon,
+  .sidebar,
+  .submit-section form {
+    grid-template-columns: 1fr;
+  }
+
+  .news-row h3 {
+    font-size: clamp(1.8rem, 10vw, 2.7rem);
+  }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 420px) {
+  .masthead-title h1 {
+    font-size: clamp(2.75rem, 17vw, 4.2rem);
+    letter-spacing: -0.04em;
+  }
+
+  .lead-content h2 {
+    font-size: clamp(2.1rem, 12vw, 3.3rem);
+  }
+
+  .nav-links a,
+  .nav-links button {
+    font-size: 0.7rem;
+    padding: 12px;
+  }
+}
