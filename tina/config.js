@@ -65,10 +65,10 @@ export default defineConfig({
             label: "Logo pequeÃ±o del encabezado",
           },
           {
-            type: "image",
+            type: "string",
             name: "heroImage",
-            label: "Foto principal fija de portada",
-            description: "Esta imagen siempre aparecerÃ¡ en el bloque grande izquierdo de la portada. No depende de la noticia principal.",
+            label: "Ruta de la foto principal fija de portada",
+            description: "Primero sube la imagen en Media Manager. Luego escribe aquÃ­ la ruta. Ejemplo: /uploads/logo-el-mosquito.png",
           },
           {
             type: "string",
@@ -292,7 +292,7 @@ export default defineConfig({
                 name: "attachments",
                 label: "Archivos adjuntos",
                 list: true,
-                description: "AquÃ­ puedes agregar PDFs, documentos o imÃ¡genes descargables.",
+                description: "Para PDF o documentos: primero sÃºbelos a Media Manager o GitHub y luego escribe la ruta.",
                 ui: {
                   itemProps: (item) => {
                     return { label: item?.title || "Archivo adjunto" }
@@ -314,10 +314,10 @@ export default defineConfig({
                     },
                   },
                   {
-                    type: "image",
+                    type: "string",
                     name: "file",
-                    label: "Archivo",
-                    description: "Sube o selecciona aquÃ­ el PDF, documento o imagen.",
+                    label: "Ruta del archivo",
+                    description: "Ejemplo: /uploads/informe-tecnico-drenaje-pluvial.pdf",
                     required: true,
                   },
                 ],
@@ -431,10 +431,10 @@ export default defineConfig({
                 label: "Fecha",
               },
               {
-                type: "image",
+                type: "string",
                 name: "file",
-                label: "Archivo",
-                description: "Sube o selecciona el PDF, imagen o documento.",
+                label: "Ruta del archivo",
+                description: "Ejemplo: /uploads/informe-tecnico-drenaje-pluvial.pdf",
                 required: true,
               },
               {
