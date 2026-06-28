@@ -2157,3 +2157,484 @@ body {
     padding: 14px !important;
   }
 }
+/* ===== V8 SOBRIO PROFESIONAL ===== */
+/* Inspirado en periodicos grandes: menos ruido, mas jerarquia y letras moderadas. */
+/* Pegar al FINAL de docs/style.css */
+
+:root {
+  --v8-max: 1120px;
+}
+
+/* Base general */
+body {
+  background: #f6f1e8 !important;
+  font-size: 15px !important;
+}
+
+.newspaper-page,
+.page {
+  max-width: var(--v8-max) !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+
+/* Masthead mas elegante y menos grande */
+.professional-masthead {
+  padding-top: 10px !important;
+  margin-bottom: 0 !important;
+}
+
+.professional-masthead .topline {
+  padding-bottom: 6px !important;
+  font-size: 0.66rem !important;
+  letter-spacing: 0.08em !important;
+}
+
+.professional-masthead .brand-row {
+  padding: 14px 0 12px !important;
+  gap: 14px !important;
+}
+
+.professional-masthead .brand-logo {
+  width: 58px !important;
+  height: 58px !important;
+}
+
+.professional-masthead .masthead-title h1 {
+  font-size: clamp(2.7rem, 6.2vw, 5.2rem) !important;
+  letter-spacing: -0.055em !important;
+  line-height: 0.94 !important;
+  margin: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.professional-masthead .masthead-title p,
+.professional-masthead .masthead-title span {
+  font-size: 0.66rem !important;
+  letter-spacing: 0.11em !important;
+}
+
+/* Menu compacto tipo periodico */
+.professional-nav {
+  justify-content: center !important;
+  border-top: 1px solid #222 !important;
+  border-bottom: 1px solid #222 !important;
+}
+
+.professional-nav a {
+  padding: 9px 11px !important;
+  font-size: 0.66rem !important;
+  letter-spacing: 0.07em !important;
+}
+
+/* Tira de actualizacion menos pesada */
+.update-bar {
+  margin-top: 13px !important;
+  padding: 8px 10px !important;
+  grid-template-columns: auto 1fr !important;
+  gap: 10px !important;
+  font-size: 0.76rem !important;
+}
+
+.update-bar span {
+  font-size: 0.65rem !important;
+}
+
+/* Encabezados de seccion mas sobrios */
+.section-heading {
+  margin-bottom: 12px !important;
+}
+
+.section-heading span,
+.eyebrow,
+.row-kicker span {
+  font-size: 0.66rem !important;
+  letter-spacing: 0.07em !important;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.35rem, 2.3vw, 2.05rem) !important;
+  line-height: 1.05 !important;
+}
+
+/* Portada compacta */
+.professional-hero {
+  padding: 18px 0 18px !important;
+}
+
+.professional-hero .front-grid {
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr) !important;
+  gap: 16px !important;
+}
+
+.professional-hero .lead-story {
+  grid-template-columns: 0.78fr 1.22fr !important;
+  gap: 16px !important;
+  padding: 14px !important;
+  border-top-width: 4px !important;
+}
+
+.professional-hero .fixed-cover-image,
+.professional-hero .lead-image.fixed-cover-image,
+.fixed-cover-image {
+  height: 260px !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 14px !important;
+  object-fit: contain !important;
+  background: #ffffff !important;
+}
+
+.professional-hero .lead-content h2 {
+  font-size: clamp(1.75rem, 3vw, 2.8rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.035em !important;
+  margin: 6px 0 8px !important;
+}
+
+.professional-hero .lead-content p {
+  font-size: 0.9rem !important;
+  line-height: 1.48 !important;
+  margin-bottom: 10px !important;
+}
+
+.story-meta {
+  font-size: 0.72rem !important;
+  gap: 8px !important;
+  margin: 9px 0 !important;
+}
+
+.primary-button,
+.text-button {
+  font-size: 0.72rem !important;
+  padding: 9px 12px !important;
+}
+
+/* Noticias secundarias: solo lo importante */
+.front-side-title {
+  padding: 7px 10px !important;
+  font-size: 0.66rem !important;
+}
+
+.secondary-front {
+  gap: 8px !important;
+}
+
+.secondary-front .side-story {
+  padding: 12px !important;
+  border-left-width: 4px !important;
+}
+
+.secondary-front .side-story h3 {
+  font-size: 1.08rem !important;
+  line-height: 1.08 !important;
+  margin-bottom: 6px !important;
+}
+
+.secondary-front .side-story p {
+  display: none !important;
+}
+
+.secondary-front .side-story .text-button {
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--primary) !important;
+}
+
+/* Lo importante ahora mas editorial */
+.priority-section {
+  padding: 16px 0 !important;
+}
+
+.priority-grid {
+  gap: 10px !important;
+}
+
+.priority-card {
+  padding: 13px !important;
+  gap: 5px !important;
+  border-left-width: 4px !important;
+}
+
+.priority-card span {
+  font-size: 0.62rem !important;
+}
+
+.priority-card strong {
+  font-size: 1.08rem !important;
+  line-height: 1.08 !important;
+}
+
+.priority-card em {
+  font-size: 0.66rem !important;
+}
+
+/* Buscador menos dominante */
+.professional-search {
+  margin: 16px 0 !important;
+  padding: 12px !important;
+  gap: 10px !important;
+}
+
+.search-box label {
+  font-size: 0.66rem !important;
+}
+
+.search-box input {
+  padding: 10px 11px !important;
+  font-size: 0.9rem !important;
+}
+
+.interactive-meta span,
+.interactive-meta a {
+  padding: 7px 8px !important;
+  font-size: 0.65rem !important;
+}
+
+/* Categorias como cinta pequena */
+.professional-categories {
+  padding: 14px 0 !important;
+}
+
+.category-ribbon {
+  gap: 7px !important;
+}
+
+.category-card {
+  padding: 8px 10px !important;
+  border-left-width: 3px !important;
+}
+
+.category-card span {
+  font-size: 0.68rem !important;
+}
+
+/* Layout principal mas parecido a periodico */
+.professional-layout {
+  grid-template-columns: minmax(0, 1fr) 280px !important;
+  gap: 24px !important;
+  padding: 24px 0 !important;
+}
+
+.professional-news-row {
+  padding: 14px 0 !important;
+}
+
+.professional-news-row h3 {
+  font-size: clamp(1.25rem, 2.1vw, 1.85rem) !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.08 !important;
+  margin-bottom: 6px !important;
+}
+
+.professional-news-row p {
+  font-size: 0.88rem !important;
+  line-height: 1.45 !important;
+  margin-bottom: 7px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.professional-sidebar .sidebar-block.urgent {
+  padding: 14px !important;
+  border-top-width: 4px !important;
+}
+
+.professional-sidebar .sidebar-block.urgent h2 {
+  font-size: 1.35rem !important;
+}
+
+.professional-sidebar .notice-item {
+  padding: 11px 0 !important;
+}
+
+.professional-sidebar .notice-item h3 {
+  font-size: 1rem !important;
+}
+
+.professional-sidebar .notice-item p {
+  font-size: 0.82rem !important;
+  line-height: 1.4 !important;
+}
+
+/* Documentos oficiales: mas compactos */
+.official-documents {
+  padding: 20px 0 !important;
+}
+
+.documents-grid {
+  gap: 10px !important;
+}
+
+.document-card {
+  padding: 14px !important;
+  border-left-width: 4px !important;
+}
+
+.document-card summary strong {
+  font-size: 1.08rem !important;
+  line-height: 1.1 !important;
+}
+
+.document-card p {
+  font-size: 0.84rem !important;
+  line-height: 1.4 !important;
+}
+
+.document-card a {
+  font-size: 0.68rem !important;
+}
+
+/* Reportar situaciones: profesional, sin sensacion de bloque gigante */
+.professional-report {
+  margin: 22px 0 !important;
+  padding: 18px !important;
+  border-top-width: 4px !important;
+}
+
+.report-intro {
+  font-size: 0.88rem !important;
+  line-height: 1.48 !important;
+  max-width: 680px !important;
+}
+
+.report-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.report-card {
+  padding: 11px !important;
+  gap: 5px !important;
+}
+
+.report-card span {
+  font-size: 0.66rem !important;
+}
+
+.report-card strong {
+  font-size: 0.98rem !important;
+  line-height: 1.07 !important;
+}
+
+.report-card small {
+  display: none !important;
+}
+
+.report-note {
+  font-size: 0.78rem !important;
+  line-height: 1.4 !important;
+  margin-top: 12px !important;
+  padding-top: 10px !important;
+}
+
+/* Footer */
+.professional-footer {
+  padding: 18px 0 30px !important;
+}
+
+.professional-footer strong {
+  font-size: 1.25rem !important;
+}
+
+.professional-footer p {
+  font-size: 0.84rem !important;
+}
+
+.professional-footer a {
+  font-size: 0.66rem !important;
+}
+
+/* Modal de noticias menos exagerado */
+.article-dialog {
+  max-width: 780px !important;
+}
+
+.article-detail h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem) !important;
+  line-height: 1.04 !important;
+}
+
+.article-summary {
+  font-size: 1rem !important;
+}
+
+.article-full p {
+  font-size: 0.96rem !important;
+  line-height: 1.65 !important;
+}
+
+/* Boton flotante discreto */
+.floating-report {
+  padding: 10px 13px !important;
+  font-size: 0.68rem !important;
+  bottom: 14px !important;
+  right: 14px !important;
+}
+
+/* Movil */
+@media (max-width: 950px) {
+  .professional-hero .front-grid,
+  .professional-hero .lead-story,
+  .priority-grid,
+  .professional-search,
+  .professional-layout,
+  .documents-grid,
+  .report-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .professional-hero .fixed-cover-image,
+  .professional-hero .lead-image.fixed-cover-image,
+  .fixed-cover-image {
+    height: 220px !important;
+  }
+
+  .report-card small {
+    display: block !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .newspaper-page,
+  .page {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .professional-masthead .brand-row {
+    display: grid !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+
+  .professional-masthead .masthead-title h1 {
+    font-size: clamp(2.55rem, 15vw, 4.2rem) !important;
+  }
+
+  .professional-nav {
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+  }
+
+  .professional-nav a {
+    white-space: nowrap !important;
+  }
+
+  .update-bar {
+    grid-template-columns: 1fr !important;
+  }
+
+  .professional-hero .lead-content h2 {
+    font-size: 1.65rem !important;
+  }
+
+  .floating-report {
+    left: 14px !important;
+    right: 14px !important;
+    text-align: center !important;
+  }
+}
