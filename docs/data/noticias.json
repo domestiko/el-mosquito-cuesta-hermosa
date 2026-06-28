@@ -1,14 +1,47 @@
 {
   "items": [
     {
+      "id": "comision-contra-inundaciones-cuesta-hermosa",
+      "category": "Mantenimiento",
+      "title": "Comisión técnica presenta protocolo y hallazgos sobre inundaciones en Cuesta Hermosa II",
+      "summary": "Una comisión comunitaria elaboró un protocolo preventivo para limpieza de imbornales y un informe técnico preliminar con hallazgos y soluciones para reducir el riesgo de inundaciones.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-06-28T12:00:00.000Z",
+      "featured": true,
+      "image": "/uploads/categoria-mantenimiento.png",
+      "body": "Cuesta Hermosa II cuenta con una comisión comunitaria enfocada en buscar soluciones a los problemas de drenaje pluvial e inundaciones que afectan distintos puntos del residencial durante períodos de fuertes lluvias.\n\nComo parte de este trabajo, la comisión ha elaborado un protocolo preventivo para la limpieza y supervisión de imbornales, así como un informe técnico preliminar que recoge hallazgos de campo, causas identificadas y posibles soluciones de corto, mediano y largo plazo.\n\nEl protocolo establece que la limpieza de imbornales no debe ser reactiva, sino preventiva. También indica que cada imbornal debe ser inspeccionado físicamente, que todo trabajo debe quedar documentado y que durante la temporada de lluvias debe aumentar la frecuencia de inspección y limpieza.\n\nEl informe técnico identifica como factores relevantes la cantidad y capacidad insuficiente de imbornales, la falta de mantenimiento, la acumulación de sedimentos y basura, los aportes de agua provenientes de áreas externas y la necesidad de reforzar la protección de la cañada y el sistema de drenaje.\n\nEntre las soluciones planteadas se incluyen limpieza urgente de imbornales y cañada, construcción de nuevos pozos filtrantes, instalación de parrillas de mayor capacidad, incorporación de rejas laterales y lloraderos, así como coordinación formal con las autoridades correspondientes.\n\nDesde El Mosquito estaremos dando seguimiento a los avances de esta comisión, sus recomendaciones, próximos pasos y cualquier acción comunitaria relacionada con la prevención de inundaciones en Cuesta Hermosa II.\n\nFuente: Protocolo Preventivo de Limpieza y Supervisión de Imbornales e Informe Técnico Preliminar sobre Drenaje Pluvial e Inundaciones de Cuesta Hermosa II."
+    },
+    {
+      "id": "protocolo-limpieza-imbornales-cuesta-hermosa",
+      "category": "Mantenimiento",
+      "title": "Protocolo establece limpieza preventiva y supervisión constante de imbornales",
+      "summary": "El documento propone inspecciones, limpiezas programadas, bitácoras, fotografías y respuesta rápida antes, durante y después de lluvias fuertes.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-06-28T13:00:00.000Z",
+      "featured": false,
+      "image": "/uploads/categoria-mantenimiento.png",
+      "body": "El Protocolo Preventivo de Limpieza y Supervisión de Imbornales de Cuesta Hermosa II establece una guía organizada para reducir el riesgo de acumulación de agua y mejorar la respuesta ante lluvias fuertes.\n\nEl documento indica que, en temporada normal, debe realizarse inspección visual diaria, limpieza preventiva general dos veces por semana y limpieza profunda dos veces al mes. En temporada de lluvias o alertas meteorológicas, la inspección completa y la limpieza preventiva deben realizarse diariamente.\n\nEl procedimiento contempla abrir físicamente cada imbornal, verificar acumulación de hojas, tierra, plásticos, sedimentos, ramas, lodo o residuos de construcción; retirar completamente los residuos; garantizar que el flujo de agua sea visible y continuo; y reportar tapas rotas o peligrosas.\n\nTambién se propone implementar bitácoras físicas o digitales, checklist de imbornales por calle, fotografías periódicas y reportes semanales al encargado operativo o a la junta.\n\nEl protocolo concluye que la limpieza de imbornales debe ser vista como una responsabilidad crítica para la seguridad, el patrimonio y la tranquilidad de los residentes.\n\nFuente: Protocolo Preventivo de Limpieza y Supervisión de Imbornales, Junta de Vecinos Cuesta Hermosa II."
+    },
+    {
+      "id": "informe-tecnico-drenaje-pluvial-cuesta-hermosa",
+      "category": "Mantenimiento",
+      "title": "Informe técnico identifica causas y posibles soluciones ante inundaciones",
+      "summary": "El levantamiento técnico señala insuficiencia de imbornales, falta de mantenimiento, sedimentos, basura y aportes externos de agua como factores relevantes.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-06-28T14:00:00.000Z",
+      "featured": false,
+      "image": "/uploads/categoria-mantenimiento.png",
+      "body": "El Informe Técnico Preliminar sobre drenaje pluvial e inundaciones en Cuesta Hermosa II presenta una visión práctica de la problemática y propone medidas para reducir el riesgo de inundaciones.\n\nEntre las causas principales identificadas se encuentran la cantidad y capacidad insuficiente de imbornales, la falta de mantenimiento, la acumulación severa de sedimentos y basura, los aportes de agua provenientes de áreas externas y la ausencia de protección suficiente en la desembocadura hacia la cañada.\n\nComo soluciones inmediatas, el informe recomienda limpieza urgente de imbornales y cañada mediante camión succionador, construcción de nuevos pozos filtrantes en puntos críticos, instalación de parrillas de mayor capacidad e implementación del protocolo de mantenimiento preventivo.\n\nA mediano plazo, plantea instalar imbornales adicionales en zonas críticas, habilitar accesos necesarios para limpieza, colocar gaviones y mejorar los sistemas con rejas laterales, tapas-rejas y lloraderos.\n\nA largo plazo, propone un estudio hidráulico integral, dragado periódico de la cañada, coordinación formal con CAASD, Alcaldía e INDRHI, y mejoras de asfaltado respetando los niveles originales.\n\nFuente: Informe Técnico Preliminar sobre Situación de Drenaje Pluvial e Inundaciones, Residencial Cuesta Hermosa II."
+    },
+    {
       "id": "inicio-proceso-electoral-cuesta-hermosa",
       "category": "Elecciones",
       "title": "Inicia el proceso electoral en Cuesta Hermosa II",
       "summary": "La comunidad se prepara para un nuevo proceso electoral vecinal, una oportunidad para fortalecer la participación, la organización y el futuro del residencial.",
       "author": "Redacción El Mosquito",
-      "date": "2026-06-28T12:00:00.000Z",
-      "featured": true,
-      "image": "/uploads/categoria-elecciones.jpg",
+      "date": "2026-06-28T15:00:00.000Z",
+      "featured": false,
+      "image": "/uploads/categoria-elecciones.png",
       "body": "Cuesta Hermosa II se encuentra en proceso electoral, una etapa importante para la vida comunitaria y la toma de decisiones dentro del residencial.\n\nEste proceso representa una oportunidad para que los residentes conozcan propuestas, participen de manera informada y ejerzan su derecho a elegir a quienes asumirán responsabilidades de representación y gestión comunitaria.\n\nDesde El Mosquito estaremos dando seguimiento al proceso de manera neutral, organizada y respetuosa, compartiendo informaciones relevantes como calendario, propuestas, comunicados, requisitos, actividades y cualquier dato de interés general para los residentes.\n\nNuestro objetivo es promover una participación vecinal responsable, transparente y enfocada en el bienestar común de Cuesta Hermosa II.\n\nEl Mosquito no apoya candidatos ni planchas. Este espacio informa, organiza y promueve la participación comunitaria."
     },
     {
@@ -17,9 +50,9 @@
       "title": "El Mosquito dará seguimiento neutral al proceso electoral comunitario",
       "summary": "El periódico comunitario abrirá un espacio para publicar informaciones, propuestas y comunicados relacionados con las elecciones de Cuesta Hermosa II.",
       "author": "Redacción El Mosquito",
-      "date": "2026-06-28T13:00:00.000Z",
+      "date": "2026-06-28T16:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-elecciones.jpg",
+      "image": "/uploads/categoria-elecciones.png",
       "body": "Como parte de su compromiso con la información comunitaria, El Mosquito habilitará una cobertura especial sobre el proceso electoral de Cuesta Hermosa II.\n\nLa cobertura incluirá noticias del proceso, calendario electoral, propuestas de candidatos o planchas, comunicados oficiales, actividades, preguntas frecuentes y cualquier información relevante para los residentes.\n\nEste espacio se manejará bajo criterios de neutralidad, respeto y equilibrio. El objetivo es que la comunidad pueda informarse mejor y participar con mayor claridad en el proceso."
     },
     {
@@ -28,9 +61,9 @@
       "title": "La importancia de participar en las elecciones comunitarias",
       "summary": "Las elecciones vecinales son una oportunidad para que los residentes se involucren en las decisiones que afectan el presente y futuro de la comunidad.",
       "author": "Redacción El Mosquito",
-      "date": "2026-06-28T14:00:00.000Z",
+      "date": "2026-06-28T17:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-elecciones.jpg",
+      "image": "/uploads/categoria-elecciones.png",
       "body": "Participar en las elecciones comunitarias es una forma directa de contribuir al bienestar del residencial. A través del voto, los residentes pueden apoyar propuestas, expresar prioridades y fortalecer la organización vecinal.\n\nTemas como seguridad, mantenimiento, drenaje, convivencia, comunicación, áreas comunes y servicios requieren seguimiento constante. Por eso, un proceso electoral informado ayuda a construir una comunidad más activa y responsable.\n\nEl llamado es a participar con respeto, escuchar las propuestas y mantener el enfoque en el bienestar común de Cuesta Hermosa II."
     },
     {
@@ -41,7 +74,7 @@
       "author": "Redacción El Mosquito",
       "date": "2026-05-14T12:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-mantenimiento.jpg",
+      "image": "/uploads/categoria-mantenimiento.png",
       "body": "La Corporación del Acueducto y Alcantarillado de Santo Domingo realizó un operativo en Cuesta Hermosa con el propósito de mejorar el servicio de agua potable y reducir problemas de drenaje pluvial.\n\nLa intervención incluyó limpieza de imbornales, desobstrucción de tuberías y corrección de averías.\n\nPara la comunidad, este tipo de operativo resulta importante debido a los antecedentes de acumulación de agua, escorrentías y situaciones de riesgo durante períodos de fuertes lluvias."
     },
     {
@@ -52,7 +85,7 @@
       "author": "Redacción El Mosquito",
       "date": "2026-04-08T12:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-mantenimiento.jpg",
+      "image": "/uploads/categoria-mantenimiento.png",
       "body": "Durante las fuertes lluvias registradas en el Distrito Nacional, en Cuesta Hermosa II se reportó un deslizamiento de tierra que afectó la vía principal.\n\nSegún reportes publicados, la crecida de la cañada desprendió barandillas de un puente y causó daños en viveros cercanos.\n\nLa situación vuelve a poner sobre la mesa la necesidad de seguimiento al drenaje pluvial, mantenimiento preventivo y evaluación de los puntos vulnerables cercanos a la cañada."
     },
     {
@@ -63,7 +96,7 @@
       "author": "Redacción El Mosquito",
       "date": "2026-04-08T13:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-seguridad.jpg",
+      "image": "/uploads/categoria-seguridad.png",
       "body": "Una mujer fue reportada pidiendo auxilio tras quedar atrapada dentro de su vehículo durante el desbordamiento de una cañada en Cuesta Hermosa.\n\nEl caso generó preocupación por los riesgos que pueden presentarse durante lluvias intensas.\n\nEste hecho refuerza la importancia de evitar transitar por zonas inundadas, no intentar cruzar corrientes de agua y mantener vigilancia comunitaria durante eventos climáticos."
     },
     {
@@ -74,7 +107,7 @@
       "author": "Redacción El Mosquito",
       "date": "2026-04-09T12:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-mantenimiento.jpg",
+      "image": "/uploads/categoria-mantenimiento.png",
       "body": "Reportes periodísticos indicaron que, en Cuesta Hermosa Segunda, la crecida de la cañada arrastró parte de la barandilla del puente principal, además de afectar viveros ubicados en la zona.\n\nLa situación evidencia la necesidad de inspecciones técnicas, limpieza preventiva de cauces, refuerzo de infraestructuras vulnerables y coordinación con las autoridades correspondientes."
     },
     {
@@ -85,7 +118,7 @@
       "author": "Redacción El Mosquito",
       "date": "2026-01-10T12:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-avisos.jpg",
+      "image": "/uploads/categoria-avisos.png",
       "body": "La CAASD informó trabajos que afectarían temporalmente el suministro de agua en varios sectores del Gran Santo Domingo, incluyendo Cuesta Hermosa I, II y III.\n\nAunque se trató de una intervención programada, este tipo de aviso es importante para que los residentes puedan prepararse con tiempo ante interrupciones del servicio."
     },
     {
@@ -96,7 +129,7 @@
       "author": "Redacción CH II",
       "date": "2026-06-27T12:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-editorial.jpg",
+      "image": "/uploads/categoria-editorial.png",
       "body": "Este periódico comunitario busca mantener a los residentes informados sobre temas importantes de Cuesta Hermosa II: seguridad, mantenimiento, drenajes, tránsito, actividades, propuestas y proyectos de mejora.\n\nLa participación de cada residente ayuda a construir una comunidad más organizada, segura y activa."
     },
     {
@@ -107,7 +140,7 @@
       "author": "Comunidad",
       "date": "2026-06-26T12:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-seguridad.jpg",
+      "image": "/uploads/categoria-seguridad.png",
       "body": "Se recomienda mantener actualizados los canales de comunicación, reportar movimientos inusuales, verificar accesos, cuidar las entradas y reforzar la colaboración entre vecinos y administración."
     },
     {
@@ -118,7 +151,7 @@
       "author": "Redacción CH II",
       "date": "2026-06-25T12:00:00.000Z",
       "featured": false,
-      "image": "/uploads/categoria-mantenimiento.jpg",
+      "image": "/uploads/categoria-mantenimiento.png",
       "body": "La limpieza de imbornales, cunetas y zonas de escorrentía debe realizarse de forma preventiva.\n\nCualquier punto donde el agua permanezca estancada debe ser documentado y reportado para seguimiento."
     }
   ]
