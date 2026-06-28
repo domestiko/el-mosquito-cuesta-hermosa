@@ -1459,3 +1459,67 @@ body {
     text-align: center !important;
   }
 }
+/* ===== CORRECCIÃ“N V6.1: EL TÃTULO NO TAPA EL ENCABEZADO ===== */
+
+.masthead,
+.brand-row,
+.masthead-title {
+  overflow: visible !important;
+}
+
+.brand-row {
+  align-items: center !important;
+  gap: 20px !important;
+  padding: 24px 0 18px !important;
+}
+
+.masthead-title {
+  display: grid !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+.masthead-title h1 {
+  margin: 0 !important;
+  padding: 0 0 0.12em !important;
+  line-height: 1.04 !important;
+  letter-spacing: -0.055em !important;
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 1 !important;
+  font-size: clamp(3rem, 7.4vw, 6.2rem) !important;
+}
+
+.masthead-title p,
+.masthead-title span {
+  display: block !important;
+  position: relative !important;
+  z-index: 2 !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+}
+
+.topline {
+  position: relative !important;
+  z-index: 3 !important;
+  margin-bottom: 6px !important;
+}
+
+.nav-links {
+  position: relative !important;
+  z-index: 3 !important;
+  margin-top: 8px !important;
+}
+
+/* En mÃ³vil baja mÃ¡s el tamaÃ±o para que no se monte */
+@media (max-width: 700px) {
+  .brand-row {
+    padding: 18px 0 14px !important;
+  }
+
+  .masthead-title h1 {
+    font-size: clamp(3rem, 15vw, 4.9rem) !important;
+    line-height: 1.06 !important;
+    letter-spacing: -0.05em !important;
+  }
+}
