@@ -1,15 +1,16 @@
+* V7 main.js - ASCII safe. Accents are encoded to avoid mojibake. */
 const DEFAULT_SITE = {
   siteName: 'El Mosquito',
   communityName: 'Cuesta Hermosa II',
-  subtitle: 'PeriÃ³dico comunitario de Cuesta Hermosa II',
-  tagline: 'Noticias, avisos y participaciÃ³n vecinal',
+  subtitle: 'Peri\u00f3dico comunitario de Cuesta Hermosa II',
+  tagline: 'Noticias, avisos y participaci\u00f3n vecinal',
   logo: '/uploads/logo-cuesta-hermosa.jpg',
-  heroImage: '/uploads/logo-el-mosquito.png',
-  location: 'Cuesta Hermosa II Â· Santo Domingo',
-  editionLabel: 'EdiciÃ³n digital',
+  heroImage: '/uploads/logo-el-mosquito.jpg',
+  location: 'Cuesta Hermosa II \u00b7 Santo Domingo',
+  editionLabel: 'Edici\u00f3n digital',
   heroLabel: 'Portada',
   heroTitle: 'La voz comunitaria de Cuesta Hermosa II',
-  heroText: 'Un espacio editorial para informar, organizar y conectar a los residentes con noticias, avisos, mantenimiento, seguridad y actividades de interÃ©s comÃºn.',
+  heroText: 'Un espacio editorial para informar, organizar y conectar a los residentes con noticias, avisos, mantenimiento, seguridad y actividades de inter\u00e9s com\u00fan.',
   heroButtonText: 'Leer portada',
   whatsappNumber: '',
   primaryColor: '#526E3F',
@@ -253,64 +254,114 @@ function renderAttachments(article) {
   `
 }
 
+function reportHref() {
+  const number = String(site.whatsappNumber || '').replace(/\D/g, '')
+
+  if (number) {
+    const text = encodeURIComponent('Hola, quiero reportar una situaci\u00f3n para El Mosquito / Cuesta Hermosa II.')
+    return `https://wa.me/${number}?text=${text}`
+  }
+
+  return '#reportar'
+}
+
+function reportHrefWithType(type) {
+  const number = String(site.whatsappNumber || '').replace(/\D/g, '')
+
+  if (number) {
+    const text = encodeURIComponent(
+      `Hola, quiero reportar una situaci\u00f3n para El Mosquito / Cuesta Hermosa II.\n\nTipo de reporte: ${type}\nUbicaci\u00f3n exacta:\nDescripci\u00f3n:\nFoto o evidencia:`
+    )
+
+    return `https://wa.me/${number}?text=${text}`
+  }
+
+  return '#reportar'
+}
+
+function renderUpdateBar(leadArticle) {
+  const items = []
+
+  if (leadArticle) {
+    items.push(`Principal: ${safe(leadArticle.title)}`)
+  }
+
+  const election = sortByDate(articles).find((article) => article.category === 'Elecciones')
+  if (election) {
+    items.push(`Elecciones: ${safe(election.title)}`)
+  }
+
+  const document = documents.find((doc) => doc.featured !== false)
+  if (document) {
+    items.push('Documentos oficiales disponibles')
+  }
+
+  if (!items.length) return ''
+
+  return `
+    <section class="update-bar">
+      <span>&Uacute;ltima actualizaci&oacute;n</span>
+      <div>${items.slice(0, 3).join(' \u00b7 ')}</div>
+    </section>
+  `
+}
+
 function renderHighlights(leadArticle) {
-  const electionArticle = sortByDate(articles).find((article) => article.category === 'Elecciones')
   const maintenanceArticle = sortByDate(articles).find((article) => article.category === 'Mantenimiento')
-  const firstDocument = documents.find((document) => document.featured !== false)
+  const electionArticle = sortByDate(articles).find((article) => article.category === 'Elecciones')
+  const firstDocument = documents.find((doc) => doc.featured !== false)
 
   const cards = []
 
-  if (leadArticle) {
+  if (maintenanceArticle) {
     cards.push(`
-      <button class="highlight-card" data-open-article="${safe(leadArticle.id)}">
-        <span>Principal</span>
-        <strong>${safe(leadArticle.title)}</strong>
-        <em>Leer ahora</em>
-      </button>
-    `)
-  }
-
-  if (maintenanceArticle && maintenanceArticle.id !== leadArticle?.id) {
-    cards.push(`
-      <button class="highlight-card" data-open-article="${safe(maintenanceArticle.id)}">
-        <span>Mantenimiento</span>
+      <button class="priority-card" data-open-article="${safe(maintenanceArticle.id)}">
+        <span>Tema prioritario</span>
         <strong>${safe(maintenanceArticle.title)}</strong>
         <em>Ver seguimiento</em>
       </button>
     `)
   }
 
-  if (electionArticle && electionArticle.id !== leadArticle?.id) {
+  if (electionArticle) {
     cards.push(`
-      <button class="highlight-card" data-open-article="${safe(electionArticle.id)}">
-        <span>Elecciones</span>
+      <button class="priority-card" data-open-article="${safe(electionArticle.id)}">
+        <span>Proceso comunitario</span>
         <strong>${safe(electionArticle.title)}</strong>
-        <em>Ver proceso</em>
+        <em>Ver informaci&oacute;n</em>
       </button>
     `)
   }
 
   if (firstDocument) {
     cards.push(`
-      <a class="highlight-card" href="#documentos">
-        <span>Documentos</span>
+      <a class="priority-card" href="#documentos">
+        <span>Archivo oficial</span>
         <strong>${safe(firstDocument.title)}</strong>
-        <em>Descargar</em>
+        <em>Descargar documento</em>
       </a>
     `)
   }
 
-  if (!cards.length) return ''
+  if (!cards.length && leadArticle) {
+    cards.push(`
+      <button class="priority-card" data-open-article="${safe(leadArticle.id)}">
+        <span>Portada</span>
+        <strong>${safe(leadArticle.title)}</strong>
+        <em>Leer ahora</em>
+      </button>
+    `)
+  }
 
   return `
-    <section class="highlights-section">
+    <section id="importante" class="priority-section">
       <div class="section-heading compact-heading">
-        <span>Accesos r&aacute;pidos</span>
+        <span>Agenda comunitaria</span>
         <h2>Lo m&aacute;s importante ahora</h2>
       </div>
 
-      <div class="highlights-grid">
-        ${cards.slice(0, 4).join('')}
+      <div class="priority-grid">
+        ${cards.slice(0, 3).join('')}
       </div>
     </section>
   `
@@ -324,17 +375,17 @@ function renderDocuments() {
   }
 
   return `
-    <section id="documentos" class="documents-section">
+    <section id="documentos" class="documents-section official-documents">
       <div class="section-heading">
-        <span>Documentos oficiales</span>
-        <h2>Protocolos e informes descargables</h2>
+        <span>Archivo institucional</span>
+        <h2>Documentos oficiales</h2>
       </div>
 
       <div class="documents-grid">
         ${visibleDocuments.map((doc) => `
           <details class="document-card">
             <summary>
-              <span>${safe(doc.category || 'Documento')}</span>
+              <span>${safe(doc.category || 'Documento oficial')}</span>
               <strong>${safe(doc.title)}</strong>
             </summary>
 
@@ -393,16 +444,15 @@ function renderArticleList(list) {
   }
 
   return list.map((article) => `
-    <article class="news-row" data-category="${safe(article.category)}">
+    <article class="news-row professional-news-row" data-category="${safe(article.category)}">
       <div>
-        <span class="eyebrow">${safe(article.category || 'Noticia')}</span>
-        <h3>${safe(article.title)}</h3>
-        <p>${safe(article.summary)}</p>
-
-        <div class="story-meta">
-          <span>${safe(article.author || 'RedacciÃ³n')}</span>
+        <div class="row-kicker">
+          <span>${safe(article.category || 'Noticia')}</span>
           ${article.date ? `<span>${formatDate(article.date)}</span>` : ''}
         </div>
+
+        <h3>${safe(article.title)}</h3>
+        <p>${safe(article.summary)}</p>
 
         <button class="text-button" data-open-article="${safe(article.id)}">
           Leer noticia
@@ -410,17 +460,6 @@ function renderArticleList(list) {
       </div>
     </article>
   `).join('')
-}
-
-function reportHref() {
-  const number = String(site.whatsappNumber || '').replace(/\D/g, '')
-
-  if (number) {
-    const text = encodeURIComponent('Hola, quiero reportar una situaciÃ³n para El Mosquito / Cuesta Hermosa II.')
-    return `https://wa.me/${number}?text=${text}`
-  }
-
-  return '#publicar'
 }
 
 function updateNewsList() {
@@ -441,6 +480,58 @@ function updateNewsList() {
   bindArticleButtons()
 }
 
+function renderReportSection() {
+  return `
+    <section id="reportar" class="report-section professional-report">
+      <div class="section-heading compact-heading">
+        <span>Participaci&oacute;n comunitaria</span>
+        <h2>Reportar situaciones</h2>
+      </div>
+
+      <p class="report-intro">
+        Usa esta secci&oacute;n para reportar situaciones que afecten la seguridad, el mantenimiento,
+        el drenaje, la limpieza o la convivencia dentro de Cuesta Hermosa II.
+      </p>
+
+      <div class="report-grid">
+        <a class="report-card" href="${reportHrefWithType('Inundaci\u00f3n o drenaje')}" target="_blank" rel="noopener noreferrer">
+          <span>01</span>
+          <strong>Inundaci&oacute;n / Drenaje</strong>
+          <small>Imbornales tapados, acumulaci&oacute;n de agua, ca&ntilde;ada o filtrantes.</small>
+        </a>
+
+        <a class="report-card" href="${reportHrefWithType('Seguridad')}" target="_blank" rel="noopener noreferrer">
+          <span>02</span>
+          <strong>Seguridad</strong>
+          <small>Accesos, vigilancia, personas sospechosas o situaciones de riesgo.</small>
+        </a>
+
+        <a class="report-card" href="${reportHrefWithType('Mantenimiento')}" target="_blank" rel="noopener noreferrer">
+          <span>03</span>
+          <strong>Mantenimiento</strong>
+          <small>Calles, &aacute;reas comunes, luces, tapas, jardiner&iacute;a o infraestructura.</small>
+        </a>
+
+        <a class="report-card" href="${reportHrefWithType('Basura o limpieza')}" target="_blank" rel="noopener noreferrer">
+          <span>04</span>
+          <strong>Limpieza</strong>
+          <small>Desechos, escombros, poda, sedimentos o limpieza pendiente.</small>
+        </a>
+
+        <a class="report-card" href="${reportHrefWithType('Otro reporte')}" target="_blank" rel="noopener noreferrer">
+          <span>05</span>
+          <strong>Otro reporte</strong>
+          <small>Cualquier situaci&oacute;n comunitaria que necesite seguimiento.</small>
+        </a>
+      </div>
+
+      <p class="report-note">
+        Al enviar el reporte, incluye ubicaci&oacute;n exacta, foto si la tienes, hora aproximada y una breve descripci&oacute;n.
+      </p>
+    </section>
+  `
+}
+
 function render() {
   document.documentElement.style.setProperty('--primary', site.primaryColor || DEFAULT_SITE.primaryColor)
   document.documentElement.style.setProperty('--accent', site.accentColor || DEFAULT_SITE.accentColor)
@@ -456,8 +547,8 @@ function render() {
     .slice(0, 3)
 
   app.innerHTML = `
-    <div class="page">
-      <header class="masthead">
+    <div class="page newspaper-page">
+      <header class="masthead professional-masthead">
         <div class="topline">
           <span>${safe(site.editionLabel || 'Edici\u00f3n digital')}</span>
           <span>${safe(site.location || '')}</span>
@@ -476,18 +567,21 @@ function render() {
           </div>
         </div>
 
-        <nav class="nav-links">
+        <nav class="nav-links professional-nav">
           <a href="#portada">Portada</a>
           <a href="#importante">Importante</a>
           <a href="#noticias">Noticias</a>
           <a href="#categorias">Categor&iacute;as</a>
           <a href="#documentos">Documentos</a>
+          <a href="#reportar">Reportar</a>
           <a href="#avisos">Avisos</a>
         </nav>
       </header>
 
       <main>
-        <section id="portada" class="hero-section">
+        ${renderUpdateBar(leadArticle)}
+
+        <section id="portada" class="hero-section professional-hero">
           <div class="section-heading">
             <span>${safe(site.heroLabel || 'Portada')}</span>
             <h2>${safe(site.heroTitle || '')}</h2>
@@ -496,7 +590,7 @@ function render() {
           <div class="front-grid">
             ${leadArticle ? `
               <article class="lead-story">
-                ${siteHeroImage('lead-image')}
+                ${siteHeroImage('lead-image fixed-cover-image')}
 
                 <div class="lead-content">
                   <span class="eyebrow">${safe(leadArticle.category || 'Noticia principal')}</span>
@@ -504,7 +598,7 @@ function render() {
                   <p>${safe(leadArticle.summary)}</p>
 
                   <div class="story-meta">
-                    <span>${safe(leadArticle.author || 'RedacciÃ³n')}</span>
+                    <span>${safe(leadArticle.author || 'Redacci\u00f3n')}</span>
                     ${leadArticle.date ? `<span>${formatDate(leadArticle.date)}</span>` : ''}
                   </div>
 
@@ -515,7 +609,7 @@ function render() {
               </article>
             ` : `
               <article class="lead-story">
-                ${siteHeroImage('lead-image')}
+                ${siteHeroImage('lead-image fixed-cover-image')}
                 <div class="lead-content">
                   <span class="eyebrow">${safe(site.heroLabel || 'Portada')}</span>
                   <h2>${safe(site.heroTitle || '')}</h2>
@@ -524,7 +618,8 @@ function render() {
               </article>
             `}
 
-            <aside class="front-side">
+            <aside class="front-side secondary-front">
+              <div class="front-side-title">En desarrollo</div>
               ${sideArticles.map((article) => `
                 <article class="side-story">
                   <div>
@@ -542,11 +637,9 @@ function render() {
           </div>
         </section>
 
-        <section id="importante">
-          ${renderHighlights(leadArticle)}
-        </section>
+        ${renderHighlights(leadArticle)}
 
-        <section class="interactive-panel">
+        <section class="interactive-panel professional-search">
           <div class="search-box">
             <label for="searchInput">Buscar en el peri&oacute;dico</label>
             <input
@@ -563,9 +656,9 @@ function render() {
           </div>
         </section>
 
-        <section id="categorias" class="categories-section">
+        <section id="categorias" class="categories-section professional-categories">
           <div class="section-heading compact-heading">
-            <span>Filtros</span>
+            <span>Secciones</span>
             <h2>Explorar por categor&iacute;a</h2>
           </div>
 
@@ -588,7 +681,7 @@ function render() {
           </div>
         </section>
 
-        <section class="content-layout">
+        <section class="content-layout professional-layout">
           <div id="noticias" class="news-section">
             <div class="section-heading">
               <span>Noticias</span>
@@ -600,7 +693,7 @@ function render() {
             </div>
           </div>
 
-          <aside id="avisos" class="sidebar">
+          <aside id="avisos" class="sidebar professional-sidebar">
             <div class="sidebar-block urgent">
               <h2>Avisos</h2>
 
@@ -623,30 +716,21 @@ function render() {
 
         ${renderDocuments()}
 
-        <section id="publicar" class="submit-section">
-          <div>
-            <span class="eyebrow">Participa</span>
-            <h2>Env&iacute;a una noticia, aviso o reporte comunitario</h2>
-            <p>
-              Comparte informaci&oacute;n relevante sobre seguridad, mantenimiento, actividades,
-              elecciones, drenajes, &aacute;reas comunes o cualquier tema de inter&eacute;s para la comunidad.
-            </p>
-          </div>
-
-          <a
-            class="primary-button"
-            href="${reportHref()}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Reportar situaci&oacute;n
-          </a>
-        </section>
+        ${renderReportSection()}
       </main>
 
-      <footer class="footer">
-        <p>${safe(site.siteName)} Â· ${safe(site.communityName)}</p>
-        <p>${safe(site.tagline || '')}</p>
+      <footer class="footer professional-footer">
+        <div>
+          <strong>${safe(site.siteName)} \u00b7 ${safe(site.communityName)}</strong>
+          <p>Medio informativo vecinal para noticias, avisos, documentos oficiales y participaci&oacute;n comunitaria.</p>
+        </div>
+
+        <nav>
+          <a href="#portada">Portada</a>
+          <a href="#noticias">Noticias</a>
+          <a href="#documentos">Documentos</a>
+          <a href="#reportar">Reportar</a>
+        </nav>
       </footer>
     </div>
 
@@ -655,7 +739,7 @@ function render() {
     </a>
 
     <dialog id="articleDialog" class="article-dialog">
-      <button class="dialog-close" type="button" aria-label="Cerrar noticia">Ã—</button>
+      <button class="dialog-close" type="button" aria-label="Cerrar noticia">\u00d7</button>
       <div class="dialog-body"></div>
     </dialog>
   `
@@ -746,7 +830,7 @@ function openArticle(id) {
       <h1>${safe(article.title)}</h1>
 
       <div class="story-meta">
-        <span>${safe(article.author || 'RedacciÃ³n')}</span>
+        <span>${safe(article.author || 'Redacci\u00f3n')}</span>
         ${article.date ? `<span>${formatDate(article.date)}</span>` : ''}
       </div>
 
