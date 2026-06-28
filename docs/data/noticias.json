@@ -1,13 +1,68 @@
 {
   "items": [
     {
+      "id": "caasd-operativo-cuesta-hermosa",
+      "category": "Mantenimiento",
+      "title": "CAASD interviene Cuesta Hermosa para mejorar drenaje y presión del agua",
+      "summary": "La CAASD realizó trabajos de limpieza de imbornales, desobstrucción de tuberías y corrección de averías en Cuesta Hermosa.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-05-14T12:00:00.000Z",
+      "featured": true,
+      "image": "",
+      "body": "La Corporación del Acueducto y Alcantarillado de Santo Domingo realizó un operativo en Cuesta Hermosa con el propósito de mejorar el servicio de agua potable y reducir problemas de drenaje pluvial. La intervención incluyó limpieza de imbornales, desobstrucción de tuberías y corrección de averías.\n\nPara la comunidad, este tipo de operativo resulta importante debido a los antecedentes de acumulación de agua, escorrentías y situaciones de riesgo durante períodos de fuertes lluvias.\n\nFuente consultada: CAASD / Presidencia de la República / Z101 Digital."
+    },
+    {
+      "id": "deslizamiento-via-principal-cuesta-hermosa",
+      "category": "Mantenimiento",
+      "title": "Crecida de cañada provoca daños en vía principal de Cuesta Hermosa II",
+      "summary": "Las lluvias provocaron un deslizamiento de tierra que afectó la vía principal y zonas cercanas a la cañada.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-04-08T12:00:00.000Z",
+      "featured": false,
+      "image": "",
+      "body": "Durante las fuertes lluvias registradas en el Distrito Nacional, en Cuesta Hermosa II se reportó un deslizamiento de tierra que afectó la vía principal. Según reportes publicados, la crecida de la cañada desprendió barandillas de un puente y causó daños en viveros cercanos.\n\nLa situación vuelve a poner sobre la mesa la necesidad de seguimiento al drenaje pluvial, mantenimiento preventivo y evaluación de los puntos vulnerables cercanos a la cañada.\n\nFuente consultada: Noticias SIN."
+    },
+    {
+      "id": "mujer-atrapada-canada-cuesta-hermosa",
+      "category": "Seguridad",
+      "title": "Desbordamiento de cañada en Cuesta Hermosa genera situación de emergencia",
+      "summary": "Una mujer quedó atrapada en su vehículo durante el desbordamiento de una cañada en Cuesta Hermosa.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-04-08T13:00:00.000Z",
+      "featured": false,
+      "image": "",
+      "body": "Una mujer fue reportada pidiendo auxilio tras quedar atrapada dentro de su vehículo durante el desbordamiento de una cañada en Cuesta Hermosa. El caso circuló en video y generó preocupación por los riesgos que pueden presentarse durante lluvias intensas.\n\nEste hecho refuerza la importancia de evitar transitar por zonas inundadas, no intentar cruzar corrientes de agua y mantener vigilancia comunitaria durante eventos climáticos.\n\nFuente consultada: Noticias SIN."
+    },
+    {
+      "id": "puente-cuesta-hermosa-segunda-canada",
+      "category": "Mantenimiento",
+      "title": "Cañada causa daños en puente principal de Cuesta Hermosa Segunda",
+      "summary": "La crecida de la cañada arrastró parte de la barandilla del puente principal y afectó zonas próximas.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-04-09T12:00:00.000Z",
+      "featured": false,
+      "image": "",
+      "body": "Reportes periodísticos indicaron que, en Cuesta Hermosa Segunda, la crecida de la cañada arrastró parte de la barandilla del puente principal, además de afectar viveros ubicados en la zona.\n\nLa situación evidencia la necesidad de inspecciones técnicas, limpieza preventiva de cauces, refuerzo de infraestructuras vulnerables y coordinación con las autoridades correspondientes.\n\nFuente consultada: Noticias SIN."
+    },
+    {
+      "id": "interrupcion-agua-cuesta-hermosa-enero",
+      "category": "Avisos",
+      "title": "Trabajos de CAASD afectaron suministro de agua en Cuesta Hermosa I, II y III",
+      "summary": "Cuesta Hermosa I, II y III figuraron entre los sectores con dificultades temporales en el suministro de agua por trabajos de la CAASD.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-01-10T12:00:00.000Z",
+      "featured": false,
+      "image": "",
+      "body": "La CAASD informó trabajos que afectarían temporalmente el suministro de agua en varios sectores del Gran Santo Domingo, incluyendo Cuesta Hermosa I, II y III, Puerta de Hierro, La Hondonada, Arroyo Hondo Viejo e Isabel Villas.\n\nAunque se trató de una intervención programada, este tipo de aviso es importante para que los residentes puedan prepararse con tiempo ante interrupciones del servicio.\n\nFuente consultada: Z101 Digital / Diario Libre."
+    },
+    {
       "id": "editorial-comunidad",
       "category": "Editorial",
       "title": "Cuesta Hermosa II: una comunidad que se informa y participa",
       "summary": "Nace un espacio digital para compartir noticias, avisos, actividades, propuestas y temas de interés vecinal.",
       "author": "Redacción CH II",
       "date": "2026-06-27T12:00:00.000Z",
-      "featured": true,
+      "featured": false,
       "image": "",
       "body": "Este periódico comunitario busca mantener a los residentes informados sobre temas importantes de Cuesta Hermosa II: seguridad, mantenimiento, drenajes, tránsito, actividades, propuestas y proyectos de mejora. La participación de cada residente ayuda a construir una comunidad más organizada, segura y activa."
     },
@@ -32,17 +87,6 @@
       "featured": false,
       "image": "",
       "body": "La limpieza de imbornales, cunetas y zonas de escorrentía debe realizarse de forma preventiva. Cualquier punto donde el agua permanezca estancada debe ser documentado y reportado para seguimiento."
-    },
-    {
-      "id": "jornada-limpieza",
-      "category": "Mantenimiento",
-      "title": "Jornada de limpieza comunitaria",
-      "summary": "La comunidad realizará una jornada de limpieza preventiva debido a las fuertes lluvias.",
-      "author": "Administración",
-      "date": "2026-07-01T12:00:00.000Z",
-      "featured": false,
-      "image": "",
-      "body": "Jornada de limpieza de imbornales debido a las fuertes lluvias. Esta acción busca prevenir acumulación de agua y mejorar el drenaje en puntos importantes de la comunidad."
     }
   ]
 }
