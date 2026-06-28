@@ -2638,3 +2638,117 @@ body {
     text-align: center !important;
   }
 }
+/* 1. La noticia se abre como ventana flotante, no abajo de la pagina. */
+.article-dialog {
+  position: fixed !important;
+  inset: 50% auto auto 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(860px, calc(100vw - 28px)) !important;
+  max-height: min(86vh, 820px) !important;
+  overflow: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #fffdf8 !important;
+  color: var(--dark) !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35) !important;
+  z-index: 9999 !important;
+}
+
+.article-dialog:not([open]) {
+  display: none !important;
+}
+
+.article-dialog::backdrop {
+  background: rgba(20, 20, 20, 0.58) !important;
+  backdrop-filter: blur(3px) !important;
+}
+
+body.modal-open {
+  overflow: hidden !important;
+}
+
+.dialog-close {
+  position: sticky !important;
+  top: 0 !important;
+  left: auto !important;
+  margin-left: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 44px !important;
+  height: 44px !important;
+  border: 0 !important;
+  border-left: 1px solid var(--line) !important;
+  border-bottom: 1px solid var(--line) !important;
+  background: #fffdf8 !important;
+  color: var(--dark) !important;
+  font-size: 1.2rem !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+  z-index: 2 !important;
+}
+
+.dialog-body {
+  padding: 24px 28px 34px !important;
+}
+
+.article-detail h1 {
+  font-size: clamp(1.9rem, 4vw, 3rem) !important;
+  line-height: 1.04 !important;
+  margin: 8px 0 10px !important;
+}
+
+.article-summary {
+  font-size: 1rem !important;
+  line-height: 1.55 !important;
+}
+
+.article-full p {
+  font-size: 0.96rem !important;
+  line-height: 1.7 !important;
+}
+
+.article-detail-image {
+  width: 100% !important;
+  max-height: 360px !important;
+  object-fit: cover !important;
+  margin-bottom: 18px !important;
+}
+
+/* 2. La imagen/logo de portada no debe tener caja blanca ni borde. */
+.professional-hero .fixed-cover-image,
+.professional-hero .lead-image.fixed-cover-image,
+.fixed-cover-image {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  object-fit: contain !important;
+  padding: 0 !important;
+}
+
+/* 3. El contenedor del logo tambien queda transparente. */
+.professional-hero .lead-story {
+  background: rgba(255, 253, 248, 0.72) !important;
+}
+
+.fallback-image {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+@media (max-width: 650px) {
+  .article-dialog {
+    width: calc(100vw - 18px) !important;
+    max-height: 88vh !important;
+  }
+
+  .dialog-body {
+    padding: 18px 18px 28px !important;
+  }
+
+  .article-detail h1 {
+    font-size: 1.7rem !important;
+  }
+}
