@@ -14,10 +14,12 @@
   "dependencies": {
     "@capacitor/core": "^8.0.0",
     "@capacitor/ios": "^8.0.0",
-    "@capacitor/splash-screen": "^8.0.0"
+    "@capacitor/splash-screen": "^8.0.0",
+    "tinacms": "^3.9.3"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.0.0",
+    "@tinacms/cli": "^2.5.1",
     "vite": "^7.0.0"
   }
 }
