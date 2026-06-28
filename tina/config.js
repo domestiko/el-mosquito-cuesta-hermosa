@@ -1,4 +1,3 @@
-
 import { defineConfig } from "tinacms"
 
 const branch =
@@ -27,7 +26,7 @@ export default defineConfig({
     collections: [
       {
         name: "site",
-        label: "Configuración del sitio",
+        label: "ConfiguraciÃ³n del sitio",
         path: "docs/data",
         format: "json",
         match: {
@@ -43,7 +42,7 @@ export default defineConfig({
           {
             type: "string",
             name: "siteName",
-            label: "Nombre del periódico",
+            label: "Nombre del periÃ³dico",
           },
           {
             type: "string",
@@ -53,7 +52,7 @@ export default defineConfig({
           {
             type: "string",
             name: "subtitle",
-            label: "Subtítulo",
+            label: "SubtÃ­tulo",
           },
           {
             type: "string",
@@ -63,17 +62,23 @@ export default defineConfig({
           {
             type: "image",
             name: "logo",
-            label: "Logo",
+            label: "Logo pequeÃ±o del encabezado",
+          },
+          {
+            type: "image",
+            name: "heroImage",
+            label: "Foto principal fija de portada",
+            description: "Esta imagen siempre aparecerÃ¡ en el bloque grande izquierdo de la portada. No depende de la noticia principal.",
           },
           {
             type: "string",
             name: "location",
-            label: "Ubicación",
+            label: "UbicaciÃ³n",
           },
           {
             type: "string",
             name: "editionLabel",
-            label: "Etiqueta de edición",
+            label: "Etiqueta de ediciÃ³n",
           },
           {
             type: "string",
@@ -83,7 +88,7 @@ export default defineConfig({
           {
             type: "string",
             name: "heroTitle",
-            label: "Título principal",
+            label: "TÃ­tulo principal",
           },
           {
             type: "string",
@@ -96,7 +101,7 @@ export default defineConfig({
           {
             type: "string",
             name: "heroButtonText",
-            label: "Texto del botón principal",
+            label: "Texto del botÃ³n principal",
           },
           {
             type: "string",
@@ -128,7 +133,7 @@ export default defineConfig({
 
       {
         name: "categorias",
-        label: "Categorías",
+        label: "CategorÃ­as",
         path: "docs/data",
         format: "json",
         match: {
@@ -144,11 +149,11 @@ export default defineConfig({
           {
             type: "object",
             name: "items",
-            label: "Lista de categorías",
+            label: "Lista de categorÃ­as",
             list: true,
             ui: {
               itemProps: (item) => {
-                return { label: item?.name || "Nueva categoría" }
+                return { label: item?.name || "Nueva categorÃ­a" }
               },
             },
             fields: [
@@ -161,7 +166,7 @@ export default defineConfig({
               {
                 type: "string",
                 name: "description",
-                label: "Descripción",
+                label: "DescripciÃ³n",
                 ui: {
                   component: "textarea",
                 },
@@ -174,7 +179,7 @@ export default defineConfig({
               {
                 type: "image",
                 name: "image",
-                label: "Imagen de categoría",
+                label: "Imagen de categorÃ­a",
               },
               {
                 type: "boolean",
@@ -220,14 +225,14 @@ export default defineConfig({
               {
                 type: "string",
                 name: "id",
-                label: "ID único",
+                label: "ID Ãºnico",
                 description: "Ejemplo: comision-contra-inundaciones",
                 required: true,
               },
               {
                 type: "string",
                 name: "category",
-                label: "Categoría",
+                label: "CategorÃ­a",
                 options: [
                   "Editorial",
                   "Seguridad",
@@ -235,7 +240,7 @@ export default defineConfig({
                   "Comunidad",
                   "Actividades",
                   "Elecciones",
-                  "Opinión",
+                  "OpiniÃ³n",
                   "Avisos",
                 ],
                 required: true,
@@ -243,7 +248,7 @@ export default defineConfig({
               {
                 type: "string",
                 name: "title",
-                label: "Título",
+                label: "TÃ­tulo",
                 required: true,
               },
               {
@@ -272,22 +277,22 @@ export default defineConfig({
               {
                 type: "image",
                 name: "image",
-                label: "Foto principal de la noticia",
-                description: "Esta imagen se usa como foto principal de la noticia.",
+                label: "Foto de la noticia",
+                description: "Esta imagen solo se verÃ¡ dentro de la noticia, no en el bloque grande fijo de portada.",
               },
               {
                 type: "image",
                 name: "gallery",
-                label: "Galería de fotos",
+                label: "GalerÃ­a de fotos",
                 list: true,
-                description: "Aquí puedes subir varias fotos relacionadas con la noticia.",
+                description: "AquÃ­ puedes subir varias fotos relacionadas con la noticia.",
               },
               {
                 type: "object",
                 name: "attachments",
                 label: "Archivos adjuntos",
                 list: true,
-                description: "Aquí puedes agregar PDFs, documentos o imágenes descargables.",
+                description: "AquÃ­ puedes agregar PDFs, documentos o imÃ¡genes descargables.",
                 ui: {
                   itemProps: (item) => {
                     return { label: item?.title || "Archivo adjunto" }
@@ -297,13 +302,13 @@ export default defineConfig({
                   {
                     type: "string",
                     name: "title",
-                    label: "Título del archivo",
+                    label: "TÃ­tulo del archivo",
                     required: true,
                   },
                   {
                     type: "string",
                     name: "description",
-                    label: "Descripción del archivo",
+                    label: "DescripciÃ³n del archivo",
                     ui: {
                       component: "textarea",
                     },
@@ -312,7 +317,7 @@ export default defineConfig({
                     type: "image",
                     name: "file",
                     label: "Archivo",
-                    description: "Sube o selecciona aquí el PDF, documento o imagen.",
+                    description: "Sube o selecciona aquÃ­ el PDF, documento o imagen.",
                     required: true,
                   },
                 ],
@@ -359,7 +364,7 @@ export default defineConfig({
               {
                 type: "string",
                 name: "title",
-                label: "Título",
+                label: "TÃ­tulo",
                 required: true,
               },
               {
@@ -404,13 +409,13 @@ export default defineConfig({
               {
                 type: "string",
                 name: "title",
-                label: "Título",
+                label: "TÃ­tulo",
                 required: true,
               },
               {
                 type: "string",
                 name: "description",
-                label: "Descripción",
+                label: "DescripciÃ³n",
                 ui: {
                   component: "textarea",
                 },
@@ -418,7 +423,7 @@ export default defineConfig({
               {
                 type: "string",
                 name: "category",
-                label: "Categoría",
+                label: "CategorÃ­a",
               },
               {
                 type: "datetime",
@@ -435,7 +440,7 @@ export default defineConfig({
               {
                 type: "boolean",
                 name: "featured",
-                label: "Mostrar en la página",
+                label: "Mostrar en la pÃ¡gina",
               },
             ],
           },
