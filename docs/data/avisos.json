@@ -1,16 +1,20 @@
 {
   "items": [
     {
-      "title": "Aviso de la administración",
-      "text": "Este espacio estará disponible para publicar comunicados importantes de la administración y la comunidad."
+      "title": "Comisión contra inundaciones",
+      "text": "La comisión comunitaria ha emitido un protocolo preventivo para limpieza y supervisión de imbornales, además de un informe técnico preliminar con hallazgos y posibles soluciones. Se recomienda a los residentes reportar imbornales tapados, acumulación de basura, sedimentos o puntos donde el agua se estanque."
     },
     {
-      "title": "Reporte de mantenimiento",
-      "text": "Los residentes pueden reportar situaciones relacionadas con drenajes, imbornales, áreas comunes, seguridad o servicios generales."
+      "title": "Limpieza preventiva de imbornales",
+      "text": "El protocolo recomienda inspección visual diaria, limpieza preventiva general dos veces por semana y limpieza profunda dos veces al mes. En temporada de lluvias o alertas meteorológicas, la inspección y limpieza preventiva deben realizarse diariamente."
     },
     {
-      "title": "Actividades comunitarias",
-      "text": "Aquí se compartirán jornadas, reuniones, actividades familiares y proyectos de integración vecinal."
+      "title": "Colaboración de residentes",
+      "text": "Se solicita no lanzar basura en calles o contenes, evitar sacar fundas fuera de horario, reportar drenajes tapados y no verter escombros ni materiales de construcción cerca de imbornales."
+    },
+    {
+      "title": "Proceso electoral comunitario",
+      "text": "El Mosquito dará seguimiento neutral al proceso electoral de Cuesta Hermosa II, compartiendo informaciones, propuestas, comunicados y avisos de interés general para los residentes."
     }
   ]
 }
