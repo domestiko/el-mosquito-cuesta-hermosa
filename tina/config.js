@@ -331,3 +331,13 @@ export default defineConfig({
     ],
   },
 });
+options: [
+  "Editorial",
+  "Seguridad",
+  "Mantenimiento",
+  "Comunidad",
+  "Actividades",
+  "Opinión",
+  "Avisos",
+  "Otro",
+],
