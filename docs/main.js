@@ -4,6 +4,7 @@ const DEFAULT_SITE = {
   subtitle: 'PeriÃ³dico comunitario de Cuesta Hermosa II',
   tagline: 'Noticias, avisos y participaciÃ³n vecinal',
   logo: '/uploads/logo-cuesta-hermosa.jpg',
+  heroImage: '/uploads/logo-el-mosquito.png',
   location: 'Cuesta Hermosa II Â· Santo Domingo',
   editionLabel: 'EdiciÃ³n digital',
   heroLabel: 'Portada',
@@ -170,6 +171,27 @@ function articleImage(article, className = '') {
   return `
     <div class="fallback-image ${className}">
       <span>${safe(site.siteName)}</span>
+    </div>
+  `
+}
+
+function siteHeroImage(className = '') {
+  const src = imageUrl(site.heroImage || site.logo)
+
+  if (src) {
+    return `
+      <img
+        class="story-image ${className}"
+        src="${src}"
+        alt="${safe(site.siteName || 'El Mosquito')}"
+        loading="lazy"
+      />
+    `
+  }
+
+  return `
+    <div class="fallback-image ${className}">
+      <span>${safe(site.siteName || 'El Mosquito')}</span>
     </div>
   `
 }
@@ -474,7 +496,7 @@ function render() {
           <div class="front-grid">
             ${leadArticle ? `
               <article class="lead-story">
-                ${articleImage(leadArticle, 'lead-image')}
+                ${siteHeroImage('lead-image')}
 
                 <div class="lead-content">
                   <span class="eyebrow">${safe(leadArticle.category || 'Noticia principal')}</span>
@@ -493,6 +515,7 @@ function render() {
               </article>
             ` : `
               <article class="lead-story">
+                ${siteHeroImage('lead-image')}
                 <div class="lead-content">
                   <span class="eyebrow">${safe(site.heroLabel || 'Portada')}</span>
                   <h2>${safe(site.heroTitle || '')}</h2>
