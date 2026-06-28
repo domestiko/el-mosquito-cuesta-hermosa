@@ -1,6 +1,13 @@
 {
   "items": [
-    {
+{
+  "name": "Elecciones",
+  "description": "Proceso electoral comunitario, candidatos, propuestas, calendario y participación vecinal.",
+  "color": "#7A2E2E",
+  "image": "/uploads/categoria-elecciones.jpg",
+  "featured": true,
+  "order": 5
+},    {
       "name": "Seguridad",
       "description": "Prevención, accesos, vigilancia y reportes importantes.",
       "color": "#526E3F",
