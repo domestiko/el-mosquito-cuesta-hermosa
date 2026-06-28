@@ -28,8 +28,10 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Instalar dependencias
-        run: npm ci
+           - name: Instalar dependencias
+        run: |
+          npm install
+          npm install tinacms @tinacms/cli
 
       - name: Construir TinaCMS Admin
         env:
