@@ -2116,3 +2116,44 @@ body {
     padding: 20px !important;
   }
 }
+/* ===== FIX FOTO DE PORTADA - LOGO EL MOSQUITO ===== */
+/* Este bloque evita que el logo se recorte o se vea fuera de proporcion. */
+
+.professional-hero .fixed-cover-image,
+.professional-hero .lead-image.fixed-cover-image,
+.fixed-cover-image {
+  width: 100% !important;
+  height: 420px !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #ffffff !important;
+  padding: 22px !important;
+  box-sizing: border-box !important;
+}
+
+/* La portada mantiene proporcion editorial, pero sin cortar el logo. */
+.professional-hero .lead-story {
+  grid-template-columns: 0.88fr 1.12fr !important;
+  align-items: stretch !important;
+}
+
+/* En pantallas pequenas, el logo baja de alto para que no ocupe demasiado. */
+@media (max-width: 950px) {
+  .professional-hero .fixed-cover-image,
+  .professional-hero .lead-image.fixed-cover-image,
+  .fixed-cover-image {
+    height: 300px !important;
+    padding: 18px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .professional-hero .fixed-cover-image,
+  .professional-hero .lead-image.fixed-cover-image,
+  .fixed-cover-image {
+    height: 240px !important;
+    padding: 14px !important;
+  }
+}
