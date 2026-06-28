@@ -4,7 +4,7 @@ const DEFAULT_SITE = {
   subtitle: 'Periodico comunitario de Cuesta Hermosa II',
   tagline: 'Noticias, avisos y participacion vecinal',
   logo: '/uploads/logo-cuesta-hermosa.jpg',
-  heroImage: '/uploads/logo-el-mosquito.jpg',
+  heroImage: '/uploads/logo-el-mosquito-transparente.png',
   location: 'Cuesta Hermosa II - Santo Domingo',
   editionLabel: 'Edicion digital',
   heroLabel: 'Portada',
@@ -369,7 +369,7 @@ function render() {
     '</footer>' +
   '</div>' +
   '<a class="floating-report" href="' + reportHref() + '" target="_blank" rel="noopener noreferrer">Reportar situacion</a>' +
-  '<div id="articleModal" class="article-dialog" hidden><button class="dialog-close" type="button">x</button><div class="dialog-body"></div></div>'
+  '<dialog id="articleModal" class="article-dialog"><button class="dialog-close" type="button" aria-label="Cerrar noticia">x</button><div class="dialog-body"></div></dialog>'
 
   bindEvents()
 }
@@ -411,7 +411,13 @@ function bindEvents() {
 
   if (modal && closeButton) {
     closeButton.addEventListener('click', function() {
-      modal.hidden = true
+      closeArticleModal()
+    })
+
+    modal.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        closeArticleModal()
+      }
     })
   }
 }
@@ -436,7 +442,27 @@ function openArticle(id) {
     '<div class="article-full">' + bodyToHTML(article.body || article.summary || '') + '</div>' +
   '</article>'
 
-  modal.hidden = false
+  if (typeof modal.showModal === 'function') {
+    modal.showModal()
+  } else {
+    modal.setAttribute('open', 'open')
+  }
+
+  document.body.classList.add('modal-open')
+}
+
+function closeArticleModal() {
+  const modal = document.querySelector('#articleModal')
+
+  if (!modal) return
+
+  if (typeof modal.close === 'function' && modal.open) {
+    modal.close()
+  } else {
+    modal.removeAttribute('open')
+  }
+
+  document.body.classList.remove('modal-open')
 }
 
 function showFatalError(error) {
