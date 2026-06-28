@@ -1,3 +1,35 @@
+fragment SiteParts on Site {
+  __typename
+  siteName
+  communityName
+  subtitle
+  tagline
+  logo
+  location
+  editionLabel
+  heroLabel
+  heroTitle
+  heroText
+  heroButtonText
+  whatsappNumber
+  primaryColor
+  accentColor
+  darkColor
+  paperColor
+}
+
+fragment CategoriasParts on Categorias {
+  __typename
+  items {
+    __typename
+    name
+    description
+    color
+    featured
+    order
+  }
+}
+
 fragment NoticiasParts on Noticias {
   __typename
   items {

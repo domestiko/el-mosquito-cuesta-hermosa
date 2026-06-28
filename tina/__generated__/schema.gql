@@ -54,6 +54,10 @@ type Query {
   collections: [Collection!]!
   node(id: String): Node!
   document(collection: String, relativePath: String): DocumentNode!
+  site(relativePath: String): Site!
+  siteConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: SiteFilter): SiteConnection!
+  categorias(relativePath: String): Categorias!
+  categoriasConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: CategoriasFilter): CategoriasConnection!
   noticias(relativePath: String): Noticias!
   noticiasConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: NoticiasFilter): NoticiasConnection!
   avisos(relativePath: String): Avisos!
@@ -61,6 +65,8 @@ type Query {
 }
 
 input DocumentFilter {
+  site: SiteFilter
+  categorias: CategoriasFilter
   noticias: NoticiasFilter
   avisos: AvisosFilter
 }
@@ -88,7 +94,126 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Noticias | Avisos | Folder
+union DocumentNode = Site | Categorias | Noticias | Avisos | Folder
+
+type Site implements Node & Document {
+  siteName: String
+  communityName: String
+  subtitle: String
+  tagline: String
+  logo: String
+  location: String
+  editionLabel: String
+  heroLabel: String
+  heroTitle: String
+  heroText: String
+  heroButtonText: String
+  whatsappNumber: String
+  primaryColor: String
+  accentColor: String
+  darkColor: String
+  paperColor: String
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input StringFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
+input ImageFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
+input SiteFilter {
+  siteName: StringFilter
+  communityName: StringFilter
+  subtitle: StringFilter
+  tagline: StringFilter
+  logo: ImageFilter
+  location: StringFilter
+  editionLabel: StringFilter
+  heroLabel: StringFilter
+  heroTitle: StringFilter
+  heroText: StringFilter
+  heroButtonText: StringFilter
+  whatsappNumber: StringFilter
+  primaryColor: StringFilter
+  accentColor: StringFilter
+  darkColor: StringFilter
+  paperColor: StringFilter
+}
+
+type SiteConnectionEdges {
+  cursor: String!
+  node: Site
+}
+
+type SiteConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [SiteConnectionEdges]
+}
+
+type CategoriasItems {
+  name: String!
+  description: String
+  color: String
+  featured: Boolean
+  order: Float
+}
+
+type Categorias implements Node & Document {
+  items: [CategoriasItems]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input BooleanFilter {
+  eq: Boolean
+  exists: Boolean
+}
+
+input NumberFilter {
+  lt: Float
+  lte: Float
+  gte: Float
+  gt: Float
+  eq: Float
+  exists: Boolean
+  in: [Float]
+}
+
+input CategoriasItemsFilter {
+  name: StringFilter
+  description: StringFilter
+  color: StringFilter
+  featured: BooleanFilter
+  order: NumberFilter
+}
+
+input CategoriasFilter {
+  items: CategoriasItemsFilter
+}
+
+type CategoriasConnectionEdges {
+  cursor: String!
+  node: Categorias
+}
+
+type CategoriasConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [CategoriasConnectionEdges]
+}
 
 type NoticiasItems {
   id: String!
@@ -109,28 +234,9 @@ type Noticias implements Node & Document {
   _values: JSON!
 }
 
-input StringFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-  in: [String]
-}
-
 input DatetimeFilter {
   after: String
   before: String
-  eq: String
-  exists: Boolean
-  in: [String]
-}
-
-input BooleanFilter {
-  eq: Boolean
-  exists: Boolean
-}
-
-input ImageFilter {
-  startsWith: String
   eq: String
   exists: Boolean
   in: [String]
@@ -201,6 +307,10 @@ type Mutation {
   deleteDocument(collection: String, relativePath: String!): DocumentNode!
   createDocument(collection: String, relativePath: String!, params: DocumentMutation!): DocumentNode!
   createFolder(collection: String, relativePath: String!): DocumentNode!
+  updateSite(relativePath: String!, params: SiteMutation!): Site!
+  createSite(relativePath: String!, params: SiteMutation!): Site!
+  updateCategorias(relativePath: String!, params: CategoriasMutation!): Categorias!
+  createCategorias(relativePath: String!, params: CategoriasMutation!): Categorias!
   updateNoticias(relativePath: String!, params: NoticiasMutation!): Noticias!
   createNoticias(relativePath: String!, params: NoticiasMutation!): Noticias!
   updateAvisos(relativePath: String!, params: AvisosMutation!): Avisos!
@@ -208,14 +318,49 @@ type Mutation {
 }
 
 input DocumentUpdateMutation {
+  site: SiteMutation
+  categorias: CategoriasMutation
   noticias: NoticiasMutation
   avisos: AvisosMutation
   relativePath: String
 }
 
 input DocumentMutation {
+  site: SiteMutation
+  categorias: CategoriasMutation
   noticias: NoticiasMutation
   avisos: AvisosMutation
+}
+
+input SiteMutation {
+  siteName: String
+  communityName: String
+  subtitle: String
+  tagline: String
+  logo: String
+  location: String
+  editionLabel: String
+  heroLabel: String
+  heroTitle: String
+  heroText: String
+  heroButtonText: String
+  whatsappNumber: String
+  primaryColor: String
+  accentColor: String
+  darkColor: String
+  paperColor: String
+}
+
+input CategoriasItemsMutation {
+  name: String
+  description: String
+  color: String
+  featured: Boolean
+  order: Float
+}
+
+input CategoriasMutation {
+  items: [CategoriasItemsMutation]
 }
 
 input NoticiasItemsMutation {

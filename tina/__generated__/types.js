@@ -5,6 +5,40 @@ export function gql(strings, ...args) {
   });
   return str;
 }
+export const SitePartsFragmentDoc = gql`
+    fragment SiteParts on Site {
+  __typename
+  siteName
+  communityName
+  subtitle
+  tagline
+  logo
+  location
+  editionLabel
+  heroLabel
+  heroTitle
+  heroText
+  heroButtonText
+  whatsappNumber
+  primaryColor
+  accentColor
+  darkColor
+  paperColor
+}
+    `;
+export const CategoriasPartsFragmentDoc = gql`
+    fragment CategoriasParts on Categorias {
+  __typename
+  items {
+    __typename
+    name
+    description
+    color
+    featured
+    order
+  }
+}
+    `;
 export const NoticiasPartsFragmentDoc = gql`
     fragment NoticiasParts on Noticias {
   __typename
@@ -32,6 +66,120 @@ export const AvisosPartsFragmentDoc = gql`
   }
 }
     `;
+export const SiteDocument = gql`
+    query site($relativePath: String!) {
+  site(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...SiteParts
+  }
+}
+    ${SitePartsFragmentDoc}`;
+export const SiteConnectionDocument = gql`
+    query siteConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: SiteFilter) {
+  siteConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...SiteParts
+      }
+    }
+  }
+}
+    ${SitePartsFragmentDoc}`;
+export const CategoriasDocument = gql`
+    query categorias($relativePath: String!) {
+  categorias(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...CategoriasParts
+  }
+}
+    ${CategoriasPartsFragmentDoc}`;
+export const CategoriasConnectionDocument = gql`
+    query categoriasConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: CategoriasFilter) {
+  categoriasConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...CategoriasParts
+      }
+    }
+  }
+}
+    ${CategoriasPartsFragmentDoc}`;
 export const NoticiasDocument = gql`
     query noticias($relativePath: String!) {
   noticias(relativePath: $relativePath) {
@@ -148,6 +296,18 @@ export const AvisosConnectionDocument = gql`
     ${AvisosPartsFragmentDoc}`;
 export function getSdk(requester) {
   return {
+    site(variables, options) {
+      return requester(SiteDocument, variables, options);
+    },
+    siteConnection(variables, options) {
+      return requester(SiteConnectionDocument, variables, options);
+    },
+    categorias(variables, options) {
+      return requester(CategoriasDocument, variables, options);
+    },
+    categoriasConnection(variables, options) {
+      return requester(CategoriasConnectionDocument, variables, options);
+    },
     noticias(variables, options) {
       return requester(NoticiasDocument, variables, options);
     },
