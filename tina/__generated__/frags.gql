@@ -1,0 +1,24 @@
+fragment NoticiasParts on Noticias {
+  __typename
+  items {
+    __typename
+    id
+    category
+    title
+    summary
+    author
+    date
+    featured
+    image
+    body
+  }
+}
+
+fragment AvisosParts on Avisos {
+  __typename
+  items {
+    __typename
+    title
+    text
+  }
+}
