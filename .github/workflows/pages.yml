@@ -26,19 +26,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-           - name: Instalar dependencias
-        run: |
-          npm install
-          npm install tinacms @tinacms/cli
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Instalar TinaCMS
+        run: npm install tinacms @tinacms/cli
 
       - name: Construir TinaCMS Admin
         env:
           TINA_PUBLIC_CLIENT_ID: ${{ secrets.TINA_PUBLIC_CLIENT_ID }}
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
         run: npx @tinacms/cli@latest build
-        
+
       - name: Subir carpeta docs
         uses: actions/upload-pages-artifact@v3
         with:
