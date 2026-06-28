@@ -1,9 +1,10 @@
-import { defineConfig } from "tinacms";
+
+import { defineConfig } from "tinacms"
 
 const branch =
-  process.env.GITHUB_BRANCH ||
-  process.env.VERCEL_GIT_COMMIT_REF ||
-  "main";
+  process.env.TINA_BRANCH ||
+  process.env.HEAD ||
+  "main"
 
 export default defineConfig({
   branch,
@@ -42,7 +43,7 @@ export default defineConfig({
           {
             type: "string",
             name: "siteName",
-            label: "Nombre principal",
+            label: "Nombre del periódico",
           },
           {
             type: "string",
@@ -57,12 +58,12 @@ export default defineConfig({
           {
             type: "string",
             name: "tagline",
-            label: "Frase corta debajo del nombre",
+            label: "Frase corta",
           },
           {
             type: "image",
             name: "logo",
-            label: "Logo principal",
+            label: "Logo",
           },
           {
             type: "string",
@@ -82,12 +83,12 @@ export default defineConfig({
           {
             type: "string",
             name: "heroTitle",
-            label: "Título editorial de portada",
+            label: "Título principal",
           },
           {
             type: "string",
             name: "heroText",
-            label: "Texto editorial de portada",
+            label: "Texto principal",
             ui: {
               component: "textarea",
             },
@@ -101,7 +102,6 @@ export default defineConfig({
             type: "string",
             name: "whatsappNumber",
             label: "WhatsApp",
-            description: "Solo números, con código de país. Ejemplo: 18092454846",
           },
           {
             type: "string",
@@ -111,7 +111,7 @@ export default defineConfig({
           {
             type: "string",
             name: "accentColor",
-            label: "Color de acento",
+            label: "Color secundario",
           },
           {
             type: "string",
@@ -121,10 +121,11 @@ export default defineConfig({
           {
             type: "string",
             name: "paperColor",
-            label: "Color papel / fondo",
+            label: "Color de fondo",
           },
         ],
       },
+
       {
         name: "categorias",
         label: "Categorías",
@@ -147,7 +148,7 @@ export default defineConfig({
             list: true,
             ui: {
               itemProps: (item) => {
-                return { label: item?.name || "Nueva categoría" };
+                return { label: item?.name || "Nueva categoría" }
               },
             },
             fields: [
@@ -173,7 +174,7 @@ export default defineConfig({
               {
                 type: "image",
                 name: "image",
-                label: "Imagen / icono de categoría",
+                label: "Imagen de categoría",
               },
               {
                 type: "boolean",
@@ -189,6 +190,7 @@ export default defineConfig({
           },
         ],
       },
+
       {
         name: "noticias",
         label: "Noticias",
@@ -211,7 +213,7 @@ export default defineConfig({
             list: true,
             ui: {
               itemProps: (item) => {
-                return { label: item?.title || "Nueva noticia" };
+                return { label: item?.title || "Nueva noticia" }
               },
             },
             fields: [
@@ -219,24 +221,23 @@ export default defineConfig({
                 type: "string",
                 name: "id",
                 label: "ID único",
+                description: "Ejemplo: comision-contra-inundaciones",
                 required: true,
-                description: "Sin espacios ni acentos. Ejemplo: jornada-limpieza",
               },
               {
                 type: "string",
                 name: "category",
                 label: "Categoría",
-                  options: [
-  "Editorial",
-  "Seguridad",
-  "Mantenimiento",
-  "Comunidad",
-  "Actividades",
-  "Elecciones",
-  "Opinión",
-  "Avisos",
-  "Otro",
-],          
+                options: [
+                  "Editorial",
+                  "Seguridad",
+                  "Mantenimiento",
+                  "Comunidad",
+                  "Actividades",
+                  "Elecciones",
+                  "Opinión",
+                  "Avisos",
+                ],
                 required: true,
               },
               {
@@ -266,12 +267,55 @@ export default defineConfig({
               {
                 type: "boolean",
                 name: "featured",
-                label: "Destacar como noticia principal",
+                label: "Noticia principal de portada",
               },
               {
                 type: "image",
                 name: "image",
-                label: "Foto de la noticia",
+                label: "Foto principal de la noticia",
+                description: "Esta imagen se usa como foto principal de la noticia.",
+              },
+              {
+                type: "image",
+                name: "gallery",
+                label: "Galería de fotos",
+                list: true,
+                description: "Aquí puedes subir varias fotos relacionadas con la noticia.",
+              },
+              {
+                type: "object",
+                name: "attachments",
+                label: "Archivos adjuntos",
+                list: true,
+                description: "Aquí puedes agregar PDFs, documentos o imágenes descargables.",
+                ui: {
+                  itemProps: (item) => {
+                    return { label: item?.title || "Archivo adjunto" }
+                  },
+                },
+                fields: [
+                  {
+                    type: "string",
+                    name: "title",
+                    label: "Título del archivo",
+                    required: true,
+                  },
+                  {
+                    type: "string",
+                    name: "description",
+                    label: "Descripción del archivo",
+                    ui: {
+                      component: "textarea",
+                    },
+                  },
+                  {
+                    type: "image",
+                    name: "file",
+                    label: "Archivo",
+                    description: "Sube o selecciona aquí el PDF, documento o imagen.",
+                    required: true,
+                  },
+                ],
               },
               {
                 type: "string",
@@ -285,6 +329,7 @@ export default defineConfig({
           },
         ],
       },
+
       {
         name: "avisos",
         label: "Avisos",
@@ -307,7 +352,7 @@ export default defineConfig({
             list: true,
             ui: {
               itemProps: (item) => {
-                return { label: item?.title || "Nuevo aviso" };
+                return { label: item?.title || "Nuevo aviso" }
               },
             },
             fields: [
@@ -329,6 +374,73 @@ export default defineConfig({
           },
         ],
       },
+
+      {
+        name: "documentos",
+        label: "Documentos descargables",
+        path: "docs/data",
+        format: "json",
+        match: {
+          include: "documentos",
+        },
+        ui: {
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+        },
+        fields: [
+          {
+            type: "object",
+            name: "items",
+            label: "Lista de documentos",
+            list: true,
+            ui: {
+              itemProps: (item) => {
+                return { label: item?.title || "Nuevo documento" }
+              },
+            },
+            fields: [
+              {
+                type: "string",
+                name: "title",
+                label: "Título",
+                required: true,
+              },
+              {
+                type: "string",
+                name: "description",
+                label: "Descripción",
+                ui: {
+                  component: "textarea",
+                },
+              },
+              {
+                type: "string",
+                name: "category",
+                label: "Categoría",
+              },
+              {
+                type: "datetime",
+                name: "date",
+                label: "Fecha",
+              },
+              {
+                type: "image",
+                name: "file",
+                label: "Archivo",
+                description: "Sube o selecciona el PDF, imagen o documento.",
+                required: true,
+              },
+              {
+                type: "boolean",
+                name: "featured",
+                label: "Mostrar en la página",
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
-});
+})
