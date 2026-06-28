@@ -1,59 +1,68 @@
 {
   "items": [
-{
-  "name": "Elecciones",
-  "description": "Proceso electoral comunitario, candidatos, propuestas, calendario y participación vecinal.",
-  "color": "#7A2E2E",
-  "image": "/uploads/categoria-elecciones.jpg",
-  "featured": true,
-  "order": 5
-},    {
-      "name": "Seguridad",
-      "description": "Prevención, accesos, vigilancia y reportes importantes.",
+    {
+      "name": "Editorial",
+      "description": "Artículos de opinión, comunicados y contenido general del periódico.",
       "color": "#526E3F",
-      "image": "/uploads/categoria-seguridad.jpg",
+      "image": "/uploads/categoria-editorial.png",
       "featured": true,
       "order": 1
     },
     {
-      "name": "Mantenimiento",
-      "description": "Drenajes, imbornales, áreas comunes y servicios generales.",
-      "color": "#A45B2B",
-      "image": "/uploads/categoria-mantenimiento.jpg",
+      "name": "Seguridad",
+      "description": "Prevención, accesos, vigilancia y reportes importantes.",
+      "color": "#12324A",
+      "image": "/uploads/categoria-seguridad.png",
       "featured": true,
       "order": 2
     },
     {
-      "name": "Comunidad",
-      "description": "Participación vecinal, propuestas y temas de interés común.",
-      "color": "#2F5F74",
-      "image": "/uploads/categoria-comunidad.jpg",
+      "name": "Mantenimiento",
+      "description": "Drenajes, imbornales, áreas comunes y servicios generales.",
+      "color": "#526E3F",
+      "image": "/uploads/categoria-mantenimiento.png",
       "featured": true,
       "order": 3
     },
     {
-      "name": "Actividades",
-      "description": "Jornadas, reuniones, eventos y convocatorias.",
-      "color": "#7B6B43",
-      "image": "/uploads/categoria-actividades.jpg",
+      "name": "Comunidad",
+      "description": "Participación vecinal, propuestas y temas de interés común.",
+      "color": "#A45B2B",
+      "image": "/uploads/categoria-comunidad.png",
       "featured": true,
       "order": 4
     },
     {
+      "name": "Actividades",
+      "description": "Jornadas, reuniones, eventos y convocatorias.",
+      "color": "#5E3B78",
+      "image": "/uploads/categoria-actividades.png",
+      "featured": true,
+      "order": 5
+    },
+    {
+      "name": "Elecciones",
+      "description": "Proceso electoral comunitario, candidatos, propuestas, calendario y participación vecinal.",
+      "color": "#7A2E2E",
+      "image": "/uploads/categoria-elecciones.png",
+      "featured": true,
+      "order": 6
+    },
+    {
       "name": "Opinión",
       "description": "Editoriales, cartas y reflexiones comunitarias.",
-      "color": "#323232",
-      "image": "/uploads/categoria-opinion.jpg",
-      "featured": false,
-      "order": 5
+      "color": "#1F6F73",
+      "image": "/uploads/categoria-opinion.png",
+      "featured": true,
+      "order": 7
     },
     {
       "name": "Avisos",
       "description": "Comunicados breves y recordatorios importantes.",
-      "color": "#8C3D2B",
-      "image": "/uploads/categoria-avisos.jpg",
-      "featured": false,
-      "order": 6
+      "color": "#9A741B",
+      "image": "/uploads/categoria-avisos.png",
+      "featured": true,
+      "order": 8
     }
   ]
 }
