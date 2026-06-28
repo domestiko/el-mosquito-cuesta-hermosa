@@ -1,14 +1,14 @@
 const DEFAULT_SITE = {
   siteName: 'El Mosquito',
   communityName: 'Cuesta Hermosa II',
-  subtitle: 'Periódico comunitario de Cuesta Hermosa II',
-  tagline: 'Noticias, avisos y participación vecinal',
+  subtitle: 'PeriÃ³dico comunitario de Cuesta Hermosa II',
+  tagline: 'Noticias, avisos y participaciÃ³n vecinal',
   logo: '/uploads/logo-cuesta-hermosa.jpg',
-  location: 'Cuesta Hermosa II · Santo Domingo',
-  editionLabel: 'Edición digital',
+  location: 'Cuesta Hermosa II Â· Santo Domingo',
+  editionLabel: 'EdiciÃ³n digital',
   heroLabel: 'Portada',
   heroTitle: 'La voz comunitaria de Cuesta Hermosa II',
-  heroText: 'Un espacio editorial para informar, organizar y conectar a los residentes con noticias, avisos, mantenimiento, seguridad y actividades de interés común.',
+  heroText: 'Un espacio editorial para informar, organizar y conectar a los residentes con noticias, avisos, mantenimiento, seguridad y actividades de interÃ©s comÃºn.',
   heroButtonText: 'Leer portada',
   whatsappNumber: '',
   primaryColor: '#526E3F',
@@ -26,6 +26,10 @@ let articles = []
 let notices = []
 let categoriesData = []
 let documents = []
+
+let currentCategory = 'all'
+let currentSearch = ''
+let currentLeadId = ''
 
 const app = document.querySelector('#app') || document.body
 
@@ -179,7 +183,7 @@ function renderGallery(article) {
 
   return `
     <section class="article-gallery">
-      <h3>Galería de fotos</h3>
+      <h3>GalerÃ­a de fotos</h3>
 
       <div class="gallery-grid">
         ${gallery.map((photo, index) => `
@@ -227,8 +231,71 @@ function renderAttachments(article) {
   `
 }
 
+function renderHighlights(leadArticle) {
+  const electionArticle = sortByDate(articles).find((article) => article.category === 'Elecciones')
+  const maintenanceArticle = sortByDate(articles).find((article) => article.category === 'Mantenimiento')
+  const firstDocument = documents.find((document) => document.featured !== false)
+
+  const cards = []
+
+  if (leadArticle) {
+    cards.push(`
+      <button class="highlight-card" data-open-article="${safe(leadArticle.id)}">
+        <span>Principal</span>
+        <strong>${safe(leadArticle.title)}</strong>
+        <em>Leer ahora</em>
+      </button>
+    `)
+  }
+
+  if (maintenanceArticle && maintenanceArticle.id !== leadArticle?.id) {
+    cards.push(`
+      <button class="highlight-card" data-open-article="${safe(maintenanceArticle.id)}">
+        <span>Mantenimiento</span>
+        <strong>${safe(maintenanceArticle.title)}</strong>
+        <em>Ver seguimiento</em>
+      </button>
+    `)
+  }
+
+  if (electionArticle && electionArticle.id !== leadArticle?.id) {
+    cards.push(`
+      <button class="highlight-card" data-open-article="${safe(electionArticle.id)}">
+        <span>Elecciones</span>
+        <strong>${safe(electionArticle.title)}</strong>
+        <em>Ver proceso</em>
+      </button>
+    `)
+  }
+
+  if (firstDocument) {
+    cards.push(`
+      <a class="highlight-card" href="#documentos">
+        <span>Documentos</span>
+        <strong>${safe(firstDocument.title)}</strong>
+        <em>Descargar</em>
+      </a>
+    `)
+  }
+
+  if (!cards.length) return ''
+
+  return `
+    <section class="highlights-section">
+      <div class="section-heading compact-heading">
+        <span>Accesos rÃ¡pidos</span>
+        <h2>Lo mÃ¡s importante ahora</h2>
+      </div>
+
+      <div class="highlights-grid">
+        ${cards.slice(0, 4).join('')}
+      </div>
+    </section>
+  `
+}
+
 function renderDocuments() {
-  const visibleDocuments = documents.filter((document) => document.featured !== false)
+  const visibleDocuments = documents.filter((doc) => doc.featured !== false)
 
   if (!visibleDocuments.length) {
     return ''
@@ -242,31 +309,63 @@ function renderDocuments() {
       </div>
 
       <div class="documents-grid">
-        ${visibleDocuments.map((document) => `
-          <a
-            class="document-card"
-            href="${assetUrl(document.file)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            download
-          >
-            <span>${safe(document.category || 'Documento')}</span>
-            <h3>${safe(document.title)}</h3>
-            ${document.description ? `<p>${safe(document.description)}</p>` : ''}
-            ${document.date ? `<small>${formatDate(document.date)}</small>` : ''}
-            <strong>Descargar PDF</strong>
-          </a>
+        ${visibleDocuments.map((doc) => `
+          <details class="document-card">
+            <summary>
+              <span>${safe(doc.category || 'Documento')}</span>
+              <strong>${safe(doc.title)}</strong>
+            </summary>
+
+            ${doc.description ? `<p>${safe(doc.description)}</p>` : ''}
+            ${doc.date ? `<small>${formatDate(doc.date)}</small>` : ''}
+
+            <a
+              href="${assetUrl(doc.file)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
+              Descargar archivo
+            </a>
+          </details>
         `).join('')}
       </div>
     </section>
   `
 }
 
+function getFilteredArticles() {
+  let filtered = sortByDate(articles)
+    .filter((article) => article.id !== currentLeadId)
+
+  if (currentCategory !== 'all') {
+    filtered = filtered.filter((article) => article.category === currentCategory)
+  }
+
+  if (currentSearch.trim()) {
+    const query = currentSearch.trim().toLowerCase()
+
+    filtered = filtered.filter((article) => {
+      const content = [
+        article.title,
+        article.summary,
+        article.category,
+        article.author,
+        article.body
+      ].join(' ').toLowerCase()
+
+      return content.includes(query)
+    })
+  }
+
+  return filtered
+}
+
 function renderArticleList(list) {
   if (!list.length) {
     return `
       <div class="empty-state">
-        No hay noticias disponibles en esta categoría.
+        No encontramos publicaciones con ese filtro o bÃºsqueda.
       </div>
     `
   }
@@ -279,7 +378,7 @@ function renderArticleList(list) {
         <p>${safe(article.summary)}</p>
 
         <div class="story-meta">
-          <span>${safe(article.author || 'Redacción')}</span>
+          <span>${safe(article.author || 'RedacciÃ³n')}</span>
           ${article.date ? `<span>${formatDate(article.date)}</span>` : ''}
         </div>
 
@@ -291,6 +390,35 @@ function renderArticleList(list) {
   `).join('')
 }
 
+function reportHref() {
+  const number = String(site.whatsappNumber || '').replace(/\D/g, '')
+
+  if (number) {
+    const text = encodeURIComponent('Hola, quiero reportar una situaciÃ³n para El Mosquito / Cuesta Hermosa II.')
+    return `https://wa.me/${number}?text=${text}`
+  }
+
+  return '#publicar'
+}
+
+function updateNewsList() {
+  const filtered = getFilteredArticles()
+  const newsList = document.querySelector('#newsList')
+  const resultsCount = document.querySelector('#resultsCount')
+
+  if (newsList) {
+    newsList.innerHTML = renderArticleList(filtered)
+  }
+
+  if (resultsCount) {
+    resultsCount.textContent = filtered.length === 1
+      ? '1 publicaciÃ³n'
+      : `${filtered.length} publicaciones`
+  }
+
+  bindArticleButtons()
+}
+
 function render() {
   document.documentElement.style.setProperty('--primary', site.primaryColor || DEFAULT_SITE.primaryColor)
   document.documentElement.style.setProperty('--accent', site.accentColor || DEFAULT_SITE.accentColor)
@@ -299,18 +427,17 @@ function render() {
 
   const sortedArticles = sortByDate(articles)
   const leadArticle = sortedArticles.find((article) => article.featured) || sortedArticles[0]
+  currentLeadId = leadArticle?.id || ''
+
   const sideArticles = sortedArticles
     .filter((article) => article.id !== leadArticle?.id)
     .slice(0, 3)
-
-  const listArticles = sortedArticles
-    .filter((article) => article.id !== leadArticle?.id)
 
   app.innerHTML = `
     <div class="page">
       <header class="masthead">
         <div class="topline">
-          <span>${safe(site.editionLabel || 'Edición digital')}</span>
+          <span>${safe(site.editionLabel || 'EdiciÃ³n digital')}</span>
           <span>${safe(site.location || '')}</span>
           <span>${formatDate(new Date())}</span>
         </div>
@@ -329,11 +456,11 @@ function render() {
 
         <nav class="nav-links">
           <a href="#portada">Portada</a>
+          <a href="#importante">Importante</a>
           <a href="#noticias">Noticias</a>
-          <a href="#categorias">Categorías</a>
+          <a href="#categorias">CategorÃ­as</a>
           <a href="#documentos">Documentos</a>
           <a href="#avisos">Avisos</a>
-          <a href="#publicar">Enviar noticia</a>
         </nav>
       </header>
 
@@ -355,7 +482,7 @@ function render() {
                   <p>${safe(leadArticle.summary)}</p>
 
                   <div class="story-meta">
-                    <span>${safe(leadArticle.author || 'Redacción')}</span>
+                    <span>${safe(leadArticle.author || 'RedacciÃ³n')}</span>
                     ${leadArticle.date ? `<span>${formatDate(leadArticle.date)}</span>` : ''}
                   </div>
 
@@ -383,7 +510,7 @@ function render() {
                     <p>${safe(article.summary)}</p>
 
                     <button class="text-button" data-open-article="${safe(article.id)}">
-                      Leer más
+                      Leer mÃ¡s
                     </button>
                   </div>
                 </article>
@@ -392,16 +519,37 @@ function render() {
           </div>
         </section>
 
+        <section id="importante">
+          ${renderHighlights(leadArticle)}
+        </section>
+
+        <section class="interactive-panel">
+          <div class="search-box">
+            <label for="searchInput">Buscar en el periÃ³dico</label>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Buscar: imbornales, elecciones, seguridad, caÃ±ada..."
+            />
+          </div>
+
+          <div class="interactive-meta">
+            <span id="resultsCount">${getFilteredArticles().length} publicaciones</span>
+            <a href="#documentos">Ver documentos</a>
+            <a href="${reportHref()}" target="_blank" rel="noopener noreferrer">Reportar situaciÃ³n</a>
+          </div>
+        </section>
+
         <section id="categorias" class="categories-section">
-          <div class="section-heading">
-            <span>Secciones</span>
-            <h2>Categorías comunitarias</h2>
+          <div class="section-heading compact-heading">
+            <span>Filtros</span>
+            <h2>Explorar por categorÃ­a</h2>
           </div>
 
           <div class="category-ribbon">
             <button class="category-card is-active" data-filter-category="all">
               <span>Todas</span>
-              <p>Ver todas las noticias y publicaciones del periódico comunitario.</p>
+              <p>Ver todas las publicaciones.</p>
             </button>
 
             ${featuredCategories().map((category) => `
@@ -421,11 +569,11 @@ function render() {
           <div id="noticias" class="news-section">
             <div class="section-heading">
               <span>Noticias</span>
-              <h2>Últimas publicaciones</h2>
+              <h2>Ãšltimas publicaciones</h2>
             </div>
 
             <div id="newsList" class="news-list">
-              ${renderArticleList(listArticles)}
+              ${renderArticleList(getFilteredArticles())}
             </div>
           </div>
 
@@ -442,18 +590,11 @@ function render() {
                 `).join('') || `
                   <article class="notice-item">
                     <h3>No hay avisos disponibles</h3>
-                    <p>Los avisos comunitarios aparecerán aquí.</p>
+                    <p>Los avisos comunitarios aparecerÃ¡n aquÃ­.</p>
                   </article>
                 `}
               </div>
             </div>
-
-            ${site.logo ? `
-              <div class="sidebar-block">
-                <img class="sidebar-logo" src="${imageUrl(site.logo)}" alt="${safe(site.communityName)}" />
-                <p>${safe(site.communityName)}</p>
-              </div>
-            ` : ''}
           </aside>
         </section>
 
@@ -462,77 +603,82 @@ function render() {
         <section id="publicar" class="submit-section">
           <div>
             <span class="eyebrow">Participa</span>
-            <h2>Envía una noticia, aviso o reporte comunitario</h2>
+            <h2>EnvÃ­a una noticia, aviso o reporte comunitario</h2>
             <p>
-              Comparte información relevante sobre seguridad, mantenimiento, actividades,
-              elecciones, drenajes, áreas comunes o cualquier tema de interés para la comunidad.
+              Comparte informaciÃ³n relevante sobre seguridad, mantenimiento, actividades,
+              elecciones, drenajes, Ã¡reas comunes o cualquier tema de interÃ©s para la comunidad.
             </p>
           </div>
 
-          ${site.whatsappNumber ? `
-            <a
-              class="primary-button"
-              href="https://wa.me/${safe(site.whatsappNumber)}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Enviar por WhatsApp
-            </a>
-          ` : `
-            <a class="primary-button" href="mailto:">
-              Enviar información
-            </a>
-          `}
+          <a
+            class="primary-button"
+            href="${reportHref()}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Reportar situaciÃ³n
+          </a>
         </section>
       </main>
 
       <footer class="footer">
-        <p>${safe(site.siteName)} · ${safe(site.communityName)}</p>
+        <p>${safe(site.siteName)} Â· ${safe(site.communityName)}</p>
         <p>${safe(site.tagline || '')}</p>
       </footer>
     </div>
 
+    <a class="floating-report" href="${reportHref()}" target="_blank" rel="noopener noreferrer">
+      Reportar situaciÃ³n
+    </a>
+
     <dialog id="articleDialog" class="article-dialog">
-      <button class="dialog-close" type="button" aria-label="Cerrar noticia">×</button>
+      <button class="dialog-close" type="button" aria-label="Cerrar noticia">Ã—</button>
       <div class="dialog-body"></div>
     </dialog>
   `
 
-  bindEvents(listArticles)
+  bindEvents()
 }
 
-function bindEvents(defaultList) {
+function bindArticleButtons() {
   document.querySelectorAll('[data-open-article]').forEach((button) => {
     button.addEventListener('click', () => {
       openArticle(button.dataset.openArticle)
     })
   })
+}
+
+function bindEvents() {
+  bindArticleButtons()
+
+  const searchInput = document.querySelector('#searchInput')
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      currentSearch = searchInput.value || ''
+      updateNewsList()
+    })
+  }
 
   document.querySelectorAll('[data-filter-category]').forEach((button) => {
     button.addEventListener('click', () => {
-      const category = button.dataset.filterCategory
+      currentCategory = button.dataset.filterCategory || 'all'
 
       document.querySelectorAll('[data-filter-category]').forEach((item) => {
         item.classList.remove('is-active')
       })
 
       button.classList.add('is-active')
+      updateNewsList()
 
-      const filteredArticles = category === 'all'
-        ? sortByDate(articles)
-        : sortByDate(articles).filter((article) => article.category === category)
+      const newsSection = document.querySelector('#noticias')
 
-      const newsList = document.querySelector('#newsList')
-
-      if (newsList) {
-        newsList.innerHTML = renderArticleList(filteredArticles)
-      }
-
-      document.querySelectorAll('[data-open-article]').forEach((articleButton) => {
-        articleButton.addEventListener('click', () => {
-          openArticle(articleButton.dataset.openArticle)
+      if (newsSection) {
+        newsSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
         })
-      })
+      }
     })
   })
 
@@ -577,7 +723,7 @@ function openArticle(id) {
       <h1>${safe(article.title)}</h1>
 
       <div class="story-meta">
-        <span>${safe(article.author || 'Redacción')}</span>
+        <span>${safe(article.author || 'RedacciÃ³n')}</span>
         ${article.date ? `<span>${formatDate(article.date)}</span>` : ''}
       </div>
 
