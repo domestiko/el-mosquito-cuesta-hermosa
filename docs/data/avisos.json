@@ -1,14 +1,16 @@
 {
-  "items": [  {
-    "title": "Espacio disponible para avisos de la administración",
-    "text": "Publica recordatorios de reuniones, pagos, mantenimiento o cierres temporales."
-  },
-  {
-    "title": "Alertas rápidas",
-    "text": "Ideal para avisos de seguridad, tránsito, agua, energía, fumigación o emergencias."
-  },
-  {
-    "title": "Actividades comunitarias",
-    "text": "Comparte jornadas, reuniones, actividades familiares y proyectos de integración."
-  }
-]
+  "items": [
+    {
+      "title": "Aviso de la administración",
+      "text": "Este espacio estará disponible para publicar comunicados importantes de la administración y la comunidad."
+    },
+    {
+      "title": "Reporte de mantenimiento",
+      "text": "Los residentes pueden reportar situaciones relacionadas con drenajes, imbornales, áreas comunes, seguridad o servicios generales."
+    },
+    {
+      "title": "Actividades comunitarias",
+      "text": "Aquí se compartirán jornadas, reuniones, actividades familiares y proyectos de integración vecinal."
+    }
+  ]
+}
