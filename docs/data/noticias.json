@@ -1,15 +1,48 @@
 {
   "items": [
     {
+      "id": "inicio-proceso-electoral-cuesta-hermosa",
+      "category": "Elecciones",
+      "title": "Inicia el proceso electoral en Cuesta Hermosa II",
+      "summary": "La comunidad se prepara para un nuevo proceso electoral vecinal, una oportunidad para fortalecer la participación, la organización y el futuro del residencial.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-06-28T12:00:00.000Z",
+      "featured": true,
+      "image": "/uploads/categoria-elecciones.jpg",
+      "body": "Cuesta Hermosa II se encuentra en proceso electoral, una etapa importante para la vida comunitaria y la toma de decisiones dentro del residencial.\n\nEste proceso representa una oportunidad para que los residentes conozcan propuestas, participen de manera informada y ejerzan su derecho a elegir a quienes asumirán responsabilidades de representación y gestión comunitaria.\n\nDesde El Mosquito estaremos dando seguimiento al proceso de manera neutral, organizada y respetuosa, compartiendo informaciones relevantes como calendario, propuestas, comunicados, requisitos, actividades y cualquier dato de interés general para los residentes.\n\nNuestro objetivo es promover una participación vecinal responsable, transparente y enfocada en el bienestar común de Cuesta Hermosa II.\n\nEl Mosquito no apoya candidatos ni planchas. Este espacio informa, organiza y promueve la participación comunitaria."
+    },
+    {
+      "id": "cobertura-neutral-elecciones-cuesta-hermosa",
+      "category": "Elecciones",
+      "title": "El Mosquito dará seguimiento neutral al proceso electoral comunitario",
+      "summary": "El periódico comunitario abrirá un espacio para publicar informaciones, propuestas y comunicados relacionados con las elecciones de Cuesta Hermosa II.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-06-28T13:00:00.000Z",
+      "featured": false,
+      "image": "/uploads/categoria-elecciones.jpg",
+      "body": "Como parte de su compromiso con la información comunitaria, El Mosquito habilitará una cobertura especial sobre el proceso electoral de Cuesta Hermosa II.\n\nLa cobertura incluirá noticias del proceso, calendario electoral, propuestas de candidatos o planchas, comunicados oficiales, actividades, preguntas frecuentes y cualquier información relevante para los residentes.\n\nEste espacio se manejará bajo criterios de neutralidad, respeto y equilibrio. El objetivo es que la comunidad pueda informarse mejor y participar con mayor claridad en el proceso."
+    },
+    {
+      "id": "participacion-vecinal-elecciones",
+      "category": "Elecciones",
+      "title": "La importancia de participar en las elecciones comunitarias",
+      "summary": "Las elecciones vecinales son una oportunidad para que los residentes se involucren en las decisiones que afectan el presente y futuro de la comunidad.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-06-28T14:00:00.000Z",
+      "featured": false,
+      "image": "/uploads/categoria-elecciones.jpg",
+      "body": "Participar en las elecciones comunitarias es una forma directa de contribuir al bienestar del residencial. A través del voto, los residentes pueden apoyar propuestas, expresar prioridades y fortalecer la organización vecinal.\n\nTemas como seguridad, mantenimiento, drenaje, convivencia, comunicación, áreas comunes y servicios requieren seguimiento constante. Por eso, un proceso electoral informado ayuda a construir una comunidad más activa y responsable.\n\nEl llamado es a participar con respeto, escuchar las propuestas y mantener el enfoque en el bienestar común de Cuesta Hermosa II."
+    },
+    {
       "id": "caasd-operativo-cuesta-hermosa",
       "category": "Mantenimiento",
       "title": "CAASD interviene Cuesta Hermosa para mejorar drenaje y presión del agua",
       "summary": "La CAASD realizó trabajos de limpieza de imbornales, desobstrucción de tuberías y corrección de averías en Cuesta Hermosa.",
       "author": "Redacción El Mosquito",
       "date": "2026-05-14T12:00:00.000Z",
-      "featured": true,
-      "image": "",
-      "body": "La Corporación del Acueducto y Alcantarillado de Santo Domingo realizó un operativo en Cuesta Hermosa con el propósito de mejorar el servicio de agua potable y reducir problemas de drenaje pluvial. La intervención incluyó limpieza de imbornales, desobstrucción de tuberías y corrección de averías.\n\nPara la comunidad, este tipo de operativo resulta importante debido a los antecedentes de acumulación de agua, escorrentías y situaciones de riesgo durante períodos de fuertes lluvias.\n\nFuente consultada: CAASD / Presidencia de la República / Z101 Digital."
+      "featured": false,
+      "image": "/uploads/categoria-mantenimiento.jpg",
+      "body": "La Corporación del Acueducto y Alcantarillado de Santo Domingo realizó un operativo en Cuesta Hermosa con el propósito de mejorar el servicio de agua potable y reducir problemas de drenaje pluvial.\n\nLa intervención incluyó limpieza de imbornales, desobstrucción de tuberías y corrección de averías.\n\nPara la comunidad, este tipo de operativo resulta importante debido a los antecedentes de acumulación de agua, escorrentías y situaciones de riesgo durante períodos de fuertes lluvias."
     },
     {
       "id": "deslizamiento-via-principal-cuesta-hermosa",
@@ -19,8 +52,8 @@
       "author": "Redacción El Mosquito",
       "date": "2026-04-08T12:00:00.000Z",
       "featured": false,
-      "image": "",
-      "body": "Durante las fuertes lluvias registradas en el Distrito Nacional, en Cuesta Hermosa II se reportó un deslizamiento de tierra que afectó la vía principal. Según reportes publicados, la crecida de la cañada desprendió barandillas de un puente y causó daños en viveros cercanos.\n\nLa situación vuelve a poner sobre la mesa la necesidad de seguimiento al drenaje pluvial, mantenimiento preventivo y evaluación de los puntos vulnerables cercanos a la cañada.\n\nFuente consultada: Noticias SIN."
+      "image": "/uploads/categoria-mantenimiento.jpg",
+      "body": "Durante las fuertes lluvias registradas en el Distrito Nacional, en Cuesta Hermosa II se reportó un deslizamiento de tierra que afectó la vía principal.\n\nSegún reportes publicados, la crecida de la cañada desprendió barandillas de un puente y causó daños en viveros cercanos.\n\nLa situación vuelve a poner sobre la mesa la necesidad de seguimiento al drenaje pluvial, mantenimiento preventivo y evaluación de los puntos vulnerables cercanos a la cañada."
     },
     {
       "id": "mujer-atrapada-canada-cuesta-hermosa",
@@ -30,8 +63,8 @@
       "author": "Redacción El Mosquito",
       "date": "2026-04-08T13:00:00.000Z",
       "featured": false,
-      "image": "",
-      "body": "Una mujer fue reportada pidiendo auxilio tras quedar atrapada dentro de su vehículo durante el desbordamiento de una cañada en Cuesta Hermosa. El caso circuló en video y generó preocupación por los riesgos que pueden presentarse durante lluvias intensas.\n\nEste hecho refuerza la importancia de evitar transitar por zonas inundadas, no intentar cruzar corrientes de agua y mantener vigilancia comunitaria durante eventos climáticos.\n\nFuente consultada: Noticias SIN."
+      "image": "/uploads/categoria-seguridad.jpg",
+      "body": "Una mujer fue reportada pidiendo auxilio tras quedar atrapada dentro de su vehículo durante el desbordamiento de una cañada en Cuesta Hermosa.\n\nEl caso generó preocupación por los riesgos que pueden presentarse durante lluvias intensas.\n\nEste hecho refuerza la importancia de evitar transitar por zonas inundadas, no intentar cruzar corrientes de agua y mantener vigilancia comunitaria durante eventos climáticos."
     },
     {
       "id": "puente-cuesta-hermosa-segunda-canada",
@@ -41,8 +74,8 @@
       "author": "Redacción El Mosquito",
       "date": "2026-04-09T12:00:00.000Z",
       "featured": false,
-      "image": "",
-      "body": "Reportes periodísticos indicaron que, en Cuesta Hermosa Segunda, la crecida de la cañada arrastró parte de la barandilla del puente principal, además de afectar viveros ubicados en la zona.\n\nLa situación evidencia la necesidad de inspecciones técnicas, limpieza preventiva de cauces, refuerzo de infraestructuras vulnerables y coordinación con las autoridades correspondientes.\n\nFuente consultada: Noticias SIN."
+      "image": "/uploads/categoria-mantenimiento.jpg",
+      "body": "Reportes periodísticos indicaron que, en Cuesta Hermosa Segunda, la crecida de la cañada arrastró parte de la barandilla del puente principal, además de afectar viveros ubicados en la zona.\n\nLa situación evidencia la necesidad de inspecciones técnicas, limpieza preventiva de cauces, refuerzo de infraestructuras vulnerables y coordinación con las autoridades correspondientes."
     },
     {
       "id": "interrupcion-agua-cuesta-hermosa-enero",
@@ -52,8 +85,8 @@
       "author": "Redacción El Mosquito",
       "date": "2026-01-10T12:00:00.000Z",
       "featured": false,
-      "image": "",
-      "body": "La CAASD informó trabajos que afectarían temporalmente el suministro de agua en varios sectores del Gran Santo Domingo, incluyendo Cuesta Hermosa I, II y III, Puerta de Hierro, La Hondonada, Arroyo Hondo Viejo e Isabel Villas.\n\nAunque se trató de una intervención programada, este tipo de aviso es importante para que los residentes puedan prepararse con tiempo ante interrupciones del servicio.\n\nFuente consultada: Z101 Digital / Diario Libre."
+      "image": "/uploads/categoria-avisos.jpg",
+      "body": "La CAASD informó trabajos que afectarían temporalmente el suministro de agua en varios sectores del Gran Santo Domingo, incluyendo Cuesta Hermosa I, II y III.\n\nAunque se trató de una intervención programada, este tipo de aviso es importante para que los residentes puedan prepararse con tiempo ante interrupciones del servicio."
     },
     {
       "id": "editorial-comunidad",
@@ -63,8 +96,8 @@
       "author": "Redacción CH II",
       "date": "2026-06-27T12:00:00.000Z",
       "featured": false,
-      "image": "",
-      "body": "Este periódico comunitario busca mantener a los residentes informados sobre temas importantes de Cuesta Hermosa II: seguridad, mantenimiento, drenajes, tránsito, actividades, propuestas y proyectos de mejora. La participación de cada residente ayuda a construir una comunidad más organizada, segura y activa."
+      "image": "/uploads/categoria-editorial.jpg",
+      "body": "Este periódico comunitario busca mantener a los residentes informados sobre temas importantes de Cuesta Hermosa II: seguridad, mantenimiento, drenajes, tránsito, actividades, propuestas y proyectos de mejora.\n\nLa participación de cada residente ayuda a construir una comunidad más organizada, segura y activa."
     },
     {
       "id": "seguridad-residencial",
@@ -74,7 +107,7 @@
       "author": "Comunidad",
       "date": "2026-06-26T12:00:00.000Z",
       "featured": false,
-      "image": "",
+      "image": "/uploads/categoria-seguridad.jpg",
       "body": "Se recomienda mantener actualizados los canales de comunicación, reportar movimientos inusuales, verificar accesos, cuidar las entradas y reforzar la colaboración entre vecinos y administración."
     },
     {
@@ -85,41 +118,8 @@
       "author": "Redacción CH II",
       "date": "2026-06-25T12:00:00.000Z",
       "featured": false,
-      "image": "",
-      "body": "La limpieza de imbornales, cunetas y zonas de escorrentía debe realizarse de forma preventiva. Cualquier punto donde el agua permanezca estancada debe ser documentado y reportado para seguimiento."
+      "image": "/uploads/categoria-mantenimiento.jpg",
+      "body": "La limpieza de imbornales, cunetas y zonas de escorrentía debe realizarse de forma preventiva.\n\nCualquier punto donde el agua permanezca estancada debe ser documentado y reportado para seguimiento."
     }
   ]
-}
-{
-  "id": "inicio-proceso-electoral-cuesta-hermosa",
-  "category": "Elecciones",
-  "title": "Inicia el proceso electoral en Cuesta Hermosa II",
-  "summary": "La comunidad se prepara para un nuevo proceso electoral vecinal, una oportunidad para fortalecer la participación, la organización y el futuro del residencial.",
-  "author": "Redacción El Mosquito",
-  "date": "2026-06-28T12:00:00.000Z",
-  "featured": true,
-  "image": "/uploads/categoria-elecciones.jpg",
-  "body": "Cuesta Hermosa II se encuentra en proceso electoral, una etapa importante para la vida comunitaria y la toma de decisiones dentro del residencial.\n\nEste proceso representa una oportunidad para que los residentes conozcan propuestas, participen de manera informada y ejerzan su derecho a elegir a quienes asumirán responsabilidades de representación y gestión comunitaria.\n\nDesde El Mosquito estaremos dando seguimiento al proceso de manera neutral, organizada y respetuosa, compartiendo informaciones relevantes como calendario, propuestas, comunicados, requisitos, actividades y cualquier dato de interés general para los residentes.\n\nNuestro objetivo es promover una participación vecinal responsable, transparente y enfocada en el bienestar común de Cuesta Hermosa II.\n\nEl Mosquito no apoya candidatos ni planchas. Este espacio informa, organiza y promueve la participación comunitaria."
-},
-{
-  "id": "cobertura-neutral-elecciones-cuesta-hermosa",
-  "category": "Elecciones",
-  "title": "El Mosquito dará seguimiento neutral al proceso electoral comunitario",
-  "summary": "El periódico comunitario abrirá un espacio para publicar informaciones, propuestas y comunicados relacionados con las elecciones de Cuesta Hermosa II.",
-  "author": "Redacción El Mosquito",
-  "date": "2026-06-28T13:00:00.000Z",
-  "featured": false,
-  "image": "/uploads/categoria-elecciones.jpg",
-  "body": "Como parte de su compromiso con la información comunitaria, El Mosquito habilitará una cobertura especial sobre el proceso electoral de Cuesta Hermosa II.\n\nLa cobertura incluirá noticias del proceso, calendario electoral, propuestas de candidatos o planchas, comunicados oficiales, actividades, preguntas frecuentes y cualquier información relevante para los residentes.\n\nEste espacio se manejará bajo criterios de neutralidad, respeto y equilibrio. El objetivo es que la comunidad pueda informarse mejor y participar con mayor claridad en el proceso."
-},
-{
-  "id": "participacion-vecinal-elecciones",
-  "category": "Elecciones",
-  "title": "La importancia de participar en las elecciones comunitarias",
-  "summary": "Las elecciones vecinales son una oportunidad para que los residentes se involucren en las decisiones que afectan el presente y futuro de la comunidad.",
-  "author": "Redacción El Mosquito",
-  "date": "2026-06-28T14:00:00.000Z",
-  "featured": false,
-  "image": "/uploads/categoria-elecciones.jpg",
-  "body": "Participar en las elecciones comunitarias es una forma directa de contribuir al bienestar del residencial. A través del voto, los residentes pueden apoyar propuestas, expresar prioridades y fortalecer la organización vecinal.\n\nTemas como seguridad, mantenimiento, drenaje, convivencia, comunicación, áreas comunes y servicios requieren seguimiento constante. Por eso, un proceso electoral informado ayuda a construir una comunidad más activa y responsable.\n\nEl llamado es a participar con respeto, escuchar las propuestas y mantener el enfoque en el bienestar común de Cuesta Hermosa II."
 }
