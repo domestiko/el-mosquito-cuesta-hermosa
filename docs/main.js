@@ -99,6 +99,16 @@ function categoryNames() {
   return ['Todas', ...unique]
 }
 
+function getCategoryInfo(name) {
+  return categoriesData.find(category => category.name === name) || {
+    name,
+    description: 'Noticias y reportes de la comunidad.',
+    color: site.primaryColor,
+    image: '',
+    featured: false
+  }
+}
+
 function featuredCategories() {
   return categoriesData
     .filter(category => category.featured)
@@ -123,20 +133,28 @@ function topStories() {
   const sorted = sortedArticles()
   const lead = sorted.find(article => article.featured) || sorted[0]
   const rest = sorted.filter(article => article !== lead)
-  return { lead, side: rest.slice(0, 2) }
+  return { lead, side: rest.slice(0, 2), latest: rest.slice(2, 8) }
 }
 
 function articleImage(article, className = '') {
   const src = imageUrl(article.image)
-  if (!src) {
-    return `
-      <div class="fallback-image ${className}">
-        <img src="${imageUrl(site.logo)}" alt="${safe(site.communityName)}" />
-      </div>
-    `
+
+  if (src) {
+    return `<img class="story-image ${className}" src="${src}" alt="${safe(article.title)}" loading="lazy" />`
   }
 
-  return `<img class="story-image ${className}" src="${src}" alt="${safe(article.title)}" loading="lazy" />`
+  const category = getCategoryInfo(article.category)
+  const categorySrc = imageUrl(category.image)
+
+  if (categorySrc) {
+    return `<img class="story-image ${className}" src="${categorySrc}" alt="${safe(article.category)}" loading="lazy" />`
+  }
+
+  return `
+    <div class="fallback-image ${className}">
+      <img src="${imageUrl(site.logo)}" alt="${safe(site.communityName)}" />
+    </div>
+  `
 }
 
 function bodyToHTML(text) {
@@ -254,6 +272,9 @@ function render() {
         <section class="category-ribbon">
           ${featuredCategories().map(category => `
             <button class="category-card" data-category="${safe(category.name)}" style="--category-color: ${safe(category.color || site.primaryColor)}">
+              ${category.image ? `
+                <img class="category-card-image" src="${imageUrl(category.image)}" alt="${safe(category.name)}" loading="lazy" />
+              ` : ''}
               <span>${safe(category.name)}</span>
               <p>${safe(category.description)}</p>
             </button>
