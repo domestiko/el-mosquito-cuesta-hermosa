@@ -527,3 +527,136 @@ body {
     padding-bottom: 0.1em;
   }
 }
+/* ===== LIMPIEZA EDITORIAL V4: MENOS IMÁGENES, MÁS PERIÓDICO ===== */
+
+/* Evita que las tarjetas de categorías se vean cargadas con fotos repetidas */
+.category-card-image {
+  display: none !important;
+}
+
+/* Categorías limpias, tipo periódico */
+.category-card {
+  min-height: 145px !important;
+  background: #ffffff !important;
+  padding: 22px 22px 20px !important;
+  border-left: 7px solid var(--category-color, var(--primary)) !important;
+}
+
+.category-card::before {
+  display: none !important;
+}
+
+.category-card span {
+  font-size: clamp(1.45rem, 2.2vw, 1.95rem) !important;
+  line-height: 1.05 !important;
+}
+
+.category-card p {
+  font-size: 0.95rem !important;
+  line-height: 1.55 !important;
+}
+
+/* Quita imágenes repetidas en noticias laterales */
+.side-story > .story-image,
+.side-story > .fallback-image {
+  display: none !important;
+}
+
+.side-story {
+  grid-template-columns: 1fr !important;
+  padding: 18px !important;
+  border-left: 5px solid var(--primary) !important;
+}
+
+.side-story h3 {
+  font-size: 1.35rem !important;
+  line-height: 1.12 !important;
+}
+
+/* Quita imágenes repetidas del listado de noticias */
+.news-row > .story-image,
+.news-row > .fallback-image {
+  display: none !important;
+}
+
+.news-row {
+  grid-template-columns: 1fr !important;
+  padding: 22px !important;
+  border-left: 6px solid var(--primary) !important;
+}
+
+.news-row h3 {
+  font-size: clamp(1.75rem, 3vw, 2.65rem) !important;
+  line-height: 1.05 !important;
+}
+
+/* Mantiene una imagen fuerte solo en la noticia principal */
+.lead-image,
+.fallback-image.lead-image {
+  min-height: 360px !important;
+  max-height: 460px !important;
+  object-fit: cover !important;
+}
+
+/* Portada más limpia y menos pesada */
+.lead-content h2 {
+  font-size: clamp(2.4rem, 4.5vw, 4.6rem) !important;
+  line-height: 1.02 !important;
+}
+
+.lead-content p {
+  font-size: 1.02rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Ajusta la distribución principal para que respire mejor */
+.front-grid {
+  gap: 24px !important;
+}
+
+.front-side {
+  gap: 14px !important;
+}
+
+/* Avisos más sobrios */
+.sidebar-block.urgent {
+  background: #1f1f1f !important;
+}
+
+.notice-item {
+  padding: 14px 0 !important;
+}
+
+/* El logo institucional no debe parecer foto repetida */
+.sidebar-logo {
+  max-height: 160px !important;
+  object-fit: contain !important;
+}
+
+/* En móvil, todo más liviano */
+@media (max-width: 700px) {
+  .category-ribbon {
+    gap: 10px !important;
+  }
+
+  .category-card {
+    min-height: auto !important;
+    padding: 18px !important;
+  }
+
+  .lead-image,
+  .fallback-image.lead-image {
+    min-height: 250px !important;
+    max-height: 320px !important;
+  }
+
+  .news-row,
+  .side-story {
+    padding: 18px !important;
+  }
+
+  .news-row h3,
+  .side-story h3 {
+    font-size: clamp(1.55rem, 8vw, 2.35rem) !important;
+  }
+}
