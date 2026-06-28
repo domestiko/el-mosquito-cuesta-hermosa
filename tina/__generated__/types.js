@@ -13,6 +13,7 @@ export const SitePartsFragmentDoc = gql`
   subtitle
   tagline
   logo
+  heroImage
   location
   editionLabel
   heroLabel
@@ -34,6 +35,7 @@ export const CategoriasPartsFragmentDoc = gql`
     name
     description
     color
+    image
     featured
     order
   }
@@ -52,6 +54,13 @@ export const NoticiasPartsFragmentDoc = gql`
     date
     featured
     image
+    gallery
+    attachments {
+      __typename
+      title
+      description
+      file
+    }
     body
   }
 }
@@ -63,6 +72,20 @@ export const AvisosPartsFragmentDoc = gql`
     __typename
     title
     text
+  }
+}
+    `;
+export const DocumentosPartsFragmentDoc = gql`
+    fragment DocumentosParts on Documentos {
+  __typename
+  items {
+    __typename
+    title
+    description
+    category
+    date
+    file
+    featured
   }
 }
     `;
@@ -294,6 +317,63 @@ export const AvisosConnectionDocument = gql`
   }
 }
     ${AvisosPartsFragmentDoc}`;
+export const DocumentosDocument = gql`
+    query documentos($relativePath: String!) {
+  documentos(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...DocumentosParts
+  }
+}
+    ${DocumentosPartsFragmentDoc}`;
+export const DocumentosConnectionDocument = gql`
+    query documentosConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: DocumentosFilter) {
+  documentosConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...DocumentosParts
+      }
+    }
+  }
+}
+    ${DocumentosPartsFragmentDoc}`;
 export function getSdk(requester) {
   return {
     site(variables, options) {
@@ -319,6 +399,12 @@ export function getSdk(requester) {
     },
     avisosConnection(variables, options) {
       return requester(AvisosConnectionDocument, variables, options);
+    },
+    documentos(variables, options) {
+      return requester(DocumentosDocument, variables, options);
+    },
+    documentosConnection(variables, options) {
+      return requester(DocumentosConnectionDocument, variables, options);
     }
   };
 }

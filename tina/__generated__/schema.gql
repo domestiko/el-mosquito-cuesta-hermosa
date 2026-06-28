@@ -62,6 +62,8 @@ type Query {
   noticiasConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: NoticiasFilter): NoticiasConnection!
   avisos(relativePath: String): Avisos!
   avisosConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: AvisosFilter): AvisosConnection!
+  documentos(relativePath: String): Documentos!
+  documentosConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentosFilter): DocumentosConnection!
 }
 
 input DocumentFilter {
@@ -69,6 +71,7 @@ input DocumentFilter {
   categorias: CategoriasFilter
   noticias: NoticiasFilter
   avisos: AvisosFilter
+  documentos: DocumentosFilter
 }
 
 type DocumentConnectionEdges {
@@ -94,7 +97,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Site | Categorias | Noticias | Avisos | Folder
+union DocumentNode = Site | Categorias | Noticias | Avisos | Documentos | Folder
 
 type Site implements Node & Document {
   siteName: String
@@ -102,6 +105,7 @@ type Site implements Node & Document {
   subtitle: String
   tagline: String
   logo: String
+  heroImage: String
   location: String
   editionLabel: String
   heroLabel: String
@@ -138,6 +142,7 @@ input SiteFilter {
   subtitle: StringFilter
   tagline: StringFilter
   logo: ImageFilter
+  heroImage: StringFilter
   location: StringFilter
   editionLabel: StringFilter
   heroLabel: StringFilter
@@ -166,6 +171,7 @@ type CategoriasItems {
   name: String!
   description: String
   color: String
+  image: String
   featured: Boolean
   order: Float
 }
@@ -196,6 +202,7 @@ input CategoriasItemsFilter {
   name: StringFilter
   description: StringFilter
   color: StringFilter
+  image: ImageFilter
   featured: BooleanFilter
   order: NumberFilter
 }
@@ -215,6 +222,12 @@ type CategoriasConnection implements Connection {
   edges: [CategoriasConnectionEdges]
 }
 
+type NoticiasItemsAttachments {
+  title: String!
+  description: String
+  file: String!
+}
+
 type NoticiasItems {
   id: String!
   category: String!
@@ -224,6 +237,8 @@ type NoticiasItems {
   date: String
   featured: Boolean
   image: String
+  gallery: [String]
+  attachments: [NoticiasItemsAttachments]
   body: String
 }
 
@@ -242,6 +257,12 @@ input DatetimeFilter {
   in: [String]
 }
 
+input NoticiasItemsAttachmentsFilter {
+  title: StringFilter
+  description: StringFilter
+  file: StringFilter
+}
+
 input NoticiasItemsFilter {
   id: StringFilter
   category: StringFilter
@@ -251,6 +272,8 @@ input NoticiasItemsFilter {
   date: DatetimeFilter
   featured: BooleanFilter
   image: ImageFilter
+  gallery: ImageFilter
+  attachments: NoticiasItemsAttachmentsFilter
   body: StringFilter
 }
 
@@ -301,6 +324,46 @@ type AvisosConnection implements Connection {
   edges: [AvisosConnectionEdges]
 }
 
+type DocumentosItems {
+  title: String!
+  description: String
+  category: String
+  date: String
+  file: String!
+  featured: Boolean
+}
+
+type Documentos implements Node & Document {
+  items: [DocumentosItems]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input DocumentosItemsFilter {
+  title: StringFilter
+  description: StringFilter
+  category: StringFilter
+  date: DatetimeFilter
+  file: StringFilter
+  featured: BooleanFilter
+}
+
+input DocumentosFilter {
+  items: DocumentosItemsFilter
+}
+
+type DocumentosConnectionEdges {
+  cursor: String!
+  node: Documentos
+}
+
+type DocumentosConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [DocumentosConnectionEdges]
+}
+
 type Mutation {
   addPendingDocument(collection: String!, relativePath: String!, template: String): DocumentNode!
   updateDocument(collection: String, relativePath: String!, params: DocumentUpdateMutation!): DocumentNode!
@@ -315,6 +378,8 @@ type Mutation {
   createNoticias(relativePath: String!, params: NoticiasMutation!): Noticias!
   updateAvisos(relativePath: String!, params: AvisosMutation!): Avisos!
   createAvisos(relativePath: String!, params: AvisosMutation!): Avisos!
+  updateDocumentos(relativePath: String!, params: DocumentosMutation!): Documentos!
+  createDocumentos(relativePath: String!, params: DocumentosMutation!): Documentos!
 }
 
 input DocumentUpdateMutation {
@@ -322,6 +387,7 @@ input DocumentUpdateMutation {
   categorias: CategoriasMutation
   noticias: NoticiasMutation
   avisos: AvisosMutation
+  documentos: DocumentosMutation
   relativePath: String
 }
 
@@ -330,6 +396,7 @@ input DocumentMutation {
   categorias: CategoriasMutation
   noticias: NoticiasMutation
   avisos: AvisosMutation
+  documentos: DocumentosMutation
 }
 
 input SiteMutation {
@@ -338,6 +405,7 @@ input SiteMutation {
   subtitle: String
   tagline: String
   logo: String
+  heroImage: String
   location: String
   editionLabel: String
   heroLabel: String
@@ -355,12 +423,19 @@ input CategoriasItemsMutation {
   name: String
   description: String
   color: String
+  image: String
   featured: Boolean
   order: Float
 }
 
 input CategoriasMutation {
   items: [CategoriasItemsMutation]
+}
+
+input NoticiasItemsAttachmentsMutation {
+  title: String
+  description: String
+  file: String
 }
 
 input NoticiasItemsMutation {
@@ -372,6 +447,8 @@ input NoticiasItemsMutation {
   date: String
   featured: Boolean
   image: String
+  gallery: [String]
+  attachments: [NoticiasItemsAttachmentsMutation]
   body: String
 }
 
@@ -386,6 +463,19 @@ input AvisosItemsMutation {
 
 input AvisosMutation {
   items: [AvisosItemsMutation]
+}
+
+input DocumentosItemsMutation {
+  title: String
+  description: String
+  category: String
+  date: String
+  file: String
+  featured: Boolean
+}
+
+input DocumentosMutation {
+  items: [DocumentosItemsMutation]
 }
 
 schema {
