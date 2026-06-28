@@ -35,8 +35,8 @@ jobs:
         env:
           TINA_PUBLIC_CLIENT_ID: ${{ secrets.TINA_PUBLIC_CLIENT_ID }}
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
-        run: npx tinacms build
-
+        run: npx @tinacms/cli@latest build
+        
       - name: Subir carpeta docs
         uses: actions/upload-pages-artifact@v3
         with:
