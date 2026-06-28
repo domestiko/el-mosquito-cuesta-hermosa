@@ -503,3 +503,27 @@ body {
     height: 150px;
   }
 }
+/* ===== CORRECCIÓN: EVITAR QUE SE CORTE LA Q EN "EL MOSQUITO" ===== */
+
+.masthead-title {
+  overflow: visible !important;
+  padding-bottom: 12px;
+}
+
+.masthead-title h1 {
+  line-height: 1.08 !important;
+  padding-bottom: 0.08em;
+  margin-bottom: 4px;
+  overflow: visible !important;
+}
+
+@media (max-width: 700px) {
+  .masthead-title {
+    padding-bottom: 10px;
+  }
+
+  .masthead-title h1 {
+    line-height: 1.1 !important;
+    padding-bottom: 0.1em;
+  }
+}
