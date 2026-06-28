@@ -183,7 +183,7 @@ function renderGallery(article) {
 
   return `
     <section class="article-gallery">
-      <h3>GalerÃ­a de fotos</h3>
+      <h3>Galer&iacute;a de fotos</h3>
 
       <div class="gallery-grid">
         ${gallery.map((photo, index) => `
@@ -283,8 +283,8 @@ function renderHighlights(leadArticle) {
   return `
     <section class="highlights-section">
       <div class="section-heading compact-heading">
-        <span>Accesos rÃ¡pidos</span>
-        <h2>Lo mÃ¡s importante ahora</h2>
+        <span>Accesos r&aacute;pidos</span>
+        <h2>Lo m&aacute;s importante ahora</h2>
       </div>
 
       <div class="highlights-grid">
@@ -365,7 +365,7 @@ function renderArticleList(list) {
   if (!list.length) {
     return `
       <div class="empty-state">
-        No encontramos publicaciones con ese filtro o bÃºsqueda.
+        No encontramos publicaciones con ese filtro o b&uacute;squeda.
       </div>
     `
   }
@@ -412,7 +412,7 @@ function updateNewsList() {
 
   if (resultsCount) {
     resultsCount.textContent = filtered.length === 1
-      ? '1 publicaciÃ³n'
+      ? '1 publicaci\u00f3n'
       : `${filtered.length} publicaciones`
   }
 
@@ -437,7 +437,7 @@ function render() {
     <div class="page">
       <header class="masthead">
         <div class="topline">
-          <span>${safe(site.editionLabel || 'EdiciÃ³n digital')}</span>
+          <span>${safe(site.editionLabel || 'Edici\u00f3n digital')}</span>
           <span>${safe(site.location || '')}</span>
           <span>${formatDate(new Date())}</span>
         </div>
@@ -458,7 +458,7 @@ function render() {
           <a href="#portada">Portada</a>
           <a href="#importante">Importante</a>
           <a href="#noticias">Noticias</a>
-          <a href="#categorias">CategorÃ­as</a>
+          <a href="#categorias">Categor&iacute;as</a>
           <a href="#documentos">Documentos</a>
           <a href="#avisos">Avisos</a>
         </nav>
@@ -487,7 +487,7 @@ function render() {
                   </div>
 
                   <button class="primary-button" data-open-article="${safe(leadArticle.id)}">
-                    ${safe(site.heroButtonText || 'Leer noticia')}
+                    ${safe(site.heroButtonText || 'Leer portada')}
                   </button>
                 </div>
               </article>
@@ -510,7 +510,7 @@ function render() {
                     <p>${safe(article.summary)}</p>
 
                     <button class="text-button" data-open-article="${safe(article.id)}">
-                      Leer mÃ¡s
+                      Leer m&aacute;s
                     </button>
                   </div>
                 </article>
@@ -525,25 +525,25 @@ function render() {
 
         <section class="interactive-panel">
           <div class="search-box">
-            <label for="searchInput">Buscar en el periÃ³dico</label>
+            <label for="searchInput">Buscar en el peri&oacute;dico</label>
             <input
               id="searchInput"
               type="search"
-              placeholder="Buscar: imbornales, elecciones, seguridad, caÃ±ada..."
+              placeholder="Buscar: imbornales, elecciones, seguridad, ca&ntilde;ada..."
             />
           </div>
 
           <div class="interactive-meta">
             <span id="resultsCount">${getFilteredArticles().length} publicaciones</span>
             <a href="#documentos">Ver documentos</a>
-            <a href="${reportHref()}" target="_blank" rel="noopener noreferrer">Reportar situaciÃ³n</a>
+            <a href="${reportHref()}" target="_blank" rel="noopener noreferrer">Reportar situaci&oacute;n</a>
           </div>
         </section>
 
         <section id="categorias" class="categories-section">
           <div class="section-heading compact-heading">
             <span>Filtros</span>
-            <h2>Explorar por categorÃ­a</h2>
+            <h2>Explorar por categor&iacute;a</h2>
           </div>
 
           <div class="category-ribbon">
@@ -569,7 +569,7 @@ function render() {
           <div id="noticias" class="news-section">
             <div class="section-heading">
               <span>Noticias</span>
-              <h2>Ãšltimas publicaciones</h2>
+              <h2>&Uacute;ltimas publicaciones</h2>
             </div>
 
             <div id="newsList" class="news-list">
@@ -590,7 +590,7 @@ function render() {
                 `).join('') || `
                   <article class="notice-item">
                     <h3>No hay avisos disponibles</h3>
-                    <p>Los avisos comunitarios aparecerÃ¡n aquÃ­.</p>
+                    <p>Los avisos comunitarios aparecer&aacute;n aqu&iacute;.</p>
                   </article>
                 `}
               </div>
@@ -603,10 +603,10 @@ function render() {
         <section id="publicar" class="submit-section">
           <div>
             <span class="eyebrow">Participa</span>
-            <h2>EnvÃ­a una noticia, aviso o reporte comunitario</h2>
+            <h2>Env&iacute;a una noticia, aviso o reporte comunitario</h2>
             <p>
-              Comparte informaciÃ³n relevante sobre seguridad, mantenimiento, actividades,
-              elecciones, drenajes, Ã¡reas comunes o cualquier tema de interÃ©s para la comunidad.
+              Comparte informaci&oacute;n relevante sobre seguridad, mantenimiento, actividades,
+              elecciones, drenajes, &aacute;reas comunes o cualquier tema de inter&eacute;s para la comunidad.
             </p>
           </div>
 
@@ -616,7 +616,7 @@ function render() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Reportar situaciÃ³n
+            Reportar situaci&oacute;n
           </a>
         </section>
       </main>
@@ -628,7 +628,7 @@ function render() {
     </div>
 
     <a class="floating-report" href="${reportHref()}" target="_blank" rel="noopener noreferrer">
-      Reportar situaciÃ³n
+      Reportar situaci&oacute;n
     </a>
 
     <dialog id="articleDialog" class="article-dialog">
