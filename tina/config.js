@@ -25,6 +25,92 @@ export default defineConfig({
   schema: {
     collections: [
       {
+        name: "site",
+        label: "Configuración del sitio",
+        path: "docs/data",
+        format: "json",
+        match: {
+          include: "site",
+        },
+        ui: {
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+        },
+        fields: [
+          {
+            type: "string",
+            name: "siteName",
+            label: "Nombre principal",
+          },
+          {
+            type: "string",
+            name: "communityName",
+            label: "Nombre de la comunidad",
+          },
+          {
+            type: "string",
+            name: "subtitle",
+            label: "Subtítulo",
+          },
+          {
+            type: "image",
+            name: "logo",
+            label: "Logo",
+          },
+          {
+            type: "string",
+            name: "heroTitle",
+            label: "Título de portada",
+          },
+          {
+            type: "string",
+            name: "heroText",
+            label: "Texto de portada",
+            ui: {
+              component: "textarea",
+            },
+          },
+          {
+            type: "string",
+            name: "heroButtonText",
+            label: "Texto del botón principal",
+          },
+          {
+            type: "string",
+            name: "location",
+            label: "Ubicación",
+          },
+          {
+            type: "string",
+            name: "whatsappNumber",
+            label: "WhatsApp",
+            description: "Solo números, con código de país. Ejemplo: 18092454846",
+          },
+          {
+            type: "string",
+            name: "primaryColor",
+            label: "Color principal",
+          },
+          {
+            type: "string",
+            name: "accentColor",
+            label: "Color de acento",
+          },
+          {
+            type: "string",
+            name: "darkColor",
+            label: "Color oscuro",
+          },
+          {
+            type: "string",
+            name: "lightColor",
+            label: "Color claro",
+          },
+        ],
+      },
+      {
         name: "noticias",
         label: "Noticias",
         path: "docs/data",
