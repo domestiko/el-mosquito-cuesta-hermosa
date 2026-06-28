@@ -749,3 +749,358 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* ===== MODO MINIMALISTA V5: PERIÓDICO MÁS LIMPIO ===== */
+
+/* Fondo más limpio y menos cargado */
+body {
+  background: #f8f6f1 !important;
+}
+
+/* Página más angosta para lectura cómoda */
+.page {
+  max-width: 1180px !important;
+  padding-left: 22px !important;
+  padding-right: 22px !important;
+}
+
+/* Encabezado más sobrio */
+.masthead {
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+.topline {
+  font-size: 0.72rem !important;
+  opacity: 0.75 !important;
+}
+
+.brand-row {
+  gap: 18px !important;
+  padding: 18px 0 12px !important;
+}
+
+.brand-logo {
+  width: 78px !important;
+  height: 78px !important;
+  object-fit: contain !important;
+}
+
+.masthead-title h1 {
+  font-size: clamp(3rem, 8vw, 6.8rem) !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.06em !important;
+}
+
+.masthead-title p,
+.masthead-title span {
+  font-size: 0.78rem !important;
+}
+
+/* Menú más pequeño tipo barra editorial */
+.nav-links {
+  padding: 10px 0 0 !important;
+  gap: 8px !important;
+  border-top: 1px solid var(--line) !important;
+}
+
+.nav-links a {
+  padding: 7px 10px !important;
+  font-size: 0.72rem !important;
+  border: 1px solid var(--line) !important;
+  background: #ffffff !important;
+}
+
+/* Títulos de secciones más discretos */
+.section-heading {
+  margin-bottom: 18px !important;
+}
+
+.section-heading span {
+  font-size: 0.72rem !important;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.8rem, 4vw, 3.2rem) !important;
+  line-height: 1 !important;
+}
+
+/* Portada: una sola noticia fuerte, sin demasiados bloques alrededor */
+.hero-section {
+  padding: 28px 0 24px !important;
+}
+
+.front-grid {
+  display: block !important;
+}
+
+/* Oculta las noticias laterales para limpiar la portada */
+.front-side {
+  display: none !important;
+}
+
+/* Noticia principal más elegante y menos pesada */
+.lead-story {
+  display: grid !important;
+  grid-template-columns: 0.9fr 1.1fr !important;
+  gap: 24px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.lead-image,
+.fallback-image.lead-image {
+  min-height: 300px !important;
+  max-height: 380px !important;
+  border: 1px solid var(--line) !important;
+}
+
+.lead-content {
+  padding: 10px 0 !important;
+  align-self: center !important;
+}
+
+.lead-content h2 {
+  font-size: clamp(2.1rem, 4.8vw, 4.2rem) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.055em !important;
+  margin-bottom: 12px !important;
+}
+
+.lead-content p {
+  font-size: 1rem !important;
+  line-height: 1.55 !important;
+  max-width: 680px !important;
+}
+
+/* Botones más finos */
+.primary-button,
+.text-button {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.primary-button {
+  padding: 11px 16px !important;
+  font-size: 0.76rem !important;
+}
+
+.text-button {
+  font-size: 0.76rem !important;
+}
+
+/* Categorías minimalistas tipo filtros */
+.categories-section {
+  padding: 24px 0 !important;
+  border-top: 1px solid var(--line) !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+.category-ribbon {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.category-card {
+  min-height: auto !important;
+  width: auto !important;
+  padding: 9px 13px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--line) !important;
+  border-left: 4px solid var(--category-color, var(--primary)) !important;
+  box-shadow: none !important;
+}
+
+.category-card span {
+  font-size: 0.82rem !important;
+  letter-spacing: 0.02em !important;
+  font-family: var(--sans) !important;
+  text-transform: uppercase !important;
+}
+
+.category-card p,
+.category-card-image {
+  display: none !important;
+}
+
+/* Contenido principal en una sola columna más cómoda */
+.content-layout {
+  display: block !important;
+  padding: 30px 0 !important;
+}
+
+/* Lista de noticias mucho más limpia */
+.news-list {
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.news-row {
+  padding: 18px 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--line) !important;
+  box-shadow: none !important;
+}
+
+.news-row h3 {
+  font-size: clamp(1.45rem, 3vw, 2.35rem) !important;
+  line-height: 1.05 !important;
+  margin-bottom: 8px !important;
+}
+
+.news-row p {
+  font-size: 0.95rem !important;
+  line-height: 1.55 !important;
+  max-width: 760px !important;
+}
+
+/* Muestra solo las primeras 6 noticias para no abrumar */
+.news-list .news-row:nth-child(n+7) {
+  display: none !important;
+}
+
+/* Avisos más discretos y menos pesados */
+.sidebar {
+  margin-top: 32px !important;
+}
+
+.sidebar-block.urgent {
+  background: #ffffff !important;
+  color: var(--dark) !important;
+  border: 1px solid var(--line) !important;
+  padding: 22px !important;
+}
+
+.sidebar-block.urgent h2 {
+  color: var(--dark) !important;
+  font-size: 2rem !important;
+}
+
+.notice-list {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.notice-item {
+  padding: 0 !important;
+  border-bottom: none !important;
+}
+
+.notice-item h3 {
+  color: var(--dark) !important;
+  font-size: 1rem !important;
+  margin-bottom: 5px !important;
+}
+
+.notice-item p {
+  color: var(--ink-soft) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.5 !important;
+}
+
+/* Oculta logo repetido del lateral */
+.sidebar .sidebar-block:not(.urgent) {
+  display: none !important;
+}
+
+/* Documentos más compactos */
+.documents-section {
+  padding: 26px 0 !important;
+}
+
+.documents-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.document-card {
+  padding: 18px !important;
+  box-shadow: none !important;
+}
+
+.document-card h3 {
+  font-size: clamp(1.3rem, 2.5vw, 2rem) !important;
+}
+
+.document-card p {
+  font-size: 0.9rem !important;
+}
+
+/* Participación más simple */
+.submit-section {
+  padding: 28px !important;
+  margin-top: 20px !important;
+  display: block !important;
+}
+
+.submit-section h2 {
+  font-size: clamp(1.9rem, 4vw, 3.2rem) !important;
+}
+
+/* Modal de noticia más cómodo */
+.article-dialog {
+  max-width: 860px !important;
+}
+
+.dialog-body {
+  padding: 34px !important;
+}
+
+.article-detail h1 {
+  font-size: clamp(2rem, 5vw, 4rem) !important;
+  line-height: 1 !important;
+}
+
+.article-detail-image {
+  max-height: 380px !important;
+  object-fit: cover !important;
+}
+
+/* Móvil */
+@media (max-width: 800px) {
+  .page {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .brand-row {
+    display: block !important;
+    text-align: center !important;
+  }
+
+  .brand-logo {
+    margin: 0 auto 10px !important;
+  }
+
+  .masthead-title h1 {
+    font-size: clamp(3rem, 17vw, 5.2rem) !important;
+  }
+
+  .nav-links {
+    justify-content: center !important;
+  }
+
+  .lead-story {
+    grid-template-columns: 1fr !important;
+  }
+
+  .lead-image,
+  .fallback-image.lead-image {
+    min-height: 230px !important;
+    max-height: 300px !important;
+  }
+
+  .notice-list,
+  .documents-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dialog-body {
+    padding: 24px !important;
+  }
+}
