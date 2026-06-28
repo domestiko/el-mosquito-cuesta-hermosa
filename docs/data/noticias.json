@@ -90,3 +90,36 @@
     }
   ]
 }
+{
+  "id": "inicio-proceso-electoral-cuesta-hermosa",
+  "category": "Elecciones",
+  "title": "Inicia el proceso electoral en Cuesta Hermosa II",
+  "summary": "La comunidad se prepara para un nuevo proceso electoral vecinal, una oportunidad para fortalecer la participación, la organización y el futuro del residencial.",
+  "author": "Redacción El Mosquito",
+  "date": "2026-06-28T12:00:00.000Z",
+  "featured": true,
+  "image": "/uploads/categoria-elecciones.jpg",
+  "body": "Cuesta Hermosa II se encuentra en proceso electoral, una etapa importante para la vida comunitaria y la toma de decisiones dentro del residencial.\n\nEste proceso representa una oportunidad para que los residentes conozcan propuestas, participen de manera informada y ejerzan su derecho a elegir a quienes asumirán responsabilidades de representación y gestión comunitaria.\n\nDesde El Mosquito estaremos dando seguimiento al proceso de manera neutral, organizada y respetuosa, compartiendo informaciones relevantes como calendario, propuestas, comunicados, requisitos, actividades y cualquier dato de interés general para los residentes.\n\nNuestro objetivo es promover una participación vecinal responsable, transparente y enfocada en el bienestar común de Cuesta Hermosa II.\n\nEl Mosquito no apoya candidatos ni planchas. Este espacio informa, organiza y promueve la participación comunitaria."
+},
+{
+  "id": "cobertura-neutral-elecciones-cuesta-hermosa",
+  "category": "Elecciones",
+  "title": "El Mosquito dará seguimiento neutral al proceso electoral comunitario",
+  "summary": "El periódico comunitario abrirá un espacio para publicar informaciones, propuestas y comunicados relacionados con las elecciones de Cuesta Hermosa II.",
+  "author": "Redacción El Mosquito",
+  "date": "2026-06-28T13:00:00.000Z",
+  "featured": false,
+  "image": "/uploads/categoria-elecciones.jpg",
+  "body": "Como parte de su compromiso con la información comunitaria, El Mosquito habilitará una cobertura especial sobre el proceso electoral de Cuesta Hermosa II.\n\nLa cobertura incluirá noticias del proceso, calendario electoral, propuestas de candidatos o planchas, comunicados oficiales, actividades, preguntas frecuentes y cualquier información relevante para los residentes.\n\nEste espacio se manejará bajo criterios de neutralidad, respeto y equilibrio. El objetivo es que la comunidad pueda informarse mejor y participar con mayor claridad en el proceso."
+},
+{
+  "id": "participacion-vecinal-elecciones",
+  "category": "Elecciones",
+  "title": "La importancia de participar en las elecciones comunitarias",
+  "summary": "Las elecciones vecinales son una oportunidad para que los residentes se involucren en las decisiones que afectan el presente y futuro de la comunidad.",
+  "author": "Redacción El Mosquito",
+  "date": "2026-06-28T14:00:00.000Z",
+  "featured": false,
+  "image": "/uploads/categoria-elecciones.jpg",
+  "body": "Participar en las elecciones comunitarias es una forma directa de contribuir al bienestar del residencial. A través del voto, los residentes pueden apoyar propuestas, expresar prioridades y fortalecer la organización vecinal.\n\nTemas como seguridad, mantenimiento, drenaje, convivencia, comunicación, áreas comunes y servicios requieren seguimiento constante. Por eso, un proceso electoral informado ayuda a construir una comunidad más activa y responsable.\n\nEl llamado es a participar con respeto, escuchar las propuestas y mantener el enfoque en el bienestar común de Cuesta Hermosa II."
+}
