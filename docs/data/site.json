@@ -2,14 +2,17 @@
   "siteName": "El Mosquito",
   "communityName": "Cuesta Hermosa II",
   "subtitle": "Periódico comunitario de Cuesta Hermosa II",
+  "tagline": "Noticias, avisos y participación vecinal",
   "logo": "/uploads/logo-cuesta-hermosa.jpg",
-  "heroTitle": "Información clara para una comunidad más organizada",
-  "heroText": "Noticias, avisos, mantenimiento, seguridad y temas de interés para los residentes de Cuesta Hermosa II.",
-  "heroButtonText": "Ver noticias",
   "location": "Cuesta Hermosa II · Santo Domingo",
+  "editionLabel": "Edición digital",
+  "heroLabel": "Portada",
+  "heroTitle": "La voz comunitaria de Cuesta Hermosa II",
+  "heroText": "Un espacio editorial para informar, organizar y conectar a los residentes con noticias, avisos, mantenimiento, seguridad y actividades de interés común.",
+  "heroButtonText": "Leer portada",
   "whatsappNumber": "",
   "primaryColor": "#526E3F",
-  "accentColor": "#C8793D",
-  "darkColor": "#1F2420",
-  "lightColor": "#F7F4EE"
+  "accentColor": "#A45B2B",
+  "darkColor": "#171717",
+  "paperColor": "#F7F2E9"
 }

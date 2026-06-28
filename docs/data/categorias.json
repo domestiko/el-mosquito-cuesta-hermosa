@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "name": "Seguridad",
+      "description": "Prevención, accesos, vigilancia y reportes importantes.",
+      "color": "#526E3F",
+      "featured": true,
+      "order": 1
+    },
+    {
+      "name": "Mantenimiento",
+      "description": "Drenajes, imbornales, áreas comunes y servicios generales.",
+      "color": "#A45B2B",
+      "featured": true,
+      "order": 2
+    },
+    {
+      "name": "Comunidad",
+      "description": "Participación vecinal, propuestas y temas de interés común.",
+      "color": "#2F5F74",
+      "featured": true,
+      "order": 3
+    },
+    {
+      "name": "Actividades",
+      "description": "Jornadas, reuniones, eventos y convocatorias.",
+      "color": "#7B6B43",
+      "featured": true,
+      "order": 4
+    },
+    {
+      "name": "Opinión",
+      "description": "Editoriales, cartas y reflexiones comunitarias.",
+      "color": "#323232",
+      "featured": false,
+      "order": 5
+    },
+    {
+      "name": "Avisos",
+      "description": "Comunicados breves y recordatorios importantes.",
+      "color": "#8C3D2B",
+      "featured": false,
+      "order": 6
+    }
+  ]
+}
