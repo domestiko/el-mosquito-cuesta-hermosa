@@ -17,33 +17,64 @@ const DEFAULT_SITE = {
   paperColor: '#F7F2E9'
 }
 
+const BASE_PATH = window.location.hostname.includes('github.io')
+  ? '/el-mosquito-cuesta-hermosa'
+  : ''
+
 let site = DEFAULT_SITE
 let articles = []
 let notices = []
 let categoriesData = []
-let activeCategory = 'Todas'
-let searchTerm = ''
+let documents = []
 
-function normalizeList(data) {
-  if (Array.isArray(data)) return data
-  if (Array.isArray(data?.items)) return data.items
-  if (Array.isArray(data?.noticias)) return data.noticias
-  if (Array.isArray(data?.avisos)) return data.avisos
-  return []
+const app = document.querySelector('#app') || document.body
+
+function pathUrl(path) {
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+
+  const clean = path.replace(/^\.?\//, '').replace(/^\//, '')
+  return `${BASE_PATH}/${clean}`
+}
+
+function imageUrl(path) {
+  return pathUrl(path)
+}
+
+function assetUrl(path) {
+  return pathUrl(path)
+}
+
+function dataUrl(path) {
+  const clean = path.replace(/^\.?\//, '').replace(/^\//, '')
+  return `${BASE_PATH}/${clean}`
 }
 
 async function getJSON(path, fallback) {
   try {
-    const response = await fetch(`.${path}`, { cache: 'no-store' })
-    if (!response.ok) return fallback
+    const response = await fetch(dataUrl(path), {
+      cache: 'no-store'
+    })
+
+    if (!response.ok) {
+      throw new Error(`No se pudo cargar ${path}`)
+    }
+
     return await response.json()
-  } catch {
+  } catch (error) {
+    console.warn(error)
     return fallback
   }
 }
 
+function normalizeList(data) {
+  if (Array.isArray(data)) return data
+  if (data && Array.isArray(data.items)) return data.items
+  return []
+}
+
 function safe(value) {
-  return String(value || '')
+  return String(value ?? '')
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
@@ -51,448 +82,543 @@ function safe(value) {
     .replaceAll("'", '&#039;')
 }
 
-function imageUrl(path) {
-  if (!path) return ''
-  if (path.startsWith('http')) return path
+function formatDate(dateValue) {
+  if (!dateValue) return ''
 
-  const clean = path
-    .replace(/^\.?\//, '')
-    .replace(/^uploads\//, 'uploads/')
+  const date = new Date(dateValue)
 
-  if (clean.startsWith('uploads/')) return `./${clean}`
-  return `./uploads/${clean}`
-}
-
-function formatDate(date) {
-  if (!date) return ''
-  try {
-    return new Intl.DateTimeFormat('es-DO', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }).format(new Date(date))
-  } catch {
+  if (Number.isNaN(date.getTime())) {
     return ''
   }
-}
 
-function currentDate() {
   return new Intl.DateTimeFormat('es-DO', {
-    weekday: 'long',
     day: 'numeric',
     month: 'long',
     year: 'numeric'
-  }).format(new Date())
+  }).format(date)
 }
 
-function applyTheme() {
-  document.documentElement.style.setProperty('--primary', site.primaryColor || DEFAULT_SITE.primaryColor)
-  document.documentElement.style.setProperty('--accent', site.accentColor || DEFAULT_SITE.accentColor)
-  document.documentElement.style.setProperty('--dark', site.darkColor || DEFAULT_SITE.darkColor)
-  document.documentElement.style.setProperty('--paper', site.paperColor || DEFAULT_SITE.paperColor)
-}
-
-function categoryNames() {
-  const fromArticles = articles.map(article => article.category).filter(Boolean)
-  const fromConfig = categoriesData.map(category => category.name).filter(Boolean)
-  const unique = [...new Set([...fromConfig, ...fromArticles])]
-  return ['Todas', ...unique]
-}
-
-function getCategoryInfo(name) {
-  return categoriesData.find(category => category.name === name) || {
-    name,
-    description: 'Noticias y reportes de la comunidad.',
-    color: site.primaryColor,
-    image: '',
-    featured: false
-  }
-}
-
-function featuredCategories() {
-  return categoriesData
-    .filter(category => category.featured)
-    .sort((a, b) => Number(a.order || 99) - Number(b.order || 99))
-    .slice(0, 6)
-}
-
-function filteredArticles() {
-  return articles.filter(article => {
-    const matchCategory = activeCategory === 'Todas' || article.category === activeCategory
-    const words = `${article.title} ${article.summary} ${article.body} ${article.category}`.toLowerCase()
-    const matchSearch = words.includes(searchTerm.toLowerCase())
-    return matchCategory && matchSearch
+function sortByDate(items) {
+  return [...items].sort((a, b) => {
+    const dateA = new Date(a.date || 0).getTime()
+    const dateB = new Date(b.date || 0).getTime()
+    return dateB - dateA
   })
 }
 
-function sortedArticles() {
-  return [...articles].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
+function getCategoryInfo(categoryName) {
+  return categoriesData.find((category) => category.name === categoryName) || {}
 }
 
-function topStories() {
-  const sorted = sortedArticles()
-  const lead = sorted.find(article => article.featured) || sorted[0]
-  const rest = sorted.filter(article => article !== lead)
-  return { lead, side: rest.slice(0, 2), latest: rest.slice(2, 8) }
+function featuredCategories() {
+  return [...categoriesData]
+    .filter((category) => category.featured !== false)
+    .sort((a, b) => Number(a.order || 0) - Number(b.order || 0))
+}
+
+function bodyToHTML(text) {
+  if (!text) return ''
+
+  return String(text)
+    .split('\n\n')
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
+    .map((paragraph) => `<p>${safe(paragraph).replaceAll('\n', '<br>')}</p>`)
+    .join('')
 }
 
 function articleImage(article, className = '') {
   const src = imageUrl(article.image)
 
   if (src) {
-    return `<img class="story-image ${className}" src="${src}" alt="${safe(article.title)}" loading="lazy" />`
+    return `
+      <img
+        class="story-image ${className}"
+        src="${src}"
+        alt="${safe(article.title)}"
+        loading="lazy"
+      />
+    `
   }
 
   const category = getCategoryInfo(article.category)
   const categorySrc = imageUrl(category.image)
 
   if (categorySrc) {
-    return `<img class="story-image ${className}" src="${categorySrc}" alt="${safe(article.category)}" loading="lazy" />`
+    return `
+      <img
+        class="story-image ${className}"
+        src="${categorySrc}"
+        alt="${safe(article.category)}"
+        loading="lazy"
+      />
+    `
+  }
+
+  if (site.logo) {
+    return `
+      <div class="fallback-image ${className}">
+        <img src="${imageUrl(site.logo)}" alt="${safe(site.communityName)}" />
+      </div>
+    `
   }
 
   return `
     <div class="fallback-image ${className}">
-      <img src="${imageUrl(site.logo)}" alt="${safe(site.communityName)}" />
+      <span>${safe(site.siteName)}</span>
     </div>
   `
 }
 
-function bodyToHTML(text) {
-  return safe(text)
-    .split('\n')
-    .filter(Boolean)
-    .map(paragraph => `<p>${paragraph}</p>`)
-    .join('')
-}
+function renderGallery(article) {
+  const gallery = Array.isArray(article.gallery)
+    ? article.gallery.filter(Boolean)
+    : []
 
-function whatsappLink(message) {
-  if (!site.whatsappNumber) return ''
-  return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`
-}
+  if (!gallery.length) return ''
 
-function renderStoryMini(article) {
-  if (!article) return ''
   return `
-    <article class="side-story">
-      ${articleImage(article, 'side-story-image')}
-      <div>
-        <span class="kicker">${safe(article.category)}</span>
-        <h3>${safe(article.title)}</h3>
-        <p>${safe(article.summary)}</p>
-        <button data-open="${safe(article.id)}">Leer más</button>
+    <section class="article-gallery">
+      <h3>Galería de fotos</h3>
+
+      <div class="gallery-grid">
+        ${gallery.map((photo, index) => `
+          <a href="${assetUrl(photo)}" target="_blank" rel="noopener noreferrer">
+            <img
+              src="${assetUrl(photo)}"
+              alt="Foto ${index + 1} de ${safe(article.title)}"
+              loading="lazy"
+            />
+          </a>
+        `).join('')}
       </div>
-    </article>
+    </section>
   `
 }
 
-function render() {
-  applyTheme()
+function renderAttachments(article) {
+  const attachments = Array.isArray(article.attachments)
+    ? article.attachments.filter((item) => item && item.file)
+    : []
 
-  const { lead, side } = topStories()
-  const logo = imageUrl(site.logo)
-  const filtered = filteredArticles()
+  if (!attachments.length) return ''
 
-  document.querySelector('#app').innerHTML = `
-    <div class="page">
-      <div class="top-strip">
-        <div>
-          <span>${safe(site.location)}</span>
-          <span>${currentDate()}</span>
-        </div>
-        <strong>${safe(site.editionLabel)}</strong>
+  return `
+    <section class="article-attachments">
+      <h3>Archivos adjuntos</h3>
+
+      <div class="attachment-list">
+        ${attachments.map((item) => `
+          <a
+            class="attachment-card"
+            href="${assetUrl(item.file)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            download
+          >
+            <span>Archivo</span>
+            <strong>${safe(item.title || 'Documento adjunto')}</strong>
+            ${item.description ? `<p>${safe(item.description)}</p>` : ''}
+            <em>Descargar / abrir</em>
+          </a>
+        `).join('')}
+      </div>
+    </section>
+  `
+}
+
+function renderDocuments() {
+  const visibleDocuments = documents.filter((document) => document.featured !== false)
+
+  if (!visibleDocuments.length) {
+    return ''
+  }
+
+  return `
+    <section id="documentos" class="documents-section">
+      <div class="section-heading">
+        <span>Documentos oficiales</span>
+        <h2>Protocolos e informes descargables</h2>
       </div>
 
-      <header class="masthead">
-        <a class="institutional-logo" href="#portada">
-          <img src="${logo}" alt="${safe(site.communityName)}" />
-        </a>
+      <div class="documents-grid">
+        ${visibleDocuments.map((document) => `
+          <a
+            class="document-card"
+            href="${assetUrl(document.file)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            download
+          >
+            <span>${safe(document.category || 'Documento')}</span>
+            <h3>${safe(document.title)}</h3>
+            ${document.description ? `<p>${safe(document.description)}</p>` : ''}
+            ${document.date ? `<small>${formatDate(document.date)}</small>` : ''}
+            <strong>Descargar PDF</strong>
+          </a>
+        `).join('')}
+      </div>
+    </section>
+  `
+}
 
-        <div class="masthead-title">
-          <p>${safe(site.subtitle)}</p>
-          <h1>${safe(site.siteName)}</h1>
-          <span>${safe(site.tagline)}</span>
+function renderArticleList(list) {
+  if (!list.length) {
+    return `
+      <div class="empty-state">
+        No hay noticias disponibles en esta categoría.
+      </div>
+    `
+  }
+
+  return list.map((article) => `
+    <article class="news-row" data-category="${safe(article.category)}">
+      <div>
+        <span class="eyebrow">${safe(article.category || 'Noticia')}</span>
+        <h3>${safe(article.title)}</h3>
+        <p>${safe(article.summary)}</p>
+
+        <div class="story-meta">
+          <span>${safe(article.author || 'Redacción')}</span>
+          ${article.date ? `<span>${formatDate(article.date)}</span>` : ''}
         </div>
+
+        <button class="text-button" data-open-article="${safe(article.id)}">
+          Leer noticia
+        </button>
+      </div>
+    </article>
+  `).join('')
+}
+
+function render() {
+  document.documentElement.style.setProperty('--primary', site.primaryColor || DEFAULT_SITE.primaryColor)
+  document.documentElement.style.setProperty('--accent', site.accentColor || DEFAULT_SITE.accentColor)
+  document.documentElement.style.setProperty('--dark', site.darkColor || DEFAULT_SITE.darkColor)
+  document.documentElement.style.setProperty('--paper', site.paperColor || DEFAULT_SITE.paperColor)
+
+  const sortedArticles = sortByDate(articles)
+  const leadArticle = sortedArticles.find((article) => article.featured) || sortedArticles[0]
+  const sideArticles = sortedArticles
+    .filter((article) => article.id !== leadArticle?.id)
+    .slice(0, 3)
+
+  const listArticles = sortedArticles
+    .filter((article) => article.id !== leadArticle?.id)
+
+  app.innerHTML = `
+    <div class="page">
+      <header class="masthead">
+        <div class="topline">
+          <span>${safe(site.editionLabel || 'Edición digital')}</span>
+          <span>${safe(site.location || '')}</span>
+          <span>${formatDate(new Date())}</span>
+        </div>
+
+        <div class="brand-row">
+          ${site.logo ? `
+            <img class="brand-logo" src="${imageUrl(site.logo)}" alt="${safe(site.communityName)}" />
+          ` : ''}
+
+          <div class="masthead-title">
+            <p>${safe(site.subtitle || '')}</p>
+            <h1>${safe(site.siteName || 'El Mosquito')}</h1>
+            <span>${safe(site.tagline || '')}</span>
+          </div>
+        </div>
+
+        <nav class="nav-links">
+          <a href="#portada">Portada</a>
+          <a href="#noticias">Noticias</a>
+          <a href="#categorias">Categorías</a>
+          <a href="#documentos">Documentos</a>
+          <a href="#avisos">Avisos</a>
+          <a href="#publicar">Enviar noticia</a>
+        </nav>
       </header>
 
-      <nav class="edition-nav">
-        <button class="menu-button" aria-label="Abrir menú">Menú</button>
-        <div class="nav-links">
-          <a href="#portada">Portada</a>
-          ${categoryNames().filter(category => category !== 'Todas').slice(0, 7).map(category => `
-            <button data-category="${safe(category)}">${safe(category)}</button>
-          `).join('')}
-          <a href="#avisos">Avisos</a>
-        </div>
-      </nav>
-
       <main>
-        <section id="portada" class="front-page">
-          <div class="front-label">
-            <span>${safe(site.heroLabel)}</span>
-            <strong>${safe(site.communityName)}</strong>
+        <section id="portada" class="hero-section">
+          <div class="section-heading">
+            <span>${safe(site.heroLabel || 'Portada')}</span>
+            <h2>${safe(site.heroTitle || '')}</h2>
           </div>
 
           <div class="front-grid">
-            ${lead ? `
+            ${leadArticle ? `
               <article class="lead-story">
-                ${articleImage(lead, 'lead-image')}
+                ${articleImage(leadArticle, 'lead-image')}
+
                 <div class="lead-content">
-                  <span class="kicker">${safe(lead.category)}</span>
-                  <h2>${safe(lead.title)}</h2>
-                  <p>${safe(lead.summary || site.heroText)}</p>
-                  <div class="meta">
-                    <span>${safe(lead.author || 'Redacción CH II')}</span>
-                    <span>${formatDate(lead.date)}</span>
+                  <span class="eyebrow">${safe(leadArticle.category || 'Noticia principal')}</span>
+                  <h2>${safe(leadArticle.title)}</h2>
+                  <p>${safe(leadArticle.summary)}</p>
+
+                  <div class="story-meta">
+                    <span>${safe(leadArticle.author || 'Redacción')}</span>
+                    ${leadArticle.date ? `<span>${formatDate(leadArticle.date)}</span>` : ''}
                   </div>
-                  <button class="main-button" data-open="${safe(lead.id)}">${safe(site.heroButtonText || 'Leer portada')}</button>
+
+                  <button class="primary-button" data-open-article="${safe(leadArticle.id)}">
+                    ${safe(site.heroButtonText || 'Leer noticia')}
+                  </button>
                 </div>
               </article>
             ` : `
-              <article class="lead-story empty-lead">
+              <article class="lead-story">
                 <div class="lead-content">
-                  <span class="kicker">${safe(site.heroLabel)}</span>
-                  <h2>${safe(site.heroTitle)}</h2>
-                  <p>${safe(site.heroText)}</p>
+                  <span class="eyebrow">${safe(site.heroLabel || 'Portada')}</span>
+                  <h2>${safe(site.heroTitle || '')}</h2>
+                  <p>${safe(site.heroText || '')}</p>
                 </div>
               </article>
             `}
 
             <aside class="front-side">
-              <div class="briefing-card">
-                <span class="kicker">Resumen editorial</span>
-                <h3>${safe(site.heroTitle)}</h3>
-                <p>${safe(site.heroText)}</p>
-              </div>
+              ${sideArticles.map((article) => `
+                <article class="side-story">
+                  <div>
+                    <span class="eyebrow">${safe(article.category || 'Noticia')}</span>
+                    <h3>${safe(article.title)}</h3>
+                    <p>${safe(article.summary)}</p>
 
-              ${side.map(renderStoryMini).join('')}
+                    <button class="text-button" data-open-article="${safe(article.id)}">
+                      Leer más
+                    </button>
+                  </div>
+                </article>
+              `).join('')}
             </aside>
           </div>
         </section>
 
-        <section class="category-ribbon">
-          ${featuredCategories().map(category => `
-            <button class="category-card" data-category="${safe(category.name)}" style="--category-color: ${safe(category.color || site.primaryColor)}">
-              ${category.image ? `
-                <img class="category-card-image" src="${imageUrl(category.image)}" alt="${safe(category.name)}" loading="lazy" />
-              ` : ''}
-              <span>${safe(category.name)}</span>
-              <p>${safe(category.description)}</p>
+        <section id="categorias" class="categories-section">
+          <div class="section-heading">
+            <span>Secciones</span>
+            <h2>Categorías comunitarias</h2>
+          </div>
+
+          <div class="category-ribbon">
+            <button class="category-card is-active" data-filter-category="all">
+              <span>Todas</span>
+              <p>Ver todas las noticias y publicaciones del periódico comunitario.</p>
             </button>
-          `).join('')}
+
+            ${featuredCategories().map((category) => `
+              <button
+                class="category-card"
+                data-filter-category="${safe(category.name)}"
+                style="--category-color: ${safe(category.color || site.primaryColor)}"
+              >
+                <span>${safe(category.name)}</span>
+                <p>${safe(category.description)}</p>
+              </button>
+            `).join('')}
+          </div>
         </section>
 
-        <section id="noticias" class="content-layout">
-          <div class="main-column">
+        <section class="content-layout">
+          <div id="noticias" class="news-section">
             <div class="section-heading">
-              <span>Últimas publicaciones</span>
-              <h2>Noticias de la comunidad</h2>
+              <span>Noticias</span>
+              <h2>Últimas publicaciones</h2>
             </div>
 
-            <div class="tools">
-              <div class="search-box">
-                <label for="searchInput">Buscar en el periódico</label>
-                <input id="searchInput" value="${safe(searchTerm)}" placeholder="Buscar por tema, categoría o palabra clave..." />
-              </div>
-
-              <div class="chips">
-                ${categoryNames().map(category => `
-                  <button class="chip ${category === activeCategory ? 'active' : ''}" data-category="${safe(category)}">
-                    ${safe(category)}
-                  </button>
-                `).join('')}
-              </div>
-            </div>
-
-            <div class="story-list">
-              ${filtered.map(article => `
-                <article class="news-row">
-                  ${articleImage(article, 'row-image')}
-                  <div>
-                    <span class="kicker">${safe(article.category)}</span>
-                    <h3>${safe(article.title)}</h3>
-                    <p>${safe(article.summary)}</p>
-                    <div class="meta">
-                      <span>${safe(article.author || 'Redacción CH II')}</span>
-                      <span>${formatDate(article.date)}</span>
-                    </div>
-                    <button data-open="${safe(article.id)}">Leer noticia</button>
-                  </div>
-                </article>
-              `).join('') || `<div class="empty-state">No encontramos noticias con ese filtro.</div>`}
+            <div id="newsList" class="news-list">
+              ${renderArticleList(listArticles)}
             </div>
           </div>
 
-          <aside class="sidebar">
-            <section id="avisos" class="sidebar-block urgent">
-              <span class="kicker">Avisos</span>
-              <h2>Comunicados importantes</h2>
-              ${notices.map(notice => `
-                <article class="notice-item">
-                  <strong>${safe(notice.title)}</strong>
-                  <p>${safe(notice.text)}</p>
-                </article>
-              `).join('') || '<p>No hay avisos publicados.</p>'}
-            </section>
+          <aside id="avisos" class="sidebar">
+            <div class="sidebar-block urgent">
+              <h2>Avisos</h2>
 
-            <section class="sidebar-block">
-              <span class="kicker">Institucional</span>
-              <img class="sidebar-logo" src="${logo}" alt="${safe(site.communityName)}" />
-              <p>${safe(site.subtitle)}</p>
-            </section>
+              <div class="notice-list">
+                ${notices.map((notice) => `
+                  <article class="notice-item">
+                    <h3>${safe(notice.title)}</h3>
+                    <p>${safe(notice.text)}</p>
+                  </article>
+                `).join('') || `
+                  <article class="notice-item">
+                    <h3>No hay avisos disponibles</h3>
+                    <p>Los avisos comunitarios aparecerán aquí.</p>
+                  </article>
+                `}
+              </div>
+            </div>
+
+            ${site.logo ? `
+              <div class="sidebar-block">
+                <img class="sidebar-logo" src="${imageUrl(site.logo)}" alt="${safe(site.communityName)}" />
+                <p>${safe(site.communityName)}</p>
+              </div>
+            ` : ''}
           </aside>
         </section>
 
+        ${renderDocuments()}
+
         <section id="publicar" class="submit-section">
           <div>
-            <span class="kicker">Participa</span>
-            <h2>Envía una noticia, aviso o reporte</h2>
-            <p>Comparte información útil para la comunidad. El mensaje queda listo para copiar o enviar a la administración.</p>
+            <span class="eyebrow">Participa</span>
+            <h2>Envía una noticia, aviso o reporte comunitario</h2>
+            <p>
+              Comparte información relevante sobre seguridad, mantenimiento, actividades,
+              elecciones, drenajes, áreas comunes o cualquier tema de interés para la comunidad.
+            </p>
           </div>
 
-          <form id="publishForm">
-            <label>
-              Nombre
-              <input name="name" placeholder="Tu nombre" required />
-            </label>
-
-            <label>
-              Categoría
-              <select name="category" required>
-                ${categoryNames().filter(category => category !== 'Todas').map(category => `
-                  <option>${safe(category)}</option>
-                `).join('')}
-              </select>
-            </label>
-
-            <label class="full">
-              Título
-              <input name="title" placeholder="Título de la información" required />
-            </label>
-
-            <label class="full">
-              Detalle
-              <textarea name="detail" rows="5" placeholder="Escribe aquí la información..." required></textarea>
-            </label>
-
-            <button class="submit-button full" type="submit">Preparar envío</button>
-          </form>
+          ${site.whatsappNumber ? `
+            <a
+              class="primary-button"
+              href="https://wa.me/${safe(site.whatsappNumber)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Enviar por WhatsApp
+            </a>
+          ` : `
+            <a class="primary-button" href="mailto:">
+              Enviar información
+            </a>
+          `}
         </section>
       </main>
 
       <footer class="footer">
-        <img src="${logo}" alt="${safe(site.communityName)}" />
-        <div>
-          <strong>${safe(site.siteName)}</strong>
-          <span>${safe(site.subtitle)}</span>
-        </div>
+        <p>${safe(site.siteName)} · ${safe(site.communityName)}</p>
+        <p>${safe(site.tagline || '')}</p>
       </footer>
-
-      <dialog id="articleDialog">
-        <div class="dialog-body"></div>
-        <button class="close-dialog">Cerrar</button>
-      </dialog>
     </div>
+
+    <dialog id="articleDialog" class="article-dialog">
+      <button class="dialog-close" type="button" aria-label="Cerrar noticia">×</button>
+      <div class="dialog-body"></div>
+    </dialog>
   `
 
-  bindEvents()
+  bindEvents(listArticles)
 }
 
-function bindEvents() {
-  document.querySelector('.menu-button')?.addEventListener('click', () => {
-    document.querySelector('.nav-links')?.classList.toggle('open')
-  })
-
-  document.querySelectorAll('[data-category]').forEach(button => {
+function bindEvents(defaultList) {
+  document.querySelectorAll('[data-open-article]').forEach((button) => {
     button.addEventListener('click', () => {
-      activeCategory = button.dataset.category
-      document.querySelector('#noticias')?.scrollIntoView({ behavior: 'smooth' })
-      render()
+      openArticle(button.dataset.openArticle)
     })
   })
 
-  const searchInput = document.querySelector('#searchInput')
-  searchInput?.addEventListener('input', event => {
-    searchTerm = event.target.value
-    render()
-    setTimeout(() => {
-      const nextInput = document.querySelector('#searchInput')
-      nextInput?.focus()
-      nextInput?.setSelectionRange(nextInput.value.length, nextInput.value.length)
-    }, 0)
+  document.querySelectorAll('[data-filter-category]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const category = button.dataset.filterCategory
+
+      document.querySelectorAll('[data-filter-category]').forEach((item) => {
+        item.classList.remove('is-active')
+      })
+
+      button.classList.add('is-active')
+
+      const filteredArticles = category === 'all'
+        ? sortByDate(articles)
+        : sortByDate(articles).filter((article) => article.category === category)
+
+      const newsList = document.querySelector('#newsList')
+
+      if (newsList) {
+        newsList.innerHTML = renderArticleList(filteredArticles)
+      }
+
+      document.querySelectorAll('[data-open-article]').forEach((articleButton) => {
+        articleButton.addEventListener('click', () => {
+          openArticle(articleButton.dataset.openArticle)
+        })
+      })
+    })
   })
 
-  document.querySelectorAll('[data-open]').forEach(button => {
-    button.addEventListener('click', () => openArticle(button.dataset.open))
-  })
+  const dialog = document.querySelector('#articleDialog')
+  const closeButton = document.querySelector('.dialog-close')
 
-  document.querySelector('.close-dialog')?.addEventListener('click', () => {
-    document.querySelector('#articleDialog')?.close()
-  })
+  if (dialog && closeButton) {
+    closeButton.addEventListener('click', () => {
+      dialog.close()
+    })
 
-  document.querySelector('#publishForm')?.addEventListener('submit', event => {
-    event.preventDefault()
-
-    const data = new FormData(event.target)
-    const message = [
-      `Nueva información para ${site.siteName}`,
-      '',
-      `Nombre: ${data.get('name')}`,
-      `Categoría: ${data.get('category')}`,
-      `Título: ${data.get('title')}`,
-      '',
-      `Detalle: ${data.get('detail')}`
-    ].join('\n')
-
-    const link = whatsappLink(message)
-
-    if (link) {
-      window.open(link, '_blank', 'noopener,noreferrer')
-    } else {
-      navigator.clipboard?.writeText(message)
-      alert('Mensaje preparado. Si tu navegador lo permite, fue copiado al portapapeles.')
-    }
-  })
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) {
+        dialog.close()
+      }
+    })
+  }
 }
 
 function openArticle(id) {
-  const article = articles.find(item => item.id === id)
+  const article = articles.find((item) => item.id === id)
+
   if (!article) return
 
   const dialog = document.querySelector('#articleDialog')
-  dialog.querySelector('.dialog-body').innerHTML = `
-    ${articleImage(article, 'dialog-image')}
-    <span class="kicker">${safe(article.category)}</span>
-    <h2>${safe(article.title)}</h2>
-    <div class="meta">
-      <span>${safe(article.author || 'Redacción CH II')}</span>
-      <span>${formatDate(article.date)}</span>
-    </div>
-    <div class="article-full">${bodyToHTML(article.body)}</div>
+  const dialogBody = document.querySelector('#articleDialog .dialog-body')
+
+  if (!dialog || !dialogBody) return
+
+  dialogBody.innerHTML = `
+    <article class="article-detail">
+      ${article.image ? `
+        <img
+          class="article-detail-image"
+          src="${imageUrl(article.image)}"
+          alt="${safe(article.title)}"
+        />
+      ` : ''}
+
+      <span class="eyebrow">${safe(article.category || 'Noticia')}</span>
+
+      <h1>${safe(article.title)}</h1>
+
+      <div class="story-meta">
+        <span>${safe(article.author || 'Redacción')}</span>
+        ${article.date ? `<span>${formatDate(article.date)}</span>` : ''}
+      </div>
+
+      ${article.summary ? `<p class="article-summary">${safe(article.summary)}</p>` : ''}
+
+      <div class="article-full">
+        ${bodyToHTML(article.body)}
+      </div>
+
+      ${renderGallery(article)}
+      ${renderAttachments(article)}
+    </article>
   `
 
   dialog.showModal()
 }
 
 async function init() {
-  document.querySelector('#app').innerHTML = `
-    <div class="loading">
-      <img src="./uploads/logo-cuesta-hermosa.jpg" alt="Cuesta Hermosa II" />
-      <strong>El Mosquito</strong>
-      <span>Cargando edición digital...</span>
-    </div>
-  `
-
-  const [loadedSite, loadedArticles, loadedNotices, loadedCategories] = await Promise.all([
+  const [
+    loadedSite,
+    loadedArticles,
+    loadedNotices,
+    loadedCategories,
+    loadedDocuments
+  ] = await Promise.all([
     getJSON('/data/site.json', DEFAULT_SITE),
     getJSON('/data/noticias.json', { items: [] }),
     getJSON('/data/avisos.json', { items: [] }),
-    getJSON('/data/categorias.json', { items: [] })
+    getJSON('/data/categorias.json', { items: [] }),
+    getJSON('/data/documentos.json', { items: [] })
   ])
 
-  site = { ...DEFAULT_SITE, ...loadedSite }
+  site = {
+    ...DEFAULT_SITE,
+    ...loadedSite
+  }
+
   articles = normalizeList(loadedArticles)
   notices = normalizeList(loadedNotices)
   categoriesData = normalizeList(loadedCategories)
+  documents = normalizeList(loadedDocuments)
 
   render()
 }
