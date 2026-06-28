@@ -2752,3 +2752,71 @@ body.modal-open {
     font-size: 1.7rem !important;
   }
 }
+/* ===== ENCABEZADO CON LOGO COMPLETO ===== */
+/* Pegar al FINAL de docs/style.css */
+
+/* Oculta el icono pequeno para que no se duplique con el logo completo. */
+.professional-masthead .brand-logo,
+.brand-logo {
+  display: none !important;
+}
+
+/* Centra el encabezado como periodico. */
+.professional-masthead .brand-row,
+.brand-row {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  text-align: center !important;
+  padding: 12px 0 10px !important;
+}
+
+/* Oculta los textos pequenos para evitar duplicar el subtitulo que ya viene en el logo. */
+.professional-masthead .masthead-title p,
+.professional-masthead .masthead-title span {
+  display: none !important;
+}
+
+/* Reemplaza el nombre grande por el logo completo transparente. */
+.professional-masthead .masthead-title h1,
+.masthead-title h1 {
+  display: block !important;
+  width: min(760px, 92vw) !important;
+  height: 165px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  overflow: hidden !important;
+  background-image: url("/uploads/logo-masthead-el-mosquito.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: contain !important;
+  background-color: transparent !important;
+}
+
+/* Ajuste del bloque general para que no quede demasiado alto. */
+.professional-masthead {
+  padding-top: 8px !important;
+}
+
+.professional-nav {
+  margin-top: 4px !important;
+}
+
+@media (max-width: 950px) {
+  .professional-masthead .masthead-title h1,
+  .masthead-title h1 {
+    width: min(640px, 94vw) !important;
+    height: 135px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .professional-masthead .masthead-title h1,
+  .masthead-title h1 {
+    width: 94vw !important;
+    height: 105px !important;
+  }
+}
