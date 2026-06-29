@@ -4744,3 +4744,97 @@ body {
     padding: 24px 18px !important;
   }
 }
+.em-section-card {
+  cursor: pointer !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+}
+
+.em-section-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+  border-color: var(--primary) !important;
+}
+
+.em-section-card::after {
+  content: "Ver noticias" !important;
+  display: inline-flex !important;
+  margin: 0 12px 12px !important;
+  color: var(--primary) !important;
+  font-size: 0.68rem !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.em-section-news-modal h1 {
+  font-family: var(--serif) !important;
+  color: #183c2e !important;
+  font-size: clamp(2rem, 4vw, 3.4rem) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.04em !important;
+  margin: 8px 0 10px !important;
+}
+
+.em-section-news-modal > p {
+  color: rgba(23,23,23,0.66) !important;
+  margin-bottom: 16px !important;
+}
+
+.em-section-news-list {
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.em-section-news-item {
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  gap: 16px !important;
+  align-items: center !important;
+  padding: 14px 0 !important;
+  border-bottom: 1px solid rgba(23,23,23,0.12) !important;
+}
+
+.em-section-news-item span {
+  color: var(--primary) !important;
+  font-size: 0.68rem !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+}
+
+.em-section-news-item h3 {
+  font-family: var(--serif) !important;
+  color: #183c2e !important;
+  font-size: 1.45rem !important;
+  line-height: 1.05 !important;
+  margin: 5px 0 6px !important;
+}
+
+.em-section-news-item p {
+  color: rgba(23,23,23,0.65) !important;
+  font-size: 0.88rem !important;
+  line-height: 1.45 !important;
+  margin: 0 !important;
+}
+
+.em-section-news-item button {
+  border: 0 !important;
+  background: var(--primary) !important;
+  color: white !important;
+  padding: 9px 12px !important;
+  font-size: 0.7rem !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+}
+
+@media (max-width: 650px) {
+  .em-section-news-item {
+    grid-template-columns: 1fr !important;
+  }
+
+  .em-section-news-item button {
+    width: max-content !important;
+  }
+}
