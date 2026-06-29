@@ -355,7 +355,7 @@ function directivaPhoto(member) {
     return imageTag(member.photo, member.name, 'em-directiva-photo')
   }
 
-  return '<div class="em-directiva-photo em-directiva-placeholder">' + safe((member.name || 'JV').slice(0, 1)) + '</div>'
+  return '<div class="em-directiva-photo em-directiva-placeholder">' + safe((member.name || member.role || 'J').slice(0, 1)) + '</div>'
 }
 
 function directivaCards() {
@@ -367,8 +367,8 @@ function directivaCards() {
     return '<article class="em-directiva-card">' +
       directivaPhoto(member) +
       '<div>' +
-        '<span>' + safe(member.role || 'Miembro') + '</span>' +
-        '<h3>' + safe(member.name || '') + '</h3>' +
+        '<span>' + safe(member.role || 'Posicion') + '</span>' +
+        '<h3>' + safe(member.name || 'Por definir') + '</h3>' +
         (member.phone ? '<p>Tel. ' + safe(member.phone) + '</p>' : '') +
         (member.email ? '<p>' + safe(member.email) + '</p>' : '') +
         (member.description ? '<small>' + safe(member.description) + '</small>' : '') +
@@ -381,7 +381,7 @@ function pageDirectiva() {
   return '<section class="em-page direction-' + pageDirection + '">' +
     controls('Directiva Junta de Vecinos') +
     '<div class="em-single-page em-directiva-page">' +
-      '<div class="em-section-heading"><h2>Directiva de la Junta de Vecinos</h2><p>Representantes comunitarios, funciones y canales de contacto.</p></div>' +
+      '<div class="em-section-heading"><h2>Directiva de la Junta de Vecinos</h2><p>Las 19 posiciones oficiales de la Junta de Vecinos y Consejo Disciplinario.</p></div>' +
       '<div class="em-directiva-grid">' + directivaCards() + '</div>' +
     '</div>' +
     dots() +
@@ -462,62 +462,6 @@ function render() {
   bindEvents()
 }
 
-
-
-function emNormalizeText(value) {
-  return String(value || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim()
-}
-
-function emOpenSectionNews(sectionName) {
-  const normalizedSection = emNormalizeText(sectionName)
-
-  const sectionArticles = articles.filter(function(article) {
-    return emNormalizeText(article.category) === normalizedSection
-  })
-
-  const dialog = document.querySelector('#articleDialog')
-  const body = document.querySelector('.em-dialog-body')
-
-  if (!dialog || !body) return
-
-  body.innerHTML = '<section class="em-section-news-modal">' +
-    '<div class="em-kicker"><span>Seccion</span></div>' +
-    '<h1>' + safe(sectionName) + '</h1>' +
-    (sectionArticles.length
-      ? '<p>Noticias publicadas en esta seccion.</p>' +
-        '<div class="em-section-news-list">' +
-          sectionArticles.map(function(article) {
-            return '<article class="em-section-news-item">' +
-              '<div>' +
-                '<span>' + safe(article.date ? formatDate(article.date) : '') + '</span>' +
-                '<h3>' + safe(article.title || '') + '</h3>' +
-                '<p>' + safe(article.summary || '') + '</p>' +
-              '</div>' +
-              '<button type="button" data-open-section-article="' + safe(article.id || '') + '">Leer noticia</button>' +
-            '</article>'
-          }).join('') +
-        '</div>'
-      : '<p>No hay noticias publicadas todavia en esta seccion.</p>'
-    ) +
-  '</section>'
-
-  body.querySelectorAll('[data-open-section-article]').forEach(function(button) {
-    button.addEventListener('click', function() {
-      const articleId = button.getAttribute('data-open-section-article')
-      dialog.close()
-      setTimeout(function() {
-        openArticle(articleId)
-      }, 120)
-    })
-  })
-
-  dialog.showModal()
-}
-
 function bindEvents() {
   document.querySelectorAll('[data-go-page]').forEach(function(button) {
     button.addEventListener('click', function() {
@@ -536,15 +480,6 @@ function bindEvents() {
   document.querySelectorAll('[data-open-article]').forEach(function(button) {
     button.addEventListener('click', function() {
       openArticle(button.getAttribute('data-open-article'))
-    })
-  })
-
-  document.querySelectorAll('.em-section-card').forEach(function(card) {
-    card.addEventListener('click', function(event) {
-      event.preventDefault()
-      const title = card.querySelector('h3')
-      const sectionName = title ? title.textContent.trim() : ''
-      if (sectionName) emOpenSectionNews(sectionName)
     })
   })
 
