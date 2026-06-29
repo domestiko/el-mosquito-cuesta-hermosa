@@ -26,6 +26,7 @@ let articles = []
 let notices = []
 let categoriesData = []
 let documents = []
+let directiva = []
 
 let currentPage = 0
 let pageDirection = 'next'
@@ -232,7 +233,7 @@ function documentsList() {
         '<p>' + safe(doc.description || '') + '</p>' +
         '<small>' + safe(doc.category || 'Documento') + (doc.date ? ' - ' + formatDate(doc.date) : '') + '</small>' +
       '</div>' +
-      (doc.file ? '<a href="' + pathUrl(doc.file) + '" target="_blank" rel="noopener noreferrer" download>Descargar</a>' : '') +
+      (doc.file ? '<a href="' + pathUrl(doc.file) + '" target="_blank" rel="noopener noreferrer">Ver</a>' : '') +
     '</article>'
   }).join('')
 }
@@ -259,14 +260,14 @@ function reportCards() {
 function controls(label) {
   return '<div class="em-controls">' +
     '<button type="button" class="em-arrow" data-prev-page ' + (currentPage === 0 ? 'disabled' : '') + '>&lsaquo;</button>' +
-    '<span>' + safe(label) + ' &middot; Pagina ' + (currentPage + 1) + ' / 5</span>' +
+    '<span>' + safe(label) + ' &middot; Pagina ' + (currentPage + 1) + ' / 6</span>' +
     '<button type="button" class="em-arrow" data-next-page ' + (currentPage === 4 ? 'disabled' : '') + '>&rsaquo;</button>' +
   '</div>'
 }
 
 function dots() {
   let html = ''
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     html += '<button type="button" class="em-dot ' + (i === currentPage ? 'is-active' : '') + '" data-go-page="' + i + '"></button>'
   }
   return '<div class="em-dots">' + html + '</div>'
@@ -348,6 +349,46 @@ function pageDocsReports() {
   '</section>'
 }
 
+
+function directivaPhoto(member) {
+  if (member.photo) {
+    return imageTag(member.photo, member.name, 'em-directiva-photo')
+  }
+
+  return '<div class="em-directiva-photo em-directiva-placeholder">' + safe((member.name || 'JV').slice(0, 1)) + '</div>'
+}
+
+function directivaCards() {
+  if (!directiva.length) {
+    return '<p class="em-muted">La informacion de la directiva aparecera aqui.</p>'
+  }
+
+  return directiva.map(function(member) {
+    return '<article class="em-directiva-card">' +
+      directivaPhoto(member) +
+      '<div>' +
+        '<span>' + safe(member.role || 'Miembro') + '</span>' +
+        '<h3>' + safe(member.name || '') + '</h3>' +
+        (member.phone ? '<p>Tel. ' + safe(member.phone) + '</p>' : '') +
+        (member.email ? '<p>' + safe(member.email) + '</p>' : '') +
+        (member.description ? '<small>' + safe(member.description) + '</small>' : '') +
+      '</div>' +
+    '</article>'
+  }).join('')
+}
+
+function pageDirectiva() {
+  return '<section class="em-page direction-' + pageDirection + '">' +
+    controls('Directiva Junta de Vecinos') +
+    '<div class="em-single-page em-directiva-page">' +
+      '<div class="em-section-heading"><h2>Directiva de la Junta de Vecinos</h2><p>Representantes comunitarios, funciones y canales de contacto.</p></div>' +
+      '<div class="em-directiva-grid">' + directivaCards() + '</div>' +
+    '</div>' +
+    dots() +
+  '</section>'
+}
+
+
 function pageBackCover() {
   return '<section class="em-page em-back-page direction-' + pageDirection + '">' +
     controls('Cierre') +
@@ -369,11 +410,12 @@ function currentPageHTML() {
   if (currentPage === 1) return pageNewsSections()
   if (currentPage === 2) return pageSearch()
   if (currentPage === 3) return pageDocsReports()
+  if (currentPage === 4) return pageDirectiva()
   return pageBackCover()
 }
 
 function goToPage(index) {
-  const next = Math.max(0, Math.min(4, Number(index)))
+  const next = Math.max(0, Math.min(5, Number(index)))
   if (next === currentPage) return
 
   pageDirection = next > currentPage ? 'next' : 'prev'
@@ -405,6 +447,7 @@ function render() {
           '<button type="button" data-go-page="1">Secciones</button>' +
           '<button type="button" data-go-page="3">Documentos</button>' +
           '<button type="button" data-go-page="3">Reportes</button>' +
+          '<button type="button" data-go-page="4">Directiva</button>' +
         '</nav>' +
       '</header>' +
       '<div class="em-update-bar"><strong>Ultima actualizacion</strong><span>' + safe(getLead() ? getLead().title : 'El periodico comunitario esta activo') + '</span></div>' +
@@ -417,6 +460,62 @@ function render() {
   '</dialog>'
 
   bindEvents()
+}
+
+
+
+function emNormalizeText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+}
+
+function emOpenSectionNews(sectionName) {
+  const normalizedSection = emNormalizeText(sectionName)
+
+  const sectionArticles = articles.filter(function(article) {
+    return emNormalizeText(article.category) === normalizedSection
+  })
+
+  const dialog = document.querySelector('#articleDialog')
+  const body = document.querySelector('.em-dialog-body')
+
+  if (!dialog || !body) return
+
+  body.innerHTML = '<section class="em-section-news-modal">' +
+    '<div class="em-kicker"><span>Seccion</span></div>' +
+    '<h1>' + safe(sectionName) + '</h1>' +
+    (sectionArticles.length
+      ? '<p>Noticias publicadas en esta seccion.</p>' +
+        '<div class="em-section-news-list">' +
+          sectionArticles.map(function(article) {
+            return '<article class="em-section-news-item">' +
+              '<div>' +
+                '<span>' + safe(article.date ? formatDate(article.date) : '') + '</span>' +
+                '<h3>' + safe(article.title || '') + '</h3>' +
+                '<p>' + safe(article.summary || '') + '</p>' +
+              '</div>' +
+              '<button type="button" data-open-section-article="' + safe(article.id || '') + '">Leer noticia</button>' +
+            '</article>'
+          }).join('') +
+        '</div>'
+      : '<p>No hay noticias publicadas todavia en esta seccion.</p>'
+    ) +
+  '</section>'
+
+  body.querySelectorAll('[data-open-section-article]').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const articleId = button.getAttribute('data-open-section-article')
+      dialog.close()
+      setTimeout(function() {
+        openArticle(articleId)
+      }, 120)
+    })
+  })
+
+  dialog.showModal()
 }
 
 function bindEvents() {
@@ -437,6 +536,15 @@ function bindEvents() {
   document.querySelectorAll('[data-open-article]').forEach(function(button) {
     button.addEventListener('click', function() {
       openArticle(button.getAttribute('data-open-article'))
+    })
+  })
+
+  document.querySelectorAll('.em-section-card').forEach(function(card) {
+    card.addEventListener('click', function(event) {
+      event.preventDefault()
+      const title = card.querySelector('h3')
+      const sectionName = title ? title.textContent.trim() : ''
+      if (sectionName) emOpenSectionNews(sectionName)
     })
   })
 
@@ -510,7 +618,8 @@ async function init() {
       getJSON('/data/noticias.json', { items: [] }),
       getJSON('/data/avisos.json', { items: [] }),
       getJSON('/data/categorias.json', { items: [] }),
-      getJSON('/data/documentos.json', { items: [] })
+      getJSON('/data/documentos.json', { items: [] }),
+      getJSON('/data/directiva.json', { items: [] })
     ])
 
     site = Object.assign({}, DEFAULT_SITE, results[0] || {})
@@ -518,6 +627,7 @@ async function init() {
     notices = normalizeList(results[2])
     categoriesData = normalizeList(results[3])
     documents = normalizeList(results[4])
+    directiva = normalizeList(results[5])
 
     render()
   } catch (error) {
@@ -526,70 +636,3 @@ async function init() {
 }
 
 init()
-function emNormalizeText(value) {
-  return String(value || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim()
-}
-
-function emOpenSectionNews(sectionName) {
-  const normalizedSection = emNormalizeText(sectionName)
-
-  const sectionArticles = articles.filter(function(article) {
-    return emNormalizeText(article.category) === normalizedSection
-  })
-
-  const dialog = document.querySelector('#articleDialog')
-  const body = document.querySelector('.em-dialog-body')
-
-  if (!dialog || !body) return
-
-  body.innerHTML = '<section class="em-section-news-modal">' +
-    '<div class="em-kicker"><span>Seccion</span></div>' +
-    '<h1>' + safe(sectionName) + '</h1>' +
-    (sectionArticles.length
-      ? '<p>Noticias publicadas en esta seccion.</p>' +
-        '<div class="em-section-news-list">' +
-          sectionArticles.map(function(article) {
-            return '<article class="em-section-news-item">' +
-              '<div>' +
-                '<span>' + safe(article.date ? formatDate(article.date) : '') + '</span>' +
-                '<h3>' + safe(article.title || '') + '</h3>' +
-                '<p>' + safe(article.summary || '') + '</p>' +
-              '</div>' +
-              '<button type="button" data-open-section-article="' + safe(article.id || '') + '">Leer noticia</button>' +
-            '</article>'
-          }).join('') +
-        '</div>'
-      : '<p>No hay noticias publicadas todavia en esta seccion.</p>'
-    ) +
-  '</section>'
-
-  body.querySelectorAll('[data-open-section-article]').forEach(function(button) {
-    button.addEventListener('click', function() {
-      const articleId = button.getAttribute('data-open-section-article')
-      dialog.close()
-      setTimeout(function() {
-        openArticle(articleId)
-      }, 120)
-    })
-  })
-
-  dialog.showModal()
-}
-
-document.addEventListener('click', function(event) {
-  const card = event.target.closest('.em-section-card')
-
-  if (!card) return
-
-  const title = card.querySelector('h3')
-  const sectionName = title ? title.textContent.trim() : ''
-
-  if (!sectionName) return
-
-  event.preventDefault()
-  emOpenSectionNews(sectionName)
-})
