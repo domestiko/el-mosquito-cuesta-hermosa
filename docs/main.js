@@ -232,7 +232,7 @@ function documentsList() {
         '<p>' + safe(doc.description || '') + '</p>' +
         '<small>' + safe(doc.category || 'Documento') + (doc.date ? ' - ' + formatDate(doc.date) : '') + '</small>' +
       '</div>' +
-      (doc.file ? '<a href="' + pathUrl(doc.file) + '" target="_blank" rel="noopener noreferrer">Ver</a>' : '') +
+      (doc.file ? '<a href="' + pathUrl(doc.file) + '" target="_blank" rel="noopener noreferrer" download>Descargar</a>' : '') +
     '</article>'
   }).join('')
 }
