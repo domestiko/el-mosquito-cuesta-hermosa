@@ -602,3 +602,17 @@ async function init() {
 }
 
 init()
+document.addEventListener('click', function(event) {
+  const logoArea = event.target.closest('.premium-logo-wrap, .premium-masthead-logo')
+
+  if (!logoArea) return
+
+  event.preventDefault()
+
+  if (typeof goToPage === 'function') {
+    goToPage(0)
+    return
+  }
+
+  window.location.hash = '#portada'
+})
