@@ -712,3 +712,123 @@ emLoadDirectivaData().then(function() {
     if (typeof render === 'function') render()
   }, 300)
 })
+(function () {
+  if (window.__emSectionsClickFinalInstalled) return
+  window.__emSectionsClickFinalInstalled = true
+
+  function normalizeSectionText(value) {
+    return String(value || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
+
+  function sectionMatches(articleCategory, sectionName) {
+    const articleText = normalizeSectionText(articleCategory)
+    const sectionText = normalizeSectionText(sectionName)
+
+    if (!articleText || !sectionText) return false
+
+    return (
+      articleText === sectionText ||
+      articleText.includes(sectionText) ||
+      sectionText.includes(articleText)
+    )
+  }
+
+  function getSectionNameFromCard(card) {
+    const title =
+      card.querySelector('h3') ||
+      card.querySelector('strong') ||
+      card.querySelector('span')
+
+    return title ? title.textContent.trim() : ''
+  }
+
+  function openSectionNews(sectionName) {
+    const dialog = document.querySelector('#articleDialog') || document.querySelector('.em-dialog')
+    const body =
+      document.querySelector('.em-dialog-body') ||
+      document.querySelector('#articleDialog .dialog-body') ||
+      document.querySelector('.dialog-body')
+
+    if (!dialog || !body) {
+      console.warn('No se encontro la ventana de noticias.')
+      return
+    }
+
+    const sectionArticles = (window.articles || articles || []).filter(function (article) {
+      return sectionMatches(article.category, sectionName)
+    })
+
+    body.innerHTML =
+      '<section class="em-section-news-modal">' +
+        '<div class="em-kicker"><span>Seccion</span></div>' +
+        '<h1>' + safe(sectionName) + '</h1>' +
+        (
+          sectionArticles.length
+            ? '<p>Noticias publicadas en esta seccion.</p>' +
+              '<div class="em-section-news-list">' +
+                sectionArticles.map(function (article) {
+                  return (
+                    '<article class="em-section-news-item">' +
+                      (article.image
+                        ? '<img class="em-section-news-thumb" src="' + pathUrl(article.image) + '" alt="' + safe(article.title || '') + '" />'
+                        : '<div class="em-section-news-thumb empty"></div>'
+                      ) +
+                      '<div>' +
+                        '<span>' + safe(article.date ? formatDate(article.date) : '') + '</span>' +
+                        '<h3>' + safe(article.title || '') + '</h3>' +
+                        '<p>' + safe(article.summary || '') + '</p>' +
+                      '</div>' +
+                      '<button type="button" data-section-article-id="' + safe(article.id || '') + '">Leer noticia</button>' +
+                    '</article>'
+                  )
+                }).join('') +
+              '</div>'
+            : '<p>No hay noticias publicadas todavia en esta seccion.</p>'
+        ) +
+      '</section>'
+
+    body.querySelectorAll('[data-section-article-id]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const articleId = button.getAttribute('data-section-article-id')
+
+        if (typeof dialog.close === 'function') {
+          dialog.close()
+        }
+
+        setTimeout(function () {
+          if (typeof openArticle === 'function') {
+            openArticle(articleId)
+          }
+        }, 120)
+      })
+    })
+
+    if (typeof dialog.showModal === 'function') {
+      dialog.showModal()
+    } else {
+      dialog.removeAttribute('hidden')
+      dialog.style.display = 'block'
+    }
+  }
+
+  document.addEventListener('click', function (event) {
+    const card = event.target.closest('.em-section-card, .premium-section-card, .category-card')
+
+    if (!card) return
+
+    const sectionName = getSectionNameFromCard(card)
+
+    if (!sectionName || sectionName.toLowerCase() === 'todas') return
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    openSectionNews(sectionName)
+  }, true)
+})()
