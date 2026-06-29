@@ -4921,3 +4921,137 @@ body {
     justify-items: center !important;
   }
 }
+.em-directiva-page {
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+}
+
+.em-directiva-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  max-height: 440px !important;
+  overflow: auto !important;
+  padding-right: 8px !important;
+}
+
+.em-directiva-card {
+  display: grid !important;
+  grid-template-columns: 92px 1fr !important;
+  gap: 14px !important;
+  align-items: center !important;
+  background: rgba(255,255,255,0.72) !important;
+  border: 1px solid rgba(23,23,23,0.12) !important;
+  border-left: 4px solid var(--primary) !important;
+  padding: 12px !important;
+  border-radius: 5px !important;
+}
+
+.em-directiva-photo {
+  width: 92px !important;
+  height: 92px !important;
+  border-radius: 999px !important;
+  object-fit: cover !important;
+  background: rgba(82,110,63,0.14) !important;
+  border: 1px solid rgba(23,23,23,0.12) !important;
+  display: grid !important;
+  place-items: center !important;
+  font-family: var(--serif) !important;
+  font-size: 2rem !important;
+  color: var(--primary) !important;
+}
+
+.em-directiva-card span {
+  color: var(--primary) !important;
+  font-size: 0.68rem !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.em-directiva-card h3 {
+  font-family: var(--serif) !important;
+  color: #183c2e !important;
+  font-size: 1.45rem !important;
+  line-height: 1.05 !important;
+  margin: 5px 0 7px !important;
+}
+
+.em-directiva-card p {
+  color: rgba(23,23,23,0.68) !important;
+  margin: 0 0 4px !important;
+  font-size: 0.86rem !important;
+}
+
+.em-directiva-card small {
+  display: block !important;
+  color: rgba(23,23,23,0.58) !important;
+  line-height: 1.35 !important;
+  margin-top: 4px !important;
+}
+
+.em-back-page {
+  background:
+    linear-gradient(rgba(251,247,239,.76), rgba(251,247,239,.88)),
+    url("/uploads/fondo-revista-el-mosquito.jpg") center / cover,
+    #fbf7ef !important;
+}
+
+.em-back-content {
+  min-height: 505px !important;
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  gap: 16px !important;
+  text-align: center !important;
+}
+
+.em-back-logo {
+  width: min(420px, 80vw) !important;
+  height: 180px !important;
+  object-fit: contain !important;
+  background: transparent !important;
+}
+
+.em-back-content h2 {
+  font-family: var(--serif) !important;
+  color: #183c2e !important;
+  font-size: clamp(1.8rem, 3.5vw, 3rem) !important;
+  line-height: 1.08 !important;
+  max-width: 640px !important;
+}
+
+.em-back-actions {
+  display: flex !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+}
+
+.em-back-actions a,
+.em-back-actions button {
+  border: 0 !important;
+  background: var(--primary) !important;
+  color: white !important;
+  text-decoration: none !important;
+  padding: 10px 14px !important;
+  font-size: 0.72rem !important;
+  font-weight: 950 !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+}
+
+@media (max-width: 900px) {
+  .em-directiva-grid {
+    grid-template-columns: 1fr !important;
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .em-directiva-card {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    justify-items: center !important;
+  }
+}
