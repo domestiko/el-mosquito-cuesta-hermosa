@@ -1,19 +1,15 @@
-/* MAIN.JS - MODO REVISTA DIGITAL */
-/* Version estable ASCII safe. No usa librerias externas. */
-
 const DEFAULT_SITE = {
   siteName: 'El Mosquito',
   communityName: 'Cuesta Hermosa II',
   subtitle: 'Periodico comunitario de Cuesta Hermosa II',
-  tagline: 'Noticias, avisos y participacion vecinal',
+  tagline: 'Informacion, transparencia y comunidad en un solo lugar.',
   logo: '/uploads/logo-encabezado-mosquito.png',
   heroImage: '/uploads/logo-el-mosquito-transparente.png',
   location: 'Cuesta Hermosa II - Santo Domingo',
   editionLabel: 'Edicion digital',
-  heroLabel: 'Portada',
   heroTitle: 'La voz comunitaria de Cuesta Hermosa II',
-  heroText: 'Un espacio editorial para informar, organizar y conectar a los residentes con noticias, avisos, mantenimiento, seguridad y actividades de interes comun.',
-  heroButtonText: 'Leer portada',
+  heroText: 'Informacion, transparencia y comunidad en un solo lugar.',
+  heroButtonText: 'Leer mas',
   whatsappNumber: '',
   primaryColor: '#526E3F',
   accentColor: '#A45B2B',
@@ -30,10 +26,10 @@ let articles = []
 let notices = []
 let categoriesData = []
 let documents = []
-let currentCategory = 'all'
+
+let currentPage = 0
+let pageDirection = 'next'
 let currentSearch = ''
-let currentMagazinePage = 0
-let magazineDirection = 'next'
 
 const app = document.querySelector('#app') || document.body
 
@@ -77,21 +73,22 @@ function normalizeList(data) {
   return []
 }
 
+function sortByDate(items) {
+  return items.slice().sort(function(a, b) {
+    return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
+  })
+}
+
 function formatDate(dateValue) {
   if (!dateValue) return ''
   const date = new Date(dateValue)
   if (Number.isNaN(date.getTime())) return ''
+
   return new Intl.DateTimeFormat('es-DO', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   }).format(date)
-}
-
-function sortByDate(items) {
-  return items.slice().sort(function(a, b) {
-    return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
-  })
 }
 
 function bodyToHTML(text) {
@@ -106,15 +103,17 @@ function bodyToHTML(text) {
     .join('')
 }
 
-function getImage(path, alt, className) {
-  if (!path) return '<div class="' + className + ' fallback-image"><span>El Mosquito</span></div>'
+function imageTag(path, alt, className) {
+  if (!path) {
+    return '<div class="' + className + ' image-fallback"><span>El Mosquito</span></div>'
+  }
 
   return '<img class="' + className + '" src="' + pathUrl(path) + '" alt="' + safe(alt || 'Imagen') + '" loading="lazy" />'
 }
 
 function reportHref(type) {
   const number = String(site.whatsappNumber || '').replace(/\D/g, '')
-  if (!number) return '#reportar'
+  if (!number) return '#'
 
   const message = type
     ? 'Hola, quiero reportar una situacion para El Mosquito / Cuesta Hermosa II.\n\nTipo de reporte: ' + type + '\nUbicacion exacta:\nDescripcion:\nFoto o evidencia:'
@@ -123,279 +122,263 @@ function reportHref(type) {
   return 'https://wa.me/' + number + '?text=' + encodeURIComponent(message)
 }
 
-function renderTopUpdate(lead) {
-  const parts = []
-  if (lead && lead.title) parts.push('Principal: ' + safe(lead.title))
-  if (documents.length) parts.push('Documentos oficiales disponibles')
-  if (notices.length) parts.push('Avisos comunitarios activos')
-
-  if (!parts.length) return ''
-
-  return '<section class="update-bar">' +
-    '<span>Ultima actualizacion</span>' +
-    '<div>' + parts.slice(0, 3).join(' &middot; ') + '</div>' +
-  '</section>'
+function getLead() {
+  const sorted = sortByDate(articles)
+  return sorted.find(function(article) { return article.featured }) || sorted[0]
 }
 
-function renderArticleButton(article, label) {
-  if (!article) return ''
-  return '<button class="text-button" data-open-article="' + safe(article.id || '') + '">' + safe(label || 'Leer noticia') + '</button>'
+function otherArticles() {
+  const lead = getLead()
+  return sortByDate(articles).filter(function(article) {
+    return !lead || String(article.id) !== String(lead.id)
+  })
 }
 
-function renderSmallArticle(article) {
-  return '<article class="magazine-mini-story">' +
-    '<div class="row-kicker">' +
-      '<span>' + safe(article.category || 'Noticia') + '</span>' +
-      (article.date ? '<span>' + formatDate(article.date) + '</span>' : '') +
-    '</div>' +
-    '<h3>' + safe(article.title || '') + '</h3>' +
-    '<p>' + safe(article.summary || '') + '</p>' +
-    renderArticleButton(article, 'Leer') +
-  '</article>'
-}
-
-function renderArticleCard(article) {
-  return '<article class="news-row professional-news-row">' +
-    '<div class="row-kicker">' +
-      '<span>' + safe(article.category || 'Noticia') + '</span>' +
-      (article.date ? '<span>' + formatDate(article.date) + '</span>' : '') +
-    '</div>' +
-    '<h3>' + safe(article.title || '') + '</h3>' +
-    '<p>' + safe(article.summary || '') + '</p>' +
-    renderArticleButton(article, 'Leer noticia') +
-  '</article>'
-}
-
-function getFilteredArticles() {
+function filteredArticles() {
+  const query = currentSearch.trim().toLowerCase()
   let list = sortByDate(articles)
 
-  if (currentCategory !== 'all') {
+  if (query) {
     list = list.filter(function(article) {
-      return article.category === currentCategory
-    })
-  }
-
-  if (currentSearch.trim()) {
-    const query = currentSearch.trim().toLowerCase()
-    list = list.filter(function(article) {
-      const content = [
-        article.title,
-        article.summary,
-        article.category,
-        article.author,
-        article.body
-      ].join(' ').toLowerCase()
-
-      return content.indexOf(query) !== -1
+      const text = [article.title, article.summary, article.category, article.body].join(' ').toLowerCase()
+      return text.indexOf(query) !== -1
     })
   }
 
   return list
 }
 
-function updateNewsList() {
-  const newsList = document.querySelector('#newsList')
-  const resultsCount = document.querySelector('#resultsCount')
-  const list = getFilteredArticles()
-
-  if (newsList) {
-    newsList.innerHTML = list.length
-      ? list.map(function(article) { return renderArticleCard(article) }).join('')
-      : '<div class="empty-state">No encontramos publicaciones con ese filtro.</div>'
-  }
-
-  if (resultsCount) {
-    resultsCount.textContent = list.length + ' publicaciones'
-  }
-
-  bindArticleButtons()
+function openArticleButton(article, label) {
+  if (!article) return ''
+  return '<button type="button" class="em-read-button" data-open-article="' + safe(article.id || '') + '">' + safe(label || 'Leer mas') + '</button>'
 }
 
-function renderDocuments() {
-  const list = documents.filter(function(doc) { return doc && doc.featured !== false })
-
-  if (!list.length) return '<p class="magazine-muted">No hay documentos disponibles en este momento.</p>'
-
-  return '<div class="documents-grid magazine-documents-grid">' +
-    list.map(function(doc) {
-      return '<details class="document-card">' +
-        '<summary>' +
-          '<span>' + safe(doc.category || 'Documento') + '</span>' +
-          '<strong>' + safe(doc.title || 'Documento oficial') + '</strong>' +
-        '</summary>' +
-        (doc.description ? '<p>' + safe(doc.description) + '</p>' : '') +
-        (doc.date ? '<small>' + formatDate(doc.date) + '</small>' : '') +
-        (doc.file ? '<a href="' + pathUrl(doc.file) + '" target="_blank" rel="noopener noreferrer">Descargar archivo</a>' : '') +
-      '</details>'
-    }).join('') +
+function kicker(category, date) {
+  return '<div class="em-kicker">' +
+    '<span>' + safe(category || 'Noticia') + '</span>' +
+    (date ? '<span>' + formatDate(date) + '</span>' : '') +
   '</div>'
 }
 
-function renderNotices() {
+function miniStory(article) {
+  if (!article) return ''
+  return '<article class="em-mini-story">' +
+    (article.image ? imageTag(article.image, article.title, 'em-mini-photo') : '') +
+    '<div>' +
+      kicker(article.category, article.date) +
+      '<h3>' + safe(article.title || '') + '</h3>' +
+      '<p>' + safe(article.summary || '') + '</p>' +
+      openArticleButton(article, 'Leer mas') +
+    '</div>' +
+  '</article>'
+}
+
+function mainStory(article) {
+  if (!article) return '<p class="em-muted">Las noticias apareceran aqui.</p>'
+  return '<article class="em-main-story">' +
+    (article.image ? imageTag(article.image, article.title, 'em-main-photo') : '') +
+    kicker(article.category, article.date) +
+    '<h2>' + safe(article.title || '') + '</h2>' +
+    '<p>' + safe(article.summary || '') + '</p>' +
+    openArticleButton(article, 'Leer mas') +
+  '</article>'
+}
+
+function noticeCards() {
   if (!notices.length) {
-    return '<article class="notice-item"><h3>No hay avisos disponibles</h3><p>Los avisos comunitarios apareceran aqui.</p></article>'
+    return '<article class="em-notice-card"><h3>No hay avisos disponibles</h3><p>Los avisos apareceran aqui.</p></article>'
   }
 
-  return notices.map(function(notice) {
-    return '<article class="notice-item"><h3>' + safe(notice.title || 'Aviso') + '</h3><p>' + safe(notice.text || '') + '</p></article>'
+  return notices.slice(0, 3).map(function(notice) {
+    return '<article class="em-notice-card">' +
+      '<h3>' + safe(notice.title || 'Aviso') + '</h3>' +
+      '<p>' + safe(notice.text || '') + '</p>' +
+    '</article>'
   }).join('')
 }
 
-function renderReportSection() {
+function sectionCards() {
+  const cats = categoriesData.filter(function(cat) {
+    return cat && cat.featured !== false
+  }).slice(0, 6)
+
+  if (!cats.length) {
+    return '<p class="em-muted">Las secciones apareceran aqui.</p>'
+  }
+
+  return cats.map(function(cat) {
+    return '<article class="em-section-card">' +
+      (cat.image ? imageTag(cat.image, cat.name, 'em-section-photo') : '<div class="em-section-photo empty"></div>') +
+      '<h3>' + safe(cat.name || 'Seccion') + '</h3>' +
+      '<p>' + safe(cat.description || '') + '</p>' +
+    '</article>'
+  }).join('')
+}
+
+function documentsList() {
+  const docs = documents.filter(function(doc) {
+    return doc && doc.featured !== false
+  }).slice(0, 6)
+
+  if (!docs.length) {
+    return '<p class="em-muted">Los documentos oficiales apareceran aqui.</p>'
+  }
+
+  return docs.map(function(doc) {
+    return '<article class="em-doc-row">' +
+      '<div class="em-pdf-icon">PDF</div>' +
+      '<div>' +
+        '<h3>' + safe(doc.title || 'Documento oficial') + '</h3>' +
+        '<p>' + safe(doc.description || '') + '</p>' +
+        '<small>' + safe(doc.category || 'Documento') + (doc.date ? ' - ' + formatDate(doc.date) : '') + '</small>' +
+      '</div>' +
+      (doc.file ? '<a href="' + pathUrl(doc.file) + '" target="_blank" rel="noopener noreferrer">Ver</a>' : '') +
+    '</article>'
+  }).join('')
+}
+
+function reportCards() {
   const reports = [
-    ['Inundacion / Drenaje', 'Imbornales, acumulacion de agua o filtrantes.'],
+    ['Inundacion / Drenaje', 'Imbornales, agua acumulada o filtrantes.'],
     ['Seguridad', 'Accesos, vigilancia o situaciones de riesgo.'],
     ['Mantenimiento', 'Calles, luces, tapas o areas comunes.'],
-    ['Limpieza', 'Basura, escombros, poda o sedimentos.'],
-    ['Otro reporte', 'Cualquier situacion comunitaria.']
+    ['Limpieza', 'Basura, poda, sedimentos o escombros.'],
+    ['Agua potable', 'Fugas, baja presion o interrupciones.'],
+    ['Otros', 'Otras situaciones comunitarias.']
   ]
 
-  return '<div class="report-grid">' +
-    reports.map(function(item, index) {
-      return '<a class="report-card" href="' + reportHref(item[0]) + '" target="_blank" rel="noopener noreferrer">' +
-        '<span>' + String(index + 1).padStart(2, '0') + '</span>' +
-        '<strong>' + safe(item[0]) + '</strong>' +
-        '<small>' + safe(item[1]) + '</small>' +
-      '</a>'
-    }).join('') +
+  return reports.map(function(item, index) {
+    return '<a class="em-report-card" href="' + reportHref(item[0]) + '" target="_blank" rel="noopener noreferrer">' +
+      '<span>' + String(index + 1).padStart(2, '0') + '</span>' +
+      '<strong>' + safe(item[0]) + '</strong>' +
+      '<small>' + safe(item[1]) + '</small>' +
+    '</a>'
+  }).join('')
+}
+
+function controls(label) {
+  return '<div class="em-controls">' +
+    '<button type="button" class="em-arrow" data-prev-page ' + (currentPage === 0 ? 'disabled' : '') + '>&lsaquo;</button>' +
+    '<span>' + safe(label) + ' &middot; Pagina ' + (currentPage + 1) + ' / 5</span>' +
+    '<button type="button" class="em-arrow" data-next-page ' + (currentPage === 4 ? 'disabled' : '') + '>&rsaquo;</button>' +
   '</div>'
 }
 
-function renderMagazineControls(totalPages, label) {
-  return '<div class="magazine-controls">' +
-    '<button class="magazine-control" data-magazine-prev type="button"' + (currentMagazinePage === 0 ? ' disabled' : '') + '>Anterior</button>' +
-    '<span>Pagina ' + (currentMagazinePage + 1) + ' de ' + totalPages + '</span>' +
-    '<button class="magazine-control primary" data-magazine-next type="button"' + (currentMagazinePage === totalPages - 1 ? ' disabled' : '') + '>Siguiente</button>' +
-  '</div>' +
-  '<div class="magazine-page-label">' + safe(label || '') + '</div>'
+function dots() {
+  let html = ''
+  for (let i = 0; i < 5; i++) {
+    html += '<button type="button" class="em-dot ' + (i === currentPage ? 'is-active' : '') + '" data-go-page="' + i + '"></button>'
+  }
+  return '<div class="em-dots">' + html + '</div>'
 }
 
-function renderMagazineDots(totalPages) {
-  let dots = ''
-  for (let i = 0; i < totalPages; i++) {
-    dots += '<button class="magazine-dot ' + (i === currentMagazinePage ? 'is-active' : '') + '" data-magazine-go="' + i + '" type="button" aria-label="Ir a pagina ' + (i + 1) + '"></button>'
-  }
-  return '<div class="magazine-dots">' + dots + '</div>'
-}
+function pageCover() {
+  const lead = getLead()
 
-function renderMagazinePage(pageIndex, totalPages, lead, side, moreNews, categories) {
-  const pageClass = 'magazine-page magazine-page-' + pageIndex + ' is-active direction-' + magazineDirection
-
-  if (pageIndex === 0) {
-    return '<section id="portada" class="' + pageClass + '">' +
-      renderMagazineControls(totalPages, 'Portada') +
-      '<div class="magazine-spread cover-spread">' +
-        '<div class="magazine-cover-image">' +
-          getImage(site.heroImage || site.logo, site.siteName, 'story-image lead-image fixed-cover-image') +
-        '</div>' +
-        '<article class="magazine-cover-story">' +
-          '<span class="eyebrow">' + safe(lead ? (lead.category || 'Noticia principal') : 'Portada') + '</span>' +
-          '<h2>' + safe(lead ? lead.title : site.heroTitle) + '</h2>' +
-          '<p>' + safe(lead ? (lead.summary || '') : (site.heroText || '')) + '</p>' +
-          '<div class="story-meta">' +
-            '<span>' + safe(lead ? (lead.author || 'Redaccion') : 'Redaccion') + '</span>' +
-            (lead && lead.date ? '<span>' + formatDate(lead.date) + '</span>' : '') +
-          '</div>' +
-          (lead ? '<button class="primary-button" data-open-article="' + safe(lead.id || '') + '">' + safe(site.heroButtonText || 'Leer portada') + '</button>' : '') +
-        '</article>' +
+  return '<section class="em-page em-cover-page direction-' + pageDirection + '">' +
+    controls('Portada') +
+    '<div class="em-cover-layout">' +
+      '<div class="em-cover-photo">' +
+        imageTag(site.heroImage || site.logo, site.siteName, 'em-cover-logo') +
       '</div>' +
-      renderMagazineDots(totalPages) +
-    '</section>'
-  }
-
-  if (pageIndex === 1) {
-    return '<section id="noticias" class="' + pageClass + '">' +
-      renderMagazineControls(totalPages, 'Noticias principales') +
-      '<div class="magazine-spread two-column-spread">' +
-        '<div class="magazine-column main-column">' +
-          '<div class="section-heading"><span>En desarrollo</span><h2>Noticias principales</h2></div>' +
-          side.concat(moreNews.slice(0, 1)).map(renderSmallArticle).join('') +
-        '</div>' +
-        '<aside class="magazine-column side-column">' +
-          '<div class="section-heading"><span>Avisos</span><h2>Comunidad</h2></div>' +
-          '<div class="notice-list">' + renderNotices() + '</div>' +
-        '</aside>' +
-      '</div>' +
-      renderMagazineDots(totalPages) +
-    '</section>'
-  }
-
-  if (pageIndex === 2) {
-    return '<section id="categorias" class="' + pageClass + '">' +
-      renderMagazineControls(totalPages, 'Secciones') +
-      '<div class="magazine-spread">' +
-        '<div class="magazine-full">' +
-          '<div class="section-heading"><span>Secciones</span><h2>Explorar el periodico</h2></div>' +
-          '<section class="interactive-panel professional-search magazine-search">' +
-            '<div class="search-box">' +
-              '<label for="searchInput">Buscar en el periodico</label>' +
-              '<input id="searchInput" type="search" placeholder="Buscar: imbornales, elecciones, seguridad..." value="' + safe(currentSearch) + '" />' +
-            '</div>' +
-            '<div class="interactive-meta">' +
-              '<span id="resultsCount">' + getFilteredArticles().length + ' publicaciones</span>' +
-              '<a href="#documentos" data-magazine-link="3">Ver documentos</a>' +
-              '<a href="' + reportHref() + '" target="_blank" rel="noopener noreferrer">Reportar situacion</a>' +
-            '</div>' +
-          '</section>' +
-          '<div class="category-ribbon magazine-category-ribbon">' +
-            '<button class="category-card ' + (currentCategory === 'all' ? 'is-active' : '') + '" data-filter-category="all"><span>Todas</span><p>Ver todas.</p></button>' +
-            categories.map(function(category) {
-              return '<button class="category-card ' + (currentCategory === category.name ? 'is-active' : '') + '" data-filter-category="' + safe(category.name || '') + '">' +
-                '<span>' + safe(category.name || 'Categoria') + '</span>' +
-                '<p>' + safe(category.description || '') + '</p>' +
-              '</button>'
-            }).join('') +
-          '</div>' +
-          '<div id="newsList" class="news-list magazine-news-list">' +
-            getFilteredArticles().map(renderArticleCard).join('') +
-          '</div>' +
-        '</div>' +
-      '</div>' +
-      renderMagazineDots(totalPages) +
-    '</section>'
-  }
-
-  if (pageIndex === 3) {
-    return '<section id="documentos" class="' + pageClass + '">' +
-      renderMagazineControls(totalPages, 'Archivo institucional') +
-      '<div class="magazine-spread">' +
-        '<div class="magazine-full">' +
-          '<div class="section-heading"><span>Archivo institucional</span><h2>Documentos oficiales</h2></div>' +
-          renderDocuments() +
-        '</div>' +
-      '</div>' +
-      renderMagazineDots(totalPages) +
-    '</section>'
-  }
-
-  return '<section id="reportar" class="' + pageClass + '">' +
-    renderMagazineControls(totalPages, 'Participacion comunitaria') +
-    '<div class="magazine-spread">' +
-      '<div class="magazine-full">' +
-        '<div class="section-heading"><span>Participacion comunitaria</span><h2>Reportar situaciones</h2></div>' +
-        '<p class="report-intro">Usa esta seccion para reportar situaciones que afecten la seguridad, el mantenimiento, el drenaje, la limpieza o la convivencia dentro de Cuesta Hermosa II.</p>' +
-        renderReportSection() +
-        '<p class="report-note">Al enviar el reporte, incluye ubicacion exacta, foto si la tienes, hora aproximada y una breve descripcion.</p>' +
+      '<div class="em-cover-copy">' +
+        kicker(lead ? lead.category : 'Portada', lead ? lead.date : new Date()) +
+        '<h1>' + safe(lead ? lead.title : site.heroTitle) + '</h1>' +
+        '<p>' + safe(lead ? (lead.summary || '') : (site.heroText || '')) + '</p>' +
+        '<div class="em-meta-line">' + safe(site.communityName || '') + ' - ' + safe(site.location || '') + '</div>' +
+        (lead ? openArticleButton(lead, site.heroButtonText || 'Leer mas') : '') +
       '</div>' +
     '</div>' +
-    renderMagazineDots(totalPages) +
+    dots() +
   '</section>'
 }
 
-function goToMagazinePage(index) {
-  const totalPages = 5
-  const nextIndex = Math.max(0, Math.min(totalPages - 1, Number(index)))
+function pageNewsSections() {
+  const list = otherArticles()
+  const principal = list[0] || getLead()
+  const secondary = list.slice(1, 4)
 
-  if (nextIndex === currentMagazinePage) return
+  return '<section class="em-page direction-' + pageDirection + '">' +
+    controls('Noticias y secciones') +
+    '<div class="em-spread">' +
+      '<div class="em-left">' +
+        '<div class="em-section-heading"><h2>Noticias</h2><p>Lo mas relevante de nuestra comunidad</p></div>' +
+        mainStory(principal) +
+        '<div class="em-notices-grid">' + noticeCards() + '</div>' +
+      '</div>' +
+      '<div class="em-right">' +
+        '<div class="em-section-heading"><h2>Secciones</h2><p>Encuentra lo que necesitas</p></div>' +
+        '<div class="em-sections-grid">' + sectionCards() + '</div>' +
+        '<div class="em-side-news">' + secondary.map(miniStory).join('') + '</div>' +
+      '</div>' +
+    '</div>' +
+    dots() +
+  '</section>'
+}
 
-  magazineDirection = nextIndex > currentMagazinePage ? 'next' : 'prev'
-  currentMagazinePage = nextIndex
+function pageSearch() {
+  return '<section class="em-page direction-' + pageDirection + '">' +
+    controls('Buscar en el periodico') +
+    '<div class="em-single-page">' +
+      '<div class="em-section-heading"><h2>Buscar en el periodico</h2><p>Busca noticias, documentos, temas y avisos.</p></div>' +
+      '<div class="em-search-bar">' +
+        '<input id="searchInput" type="search" value="' + safe(currentSearch) + '" placeholder="Buscar noticias, documentos, temas..." />' +
+        '<button type="button" data-search-action>Buscar</button>' +
+      '</div>' +
+      '<div id="searchResults" class="em-search-results">' + filteredArticles().slice(0, 8).map(miniStory).join('') + '</div>' +
+    '</div>' +
+    dots() +
+  '</section>'
+}
+
+function pageDocsReports() {
+  return '<section class="em-page direction-' + pageDirection + '">' +
+    controls('Documentos y reportes') +
+    '<div class="em-spread">' +
+      '<div class="em-left">' +
+        '<div class="em-section-heading"><h2>Documentos oficiales</h2><p>Transparencia y acceso a la informacion.</p></div>' +
+        '<div class="em-doc-list">' + documentsList() + '</div>' +
+      '</div>' +
+      '<div class="em-right">' +
+        '<div class="em-section-heading"><h2>Reportar situaciones</h2><p>Tu reporte ayuda a mejorar nuestra comunidad.</p></div>' +
+        '<div class="em-report-grid">' + reportCards() + '</div>' +
+      '</div>' +
+    '</div>' +
+    dots() +
+  '</section>'
+}
+
+function pageBackCover() {
+  return '<section class="em-page em-back-page direction-' + pageDirection + '">' +
+    controls('Cierre') +
+    '<div class="em-back-content">' +
+      imageTag(site.heroImage || site.logo, site.siteName, 'em-back-logo') +
+      '<h2>Informacion que nos une, comunidad que nos fortalece.</h2>' +
+      '<p>' + safe(site.communityName || 'Cuesta Hermosa II') + '</p>' +
+      '<div class="em-back-actions">' +
+        '<a href="' + reportHref() + '" target="_blank" rel="noopener noreferrer">Reportar situacion</a>' +
+        '<button type="button" data-go-page="0">Volver a portada</button>' +
+      '</div>' +
+    '</div>' +
+    dots() +
+  '</section>'
+}
+
+function currentPageHTML() {
+  if (currentPage === 0) return pageCover()
+  if (currentPage === 1) return pageNewsSections()
+  if (currentPage === 2) return pageSearch()
+  if (currentPage === 3) return pageDocsReports()
+  return pageBackCover()
+}
+
+function goToPage(index) {
+  const next = Math.max(0, Math.min(4, Number(index)))
+  if (next === currentPage) return
+
+  pageDirection = next > currentPage ? 'next' : 'prev'
+  currentPage = next
   render()
-
-  const reader = document.querySelector('#revista')
-  if (reader) {
-    reader.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
 }
 
 function render() {
@@ -404,146 +387,91 @@ function render() {
   document.documentElement.style.setProperty('--dark', site.darkColor || DEFAULT_SITE.darkColor)
   document.documentElement.style.setProperty('--paper', site.paperColor || DEFAULT_SITE.paperColor)
 
-  const sorted = sortByDate(articles)
-  const lead = sorted.find(function(article) { return article.featured }) || sorted[0]
-  const side = sorted.filter(function(article) { return !lead || article.id !== lead.id }).slice(0, 3)
-  const moreNews = sorted.filter(function(article) { return !lead || article.id !== lead.id }).slice(3)
-  const categories = categoriesData.filter(function(category) { return category && category.featured !== false })
-  const totalPages = 5
-
-  app.innerHTML = '<div class="page newspaper-page magazine-site">' +
-    '<header class="masthead professional-masthead magazine-masthead">' +
-      '<div class="topline">' +
-        '<span>' + safe(site.editionLabel || 'Edicion digital') + '</span>' +
-        '<span>' + safe(site.location || '') + '</span>' +
-        '<span>' + formatDate(new Date()) + '</span>' +
-      '</div>' +
-      '<div class="brand-row">' +
-        (site.logo ? '<img class="brand-logo" src="' + pathUrl(site.logo) + '" alt="' + safe(site.communityName) + '" />' : '') +
-        '<div class="masthead-title">' +
-          '<p>' + safe(site.subtitle || '') + '</p>' +
-          '<h1>' + safe(site.siteName || 'El Mosquito') + '</h1>' +
-          '<span>' + safe(site.tagline || '') + '</span>' +
+  app.innerHTML = '<div class="em-magazine-bg">' +
+    '<div class="em-shell">' +
+      '<header class="em-header">' +
+        '<div class="em-topline">' +
+          '<span>' + safe(site.editionLabel || 'Edicion digital') + '</span>' +
+          '<span>' + safe(site.location || '') + '</span>' +
+          '<span>' + formatDate(new Date()) + '</span>' +
         '</div>' +
-      '</div>' +
-      '<nav class="nav-links professional-nav">' +
-        '<a href="#portada" data-magazine-link="0">Portada</a>' +
-        '<a href="#noticias" data-magazine-link="1">Noticias</a>' +
-        '<a href="#categorias" data-magazine-link="2">Secciones</a>' +
-        '<a href="#documentos" data-magazine-link="3">Documentos</a>' +
-        '<a href="#reportar" data-magazine-link="4">Reportar</a>' +
-      '</nav>' +
-    '</header>' +
-
-    '<main>' +
-      renderTopUpdate(lead) +
-      '<section id="revista" class="magazine-reader" aria-live="polite">' +
-        renderMagazinePage(currentMagazinePage, totalPages, lead, side, moreNews, categories) +
-      '</section>' +
-    '</main>' +
-
-    '<footer class="footer professional-footer magazine-footer">' +
-      '<div><strong>' + safe(site.siteName) + ' - ' + safe(site.communityName) + '</strong><p>Medio informativo vecinal para noticias, avisos, documentos oficiales y participacion comunitaria.</p></div>' +
-      '<nav><a href="#portada" data-magazine-link="0">Portada</a><a href="#noticias" data-magazine-link="1">Noticias</a><a href="#documentos" data-magazine-link="3">Documentos</a><a href="#reportar" data-magazine-link="4">Reportar</a></nav>' +
-    '</footer>' +
+        '<button type="button" class="em-logo-button" data-go-page="0" aria-label="Ir a portada">' +
+          imageTag('/uploads/logo-masthead-el-mosquito.png', site.siteName, 'em-header-logo') +
+          '<span class="em-logo-fallback">' + safe(site.siteName || 'El Mosquito') + '</span>' +
+        '</button>' +
+        '<nav class="em-nav">' +
+          '<button type="button" data-go-page="0">Portada</button>' +
+          '<button type="button" data-go-page="1">Noticias</button>' +
+          '<button type="button" data-go-page="1">Secciones</button>' +
+          '<button type="button" data-go-page="3">Documentos</button>' +
+          '<button type="button" data-go-page="3">Reportes</button>' +
+        '</nav>' +
+      '</header>' +
+      '<div class="em-update-bar"><strong>Ultima actualizacion</strong><span>' + safe(getLead() ? getLead().title : 'El periodico comunitario esta activo') + '</span></div>' +
+      '<main id="emReader" class="em-reader">' + currentPageHTML() + '</main>' +
+    '</div>' +
   '</div>' +
-  '<a class="floating-report" href="' + reportHref() + '" target="_blank" rel="noopener noreferrer">Reportar situacion</a>' +
-  '<dialog id="articleDialog" class="article-dialog magazine-dialog">' +
-    '<button class="dialog-close" type="button" aria-label="Cerrar noticia">x</button>' +
-    '<div class="dialog-body"></div>' +
+  '<dialog id="articleDialog" class="em-dialog">' +
+    '<button type="button" class="em-dialog-close" aria-label="Cerrar noticia">x</button>' +
+    '<div class="em-dialog-body"></div>' +
   '</dialog>'
 
   bindEvents()
 }
 
-function bindArticleButtons() {
+function bindEvents() {
+  document.querySelectorAll('[data-go-page]').forEach(function(button) {
+    button.addEventListener('click', function() {
+      goToPage(button.getAttribute('data-go-page'))
+    })
+  })
+
+  document.querySelectorAll('[data-prev-page]').forEach(function(button) {
+    button.addEventListener('click', function() { goToPage(currentPage - 1) })
+  })
+
+  document.querySelectorAll('[data-next-page]').forEach(function(button) {
+    button.addEventListener('click', function() { goToPage(currentPage + 1) })
+  })
+
   document.querySelectorAll('[data-open-article]').forEach(function(button) {
     button.addEventListener('click', function() {
       openArticle(button.getAttribute('data-open-article'))
     })
   })
-}
 
-function bindEvents() {
-  bindArticleButtons()
-
-  document.querySelectorAll('[data-magazine-prev]').forEach(function(button) {
-    button.addEventListener('click', function() {
-      goToMagazinePage(currentMagazinePage - 1)
-    })
-  })
-
-  document.querySelectorAll('[data-magazine-next]').forEach(function(button) {
-    button.addEventListener('click', function() {
-      goToMagazinePage(currentMagazinePage + 1)
-    })
-  })
-
-  document.querySelectorAll('[data-magazine-go]').forEach(function(button) {
-    button.addEventListener('click', function() {
-      goToMagazinePage(button.getAttribute('data-magazine-go'))
-    })
-  })
-
-  document.querySelectorAll('[data-magazine-link]').forEach(function(link) {
-    link.addEventListener('click', function(event) {
-      event.preventDefault()
-      goToMagazinePage(link.getAttribute('data-magazine-link'))
-    })
-  })
-
-  const searchInput = document.querySelector('#searchInput')
-  if (searchInput) {
-    searchInput.addEventListener('input', function() {
-      currentSearch = searchInput.value || ''
-      updateNewsList()
+  const input = document.querySelector('#searchInput')
+  if (input) {
+    input.addEventListener('input', function() {
+      currentSearch = input.value || ''
+      const results = document.querySelector('#searchResults')
+      if (results) results.innerHTML = filteredArticles().slice(0, 8).map(miniStory).join('')
+      bindEvents()
     })
   }
 
-  document.querySelectorAll('[data-filter-category]').forEach(function(button) {
-    button.addEventListener('click', function() {
-      currentCategory = button.getAttribute('data-filter-category') || 'all'
-
-      document.querySelectorAll('[data-filter-category]').forEach(function(item) {
-        item.classList.remove('is-active')
-      })
-
-      button.classList.add('is-active')
-      updateNewsList()
-    })
-  })
-
   const dialog = document.querySelector('#articleDialog')
-  const closeButton = document.querySelector('.dialog-close')
+  const close = document.querySelector('.em-dialog-close')
 
-  if (dialog && closeButton) {
-    closeButton.addEventListener('click', function() {
+  if (dialog && close) {
+    close.addEventListener('click', function() {
       dialog.close()
     })
 
     dialog.addEventListener('click', function(event) {
-      if (event.target === dialog) {
-        dialog.close()
-      }
+      if (event.target === dialog) dialog.close()
     })
   }
-
-  document.addEventListener('keydown', handleMagazineKeys)
 }
 
-function handleMagazineKeys(event) {
-  if (event.key === 'ArrowRight') {
-    goToMagazinePage(currentMagazinePage + 1)
+document.onkeydown = function(event) {
+  const dialog = document.querySelector('#articleDialog')
+  if (event.key === 'Escape' && dialog && dialog.open) {
+    dialog.close()
+    return
   }
-
-  if (event.key === 'ArrowLeft') {
-    goToMagazinePage(currentMagazinePage - 1)
-  }
-
-  if (event.key === 'Escape') {
-    const dialog = document.querySelector('#articleDialog')
-    if (dialog && dialog.open) dialog.close()
-  }
+  if (event.key === 'ArrowRight') goToPage(currentPage + 1)
+  if (event.key === 'ArrowLeft') goToPage(currentPage - 1)
 }
 
 function openArticle(id) {
@@ -551,17 +479,14 @@ function openArticle(id) {
   if (!article) return
 
   const dialog = document.querySelector('#articleDialog')
-  const body = document.querySelector('#articleDialog .dialog-body')
+  const body = document.querySelector('.em-dialog-body')
   if (!dialog || !body) return
 
-  body.innerHTML = '<article class="article-detail">' +
-    (article.image ? getImage(article.image, article.title, 'article-detail-image') : '') +
-    '<span class="eyebrow">' + safe(article.category || 'Noticia') + '</span>' +
+  body.innerHTML = '<article class="em-article-detail">' +
+    (article.image ? imageTag(article.image, article.title, 'em-article-image') : '') +
+    kicker(article.category, article.date) +
     '<h1>' + safe(article.title || '') + '</h1>' +
-    '<div class="story-meta">' +
-      '<span>' + safe(article.author || 'Redaccion') + '</span>' +
-      (article.date ? '<span>' + formatDate(article.date) + '</span>' : '') +
-    '</div>' +
+    '<div class="em-meta-line">' + safe(article.author || 'Redaccion') + '</div>' +
     (article.summary ? '<p class="article-summary">' + safe(article.summary) + '</p>' : '') +
     '<div class="article-full">' + bodyToHTML(article.body || article.summary || '') + '</div>' +
   '</article>'
@@ -571,9 +496,8 @@ function openArticle(id) {
 
 function showFatalError(error) {
   console.error(error)
-
   app.innerHTML = '<main style="max-width:760px;margin:40px auto;padding:24px;border:1px solid #ddd;background:#fff;font-family:Arial,sans-serif;">' +
-    '<h1 style="margin-top:0;">El Mosquito</h1>' +
+    '<h1>El Mosquito</h1>' +
     '<p>La pagina cargo, pero hubo un error mostrando el contenido.</p>' +
     '<pre style="white-space:pre-wrap;background:#f6f6f6;padding:12px;border:1px solid #ddd;">' + safe(error && error.message ? error.message : error) + '</pre>' +
   '</main>'
@@ -602,17 +526,3 @@ async function init() {
 }
 
 init()
-document.addEventListener('click', function(event) {
-  const logoArea = event.target.closest('.premium-logo-wrap, .premium-masthead-logo')
-
-  if (!logoArea) return
-
-  event.preventDefault()
-
-  if (typeof goToPage === 'function') {
-    goToPage(0)
-    return
-  }
-
-  window.location.hash = '#portada'
-})
