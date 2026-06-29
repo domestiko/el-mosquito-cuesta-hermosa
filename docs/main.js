@@ -1,3 +1,6 @@
+/* MAIN.JS - MODO REVISTA DIGITAL */
+/* Version estable ASCII safe. No usa librerias externas. */
+
 const DEFAULT_SITE = {
   siteName: 'El Mosquito',
   communityName: 'Cuesta Hermosa II',
