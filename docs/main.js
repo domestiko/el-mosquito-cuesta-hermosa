@@ -571,3 +571,144 @@ async function init() {
 }
 
 init()
+let emDirectivaData = []
+
+function emLoadDirectivaData() {
+  return fetch(dataUrl('/data/directiva.json'), { cache: 'no-store' })
+    .then(function(response) {
+      if (!response.ok) throw new Error('No se pudo cargar directiva.json')
+      return response.json()
+    })
+    .then(function(data) {
+      emDirectivaData = normalizeList(data)
+    })
+    .catch(function(error) {
+      console.warn(error)
+      emDirectivaData = []
+    })
+}
+
+function emDirectivaPhoto(member) {
+  if (member.photo) {
+    return imageTag(member.photo, member.name || member.role, 'em-directiva-photo')
+  }
+
+  return '<div class="em-directiva-photo em-directiva-placeholder">' + safe((member.name || member.role || 'J').slice(0, 1)) + '</div>'
+}
+
+function emDirectivaCards() {
+  if (!emDirectivaData.length) {
+    return '<p class="em-muted">La informacion de la directiva aparecera aqui.</p>'
+  }
+
+  return emDirectivaData.map(function(member) {
+    return '<article class="em-directiva-card">' +
+      emDirectivaPhoto(member) +
+      '<div>' +
+        '<span>' + safe(member.role || 'Posicion') + '</span>' +
+        '<h3>' + safe(member.name || 'Por definir') + '</h3>' +
+        (member.phone ? '<p>Tel. ' + safe(member.phone) + '</p>' : '') +
+        (member.email ? '<p>' + safe(member.email) + '</p>' : '') +
+        (member.description ? '<small>' + safe(member.description) + '</small>' : '') +
+      '</div>' +
+    '</article>'
+  }).join('')
+}
+
+function pageDirectiva() {
+  return '<section class="em-page direction-' + pageDirection + '">' +
+    controls('Directiva Junta de Vecinos') +
+    '<div class="em-single-page em-directiva-page">' +
+      '<div class="em-section-heading"><h2>Directiva de la Junta de Vecinos</h2><p>Las 19 posiciones oficiales de la Junta de Vecinos y el Consejo Disciplinario.</p></div>' +
+      '<div class="em-directiva-grid">' + emDirectivaCards() + '</div>' +
+    '</div>' +
+    dots() +
+  '</section>'
+}
+
+if (typeof pageBackCover !== 'function') {
+  function pageBackCover() {
+    return '<section class="em-page em-back-page direction-' + pageDirection + '">' +
+      controls('Cierre') +
+      '<div class="em-back-content">' +
+        imageTag(site.heroImage || site.logo, site.siteName, 'em-back-logo') +
+        '<h2>Informacion que nos une, comunidad que nos fortalece.</h2>' +
+        '<p>' + safe(site.communityName || 'Cuesta Hermosa II') + '</p>' +
+        '<div class="em-back-actions">' +
+          '<a href="' + reportHref() + '" target="_blank" rel="noopener noreferrer">Reportar situacion</a>' +
+          '<button type="button" data-go-page="0">Volver a portada</button>' +
+        '</div>' +
+      '</div>' +
+      dots() +
+    '</section>'
+  }
+}
+
+/* Reemplaza el contador para que diga 6 paginas. */
+controls = function(label) {
+  return '<div class="em-controls">' +
+    '<button type="button" class="em-arrow" data-prev-page ' + (currentPage === 0 ? 'disabled' : '') + '>&lsaquo;</button>' +
+    '<span>' + safe(label) + ' &middot; Pagina ' + (currentPage + 1) + ' / 6</span>' +
+    '<button type="button" class="em-arrow" data-next-page ' + (currentPage === 5 ? 'disabled' : '') + '>&rsaquo;</button>' +
+  '</div>'
+}
+
+/* Reemplaza los puntos para que sean 6. */
+dots = function() {
+  let html = ''
+  for (let i = 0; i < 6; i++) {
+    html += '<button type="button" class="em-dot ' + (i === currentPage ? 'is-active' : '') + '" data-go-page="' + i + '"></button>'
+  }
+  return '<div class="em-dots">' + html + '</div>'
+}
+
+/* Reemplaza el cambio de pagina para permitir llegar hasta la pagina 6. */
+goToPage = function(index) {
+  const next = Math.max(0, Math.min(5, Number(index)))
+  if (next === currentPage) return
+
+  pageDirection = next > currentPage ? 'next' : 'prev'
+  currentPage = next
+  render()
+}
+
+/* Reemplaza el mapa de paginas:
+   1 Portada
+   2 Noticias y secciones
+   3 Buscador
+   4 Documentos y reportes
+   5 Directiva
+   6 Contraportada
+*/
+currentPageHTML = function() {
+  if (currentPage === 0) return pageCover()
+  if (currentPage === 1) return pageNewsSections()
+  if (currentPage === 2) return pageSearch()
+  if (currentPage === 3) return pageDocsReports()
+  if (currentPage === 4) return pageDirectiva()
+  return pageBackCover()
+}
+
+/* Agrega el boton Directiva en el menu si no existe. */
+const emOldRender = render
+render = function() {
+  emOldRender()
+
+  const nav = document.querySelector('.em-nav')
+  if (nav && !nav.querySelector('[data-go-page="4"]')) {
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.setAttribute('data-go-page', '4')
+    button.textContent = 'Directiva'
+    button.addEventListener('click', function() {
+      goToPage(4)
+    })
+    nav.appendChild(button)
+  }
+}
+
+emLoadDirectivaData().then(function() {
+  setTimeout(function() {
+    if (typeof render === 'function') render()
+  }, 300)
+})
