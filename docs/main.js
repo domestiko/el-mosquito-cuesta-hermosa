@@ -526,3 +526,70 @@ async function init() {
 }
 
 init()
+function emNormalizeText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+}
+
+function emOpenSectionNews(sectionName) {
+  const normalizedSection = emNormalizeText(sectionName)
+
+  const sectionArticles = articles.filter(function(article) {
+    return emNormalizeText(article.category) === normalizedSection
+  })
+
+  const dialog = document.querySelector('#articleDialog')
+  const body = document.querySelector('.em-dialog-body')
+
+  if (!dialog || !body) return
+
+  body.innerHTML = '<section class="em-section-news-modal">' +
+    '<div class="em-kicker"><span>Seccion</span></div>' +
+    '<h1>' + safe(sectionName) + '</h1>' +
+    (sectionArticles.length
+      ? '<p>Noticias publicadas en esta seccion.</p>' +
+        '<div class="em-section-news-list">' +
+          sectionArticles.map(function(article) {
+            return '<article class="em-section-news-item">' +
+              '<div>' +
+                '<span>' + safe(article.date ? formatDate(article.date) : '') + '</span>' +
+                '<h3>' + safe(article.title || '') + '</h3>' +
+                '<p>' + safe(article.summary || '') + '</p>' +
+              '</div>' +
+              '<button type="button" data-open-section-article="' + safe(article.id || '') + '">Leer noticia</button>' +
+            '</article>'
+          }).join('') +
+        '</div>'
+      : '<p>No hay noticias publicadas todavia en esta seccion.</p>'
+    ) +
+  '</section>'
+
+  body.querySelectorAll('[data-open-section-article]').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const articleId = button.getAttribute('data-open-section-article')
+      dialog.close()
+      setTimeout(function() {
+        openArticle(articleId)
+      }, 120)
+    })
+  })
+
+  dialog.showModal()
+}
+
+document.addEventListener('click', function(event) {
+  const card = event.target.closest('.em-section-card')
+
+  if (!card) return
+
+  const title = card.querySelector('h3')
+  const sectionName = title ? title.textContent.trim() : ''
+
+  if (!sectionName) return
+
+  event.preventDefault()
+  emOpenSectionNews(sectionName)
+})
