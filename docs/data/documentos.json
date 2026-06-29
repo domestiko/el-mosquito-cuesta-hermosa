@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "title": "Protocolo Preventivo de Limpieza y Supervisión de Imbornales",
+      "description": "Documento de la Junta de Vecinos de Cuesta Hermosa II con medidas preventivas, frecuencia de inspección, limpieza, supervisión y respuesta ante lluvias.",
+      "category": "Mantenimiento",
+      "date": "2026-05-24T12:00:00.000Z",
+      "file": "/uploads/protocolo-limpieza-imbornales.pdf",
+      "featured": true
+    },
+    {
+      "title": "Informe Técnico Preliminar sobre Drenaje Pluvial e Inundaciones",
+      "description": "Informe técnico con hallazgos de campo, causas principales y soluciones de corto, mediano y largo plazo para reducir riesgos de inundación en Cuesta Hermosa II.",
+      "category": "Mantenimiento",
+      "date": "2026-05-30T12:00:00.000Z",
+      "file": "/uploads/informe-tecnico-drenaje-pluvial.pdf",
+      "featured": true
+    }
+  ]
+}
