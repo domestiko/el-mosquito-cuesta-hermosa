@@ -1,6 +1,17 @@
 {
   "items": [
     {
+      "id": "inicio-proceso-electoral-cuesta-hermosa",
+      "category": "Elecciones",
+      "title": "Inicia el proceso electoral en Cuesta Hermosa II",
+      "summary": "La comunidad se prepara para un nuevo proceso electoral vecinal, una oportunidad para fortalecer la participación, la organización y el futuro del residencial.",
+      "author": "Redacción El Mosquito",
+      "date": "2026-06-28T15:00:00.000Z",
+      "featured": false,
+      "image": "/uploads/categoria-elecciones.png",
+      "body": "Cuesta Hermosa II se encuentra en proceso electoral, una etapa importante para la vida comunitaria y la toma de decisiones dentro del residencial.\n\nEste proceso representa una oportunidad para que los residentes conozcan propuestas, participen de manera informada y ejerzan su derecho a elegir a quienes asumirán responsabilidades de representación y gestión comunitaria.\n\nDesde El Mosquito estaremos dando seguimiento al proceso de manera neutral, organizada y respetuosa, compartiendo informaciones relevantes como calendario, propuestas, comunicados, requisitos, actividades y cualquier dato de interés general para los residentes.\n\nNuestro objetivo es promover una participación vecinal responsable, transparente y enfocada en el bienestar común de Cuesta Hermosa II.\n\nEl Mosquito no apoya candidatos ni planchas. Este espacio informa, organiza y promueve la participación comunitaria."
+    },
+    {
       "id": "comision-contra-inundaciones-cuesta-hermosa",
       "category": "Seguridad",
       "title": "Comisión técnica presenta protocolo y hallazgos sobre inundaciones en Cuesta Hermosa II",
@@ -32,17 +43,6 @@
       "featured": false,
       "image": "/uploads/categoria-mantenimiento.png",
       "body": "El Informe Técnico Preliminar sobre drenaje pluvial e inundaciones en Cuesta Hermosa II presenta una visión práctica de la problemática y propone medidas para reducir el riesgo de inundaciones.\n\nEntre las causas principales identificadas se encuentran la cantidad y capacidad insuficiente de imbornales, la falta de mantenimiento, la acumulación severa de sedimentos y basura, los aportes de agua provenientes de áreas externas y la ausencia de protección suficiente en la desembocadura hacia la cañada.\n\nComo soluciones inmediatas, el informe recomienda limpieza urgente de imbornales y cañada mediante camión succionador, construcción de nuevos pozos filtrantes en puntos críticos, instalación de parrillas de mayor capacidad e implementación del protocolo de mantenimiento preventivo.\n\nA mediano plazo, plantea instalar imbornales adicionales en zonas críticas, habilitar accesos necesarios para limpieza, colocar gaviones y mejorar los sistemas con rejas laterales, tapas-rejas y lloraderos.\n\nA largo plazo, propone un estudio hidráulico integral, dragado periódico de la cañada, coordinación formal con CAASD, Alcaldía e INDRHI, y mejoras de asfaltado respetando los niveles originales.\n\nFuente: Informe Técnico Preliminar sobre Situación de Drenaje Pluvial e Inundaciones, Residencial Cuesta Hermosa II."
-    },
-    {
-      "id": "inicio-proceso-electoral-cuesta-hermosa",
-      "category": "Elecciones",
-      "title": "Inicia el proceso electoral en Cuesta Hermosa II",
-      "summary": "La comunidad se prepara para un nuevo proceso electoral vecinal, una oportunidad para fortalecer la participación, la organización y el futuro del residencial.",
-      "author": "Redacción El Mosquito",
-      "date": "2026-06-28T15:00:00.000Z",
-      "featured": false,
-      "image": "/uploads/categoria-elecciones.png",
-      "body": "Cuesta Hermosa II se encuentra en proceso electoral, una etapa importante para la vida comunitaria y la toma de decisiones dentro del residencial.\n\nEste proceso representa una oportunidad para que los residentes conozcan propuestas, participen de manera informada y ejerzan su derecho a elegir a quienes asumirán responsabilidades de representación y gestión comunitaria.\n\nDesde El Mosquito estaremos dando seguimiento al proceso de manera neutral, organizada y respetuosa, compartiendo informaciones relevantes como calendario, propuestas, comunicados, requisitos, actividades y cualquier dato de interés general para los residentes.\n\nNuestro objetivo es promover una participación vecinal responsable, transparente y enfocada en el bienestar común de Cuesta Hermosa II.\n\nEl Mosquito no apoya candidatos ni planchas. Este espacio informa, organiza y promueve la participación comunitaria."
     },
     {
       "id": "cobertura-neutral-elecciones-cuesta-hermosa",
