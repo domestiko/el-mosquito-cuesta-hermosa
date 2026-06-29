@@ -3863,3 +3863,140 @@ body::after {
     padding: 24px 18px !important;
   }
 }
+/* Forzar que el encabezado tenga 3 niveles claros:
+   1. informacion superior
+   2. logo centrado
+   3. menu debajo del logo
+*/
+.premium-header {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  grid-template-rows: auto auto auto !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+/* Linea superior */
+.premium-topline {
+  grid-row: 1 !important;
+  width: 100% !important;
+}
+
+/* Logo centrado y separado del menu */
+.premium-logo-wrap {
+  grid-row: 2 !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: relative !important;
+  z-index: 1 !important;
+  padding: 12px 0 10px !important;
+  cursor: pointer !important;
+}
+
+/* Efecto suave para indicar que el logo se puede tocar */
+.premium-logo-wrap:hover {
+  opacity: 0.92 !important;
+}
+
+.premium-masthead-logo {
+  display: block !important;
+  width: min(560px, 82vw) !important;
+  height: 115px !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  position: relative !important;
+  z-index: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Menu SIEMPRE debajo del logo, no al lado ni detras */
+.premium-nav {
+  grid-row: 3 !important;
+  width: 100% !important;
+  position: static !important;
+  z-index: 3 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-top: 1px solid rgba(23, 23, 23, 0.22) !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
+}
+
+/* Pestanas mas parejas y limpias */
+.premium-nav button {
+  position: static !important;
+  flex: 0 0 auto !important;
+  min-width: 118px !important;
+  text-align: center !important;
+  padding: 12px 16px !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+  border-right: 1px solid rgba(23, 23, 23, 0.14) !important;
+  background: transparent !important;
+  color: #171717 !important;
+  font-size: 0.72rem !important;
+  line-height: 1 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  font-weight: 950 !important;
+}
+
+/* Si el ancho no da, que se pueda deslizar horizontalmente sin montarse al logo */
+.premium-nav::-webkit-scrollbar {
+  height: 4px !important;
+}
+
+.premium-nav::-webkit-scrollbar-thumb {
+  background: rgba(23, 23, 23, 0.2) !important;
+}
+
+/* Corregir cualquier regla vieja que intente poner el menu absoluto */
+.professional-nav,
+.nav-links {
+  position: static !important;
+}
+
+/* Ajustes en pantallas medianas */
+@media (max-width: 900px) {
+  .premium-masthead-logo {
+    width: min(500px, 88vw) !important;
+    height: 95px !important;
+  }
+
+  .premium-nav {
+    justify-content: flex-start !important;
+  }
+
+  .premium-nav button {
+    min-width: 108px !important;
+    padding: 11px 13px !important;
+    font-size: 0.68rem !important;
+  }
+}
+
+/* Ajustes en celular */
+@media (max-width: 650px) {
+  .premium-logo-wrap {
+    padding: 9px 0 8px !important;
+  }
+
+  .premium-masthead-logo {
+    width: 90vw !important;
+    height: 78px !important;
+  }
+
+  .premium-nav button {
+    min-width: 98px !important;
+    padding: 10px 12px !important;
+    font-size: 0.64rem !important;
+  }
+}
